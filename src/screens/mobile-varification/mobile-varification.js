@@ -1,31 +1,66 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, Header, Left, Body, Button, Icon } from 'native-base';
 import { StyleSheet, TextInput, Image } from 'react-native';
-import flag from '../../assets/flag.png'
-const MobileVerify = () => (
-    <View style={styles.container}>
-        <Header style={styles.header} >
-            <Left >
-                <Button transparent>
-                    <Icon name='arrow-back' style={{ color: "black" }} />
-                </Button>
-            </Left>
-            <Body />
-        </Header>
-        <View style={styles.top}>
-            <Text style={styles.heading}>
-                ENTER YOUR PHONE NUMBER
-            </Text>
-            <Text style={styles.shortText}>
-                You will get code via sms
-            </Text>
-        </View>
-        <View style={styles.body}>
-            <TextInput style={styles.input} placeholder="Enter your phone number" keyboardType="phone-pad" maxLength={11}/>
-            <Image source={flag}  style={styles.flag} />
-        </View>
-    </View>
-)
+import flag from '../../assets/flag.png';
+import messageOpen from '../../assets/message-open.png'
+import CustomModal from '../../components/Modal/Modal';
+class MobileVerify extends Component{
+    state= {
+        modalVisible:false
+    }
+    verifyNumber = (text) =>{
+            console.log(text)
+            this.setState({text})
+            if(text && text.length === 11){
+                this.setState((ps)=>{
+                    setTimeout(()=> {
+                        this.setState({modalVisible:false})
+                        this.props.navigation.navigate("EnterOtp")
+                    }, 3000)
+                   return{modalVisible:!ps.modalVisible}
+                })
+            }
+            
+
+    }
+    render(){
+        const {modalVisible, text} = this.state
+        return(
+            <View style={styles.container}>
+                <Header style={styles.header} >
+                    <Left >
+                        <Button transparent>
+                            <Icon name='arrow-back' style={{ color: "black" }} />
+                        </Button>
+                    </Left>
+                    <Body />
+                </Header>
+                <View style={styles.top}>
+                    <Text style={styles.heading}>
+                        ENTER YOUR PHONE NUMBER
+                    </Text>
+                    <Text style={styles.shortText}>
+                        You will get code via sms
+                    </Text>
+                </View>
+                <View style={styles.body}>
+                    <TextInput 
+                     style={styles.input} 
+                     placeholder="Enter your phone number" 
+                     keyboardType="phone-pad" maxLength={11} 
+                     value={text}
+                     onChangeText={this.verifyNumber}/>
+                    <Image source={flag}  style={styles.flag} />
+                </View>
+                <CustomModal modalVisible={modalVisible}
+                width={60}
+                height={50} 
+                img={messageOpen}
+                text="We have sent you an SMS with OTP code  for your number"/>
+            </View>
+        )
+    }
+}
 
 const styles = StyleSheet.create(
     {

@@ -8,7 +8,7 @@ import Promotion from '../promotions/Promotion';
 import { colors } from '../../configs/colors'
 
 const Home = ({navigation}) => {
-    console.log(navigation)
+    // console.log(navigation)
     return(
         <ImageBackground source={homebg} style={styles.imageContainer}>
             <Container style={styles.container}>

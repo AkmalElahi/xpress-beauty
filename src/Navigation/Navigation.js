@@ -3,6 +3,8 @@ import Home from '../screens/Home/Home';
 import CustomSwiper from '../components/swiper/Swiper';
 import Register from '../screens/customer/register/RegisterCustomer'
 import MobileVerify from '../screens/mobile-varification/mobile-varification';
+import EnterOtp from '../screens/EnterOtp/EnterOtp';
+import Services from '../screens/customer/services/Services'
 
 
 const CustomerStack = createStackNavigator({
@@ -20,6 +22,18 @@ const CustomerStack = createStackNavigator({
     },
     MobileVerification:{
         screen:MobileVerify,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    EnterOtp:{
+        screen:EnterOtp,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Services:{
+        screen:Services,
         navigationOptions: {
             headerShown: false,
         }

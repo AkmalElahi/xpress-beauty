@@ -58,8 +58,8 @@ class Register extends Component {
                                     animationType={"fade"}
                                     androidMode={"default"}
                                     placeHolderText="Date of birth"
-                                    textStyle={{ width: width*0.75}}
-                                    placeHolderTextStyle={{ width:width*0.75 }}
+                                    textStyle={{ width: width*0.75 }}
+                                    placeHolderTextStyle={{ width:width*0.75, color:"grey" }}
                                     onDateChange={this.setDate}
                                     disabled={false}
                                     icon={true}
@@ -126,7 +126,8 @@ const styles = StyleSheet.create(
             marginBottom: "1%",
             marginTop: "1%",
             width: "85%",
-            alignItems: "center"
+            alignItems: "center",
+            
         },
         picker: {
             flexDirection: "row",
@@ -136,7 +137,10 @@ const styles = StyleSheet.create(
         calenderIcon: {
             position: 'absolute',
             left: "85%",
-            top: 13
+            top: 10,
+            zIndex:-1,
+            fontSize: 30, 
+            color: 'black'
         },
         continue: {
             // backgroundColor:"green",
