@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Image } from 'react-native';
+import { ImageBackground, StyleSheet, Image, Dimensions } from 'react-native';
 import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker } from 'native-base'
 // import { Input } from '../../../components/inputs/inputs'
+const width = Dimensions.get('window').width;
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
 import profile from '../../../assets/profile.png';
@@ -21,7 +22,7 @@ class RegisterCustomer extends Component {
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
                     <Content style={styles.content}>
-                        <Header style={styles.header}>
+                        <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content">
                             <Left >
                                 <Button transparent>
                                     <Icon name='arrow-back' />
@@ -46,7 +47,7 @@ class RegisterCustomer extends Component {
                             <Item regular style={styles.input}>
                                 <Input placeholder="Address" style={styles.field} />
                             </Item>
-                            <Item regular style={{ ...styles.input, paddingVertical: 5, paddingLeft: 25 }}
+                            <Item regular style={{ ...styles.input,paddingTop: 6, paddingLeft: 25 }}
                             // onPress={()=>{this.setState((ps)=>({showHide:!ps.showHide}))}}
                             >
                                 <DatePicker
@@ -59,9 +60,9 @@ class RegisterCustomer extends Component {
                                     modalTransparent={false}
                                     animationType={"fade"}
                                     androidMode={"default"}
-                                    placeHolderText="DOB"
-                                    // textStyle={{ color: "green" }}
-                                    placeHolderTextStyle={{ color: "grey" }}
+                                    placeHolderText="Date of birth"
+                                    textStyle={{ width: width*0.75 }}
+                                    placeHolderTextStyle={{ width:width*0.75, color:"grey" }}
                                     onDateChange={this.setDate}
                                     disabled={false}
                                     icon={true}
@@ -138,7 +139,10 @@ const styles = StyleSheet.create(
         calenderIcon: {
             position: 'absolute',
             left: "85%",
-            top: 10
+            top: 10,
+            zIndex:-1,
+            fontSize: 30, 
+            color: 'black'
         },
         continue: {
             // backgroundColor:"green",

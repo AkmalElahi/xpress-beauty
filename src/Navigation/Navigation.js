@@ -1,10 +1,13 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../screens/Home/Home';
+import { createSwitchNavigator} from 'react-navigation';
 import CustomSwiper from '../components/swiper/Swiper';
 import Register from '../screens/customer/register/RegisterCustomer'
 import MobileVerify from '../screens/mobile-varification/mobile-varification';
 import EnterOtp from '../screens/EnterOtp/EnterOtp';
-import Services from '../screens/customer/services/Services'
+import Services from '../screens/customer/services/Services';
+import ServicesTabs from '../screens/servicesTabs/ServicesTabs';
+import RegisterFreelancer from '../screens/freelancer/Register/RegisterFreelancer'
 
 
 const CustomerStack = createStackNavigator({
@@ -12,6 +15,7 @@ const CustomerStack = createStackNavigator({
         screen: CustomSwiper,
         navigationOptions: {
             headerShown: false,
+            gestureEnabled:false
         }
     },
     Register:{
@@ -38,23 +42,32 @@ const CustomerStack = createStackNavigator({
             headerShown: false,
         }
     },
-})
-const AppNavigator = createStackNavigator({
-    Home: {
-        screen: Home,
+    ServicesTabs:{
+        screen:ServicesTabs,
         navigationOptions: {
             headerShown: false,
         }
     },
-    CustomerStack:{
-        screen: CustomerStack,
+})
+
+const FreelancerStack = createStackNavigator({
+    MobileVerification:{
+        screen:MobileVerify,
         navigationOptions: {
             headerShown: false,
         }
-    }
-    
-    
-
+    },
+    RegisterFreelancer:{
+        screen:RegisterFreelancer,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+})
+const AppNavigator = createSwitchNavigator({
+    Home: Home,
+    CustomerStack:CustomerStack,
+    FreelancerStack:FreelancerStack
 },
 {
   initialRouteName: 'Home',

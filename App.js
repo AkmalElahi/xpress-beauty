@@ -24,7 +24,7 @@ const AppContainer = createAppContainer(AppNavigator);
 const App = ()  => {
   return (
     <>
-      {/* <StatusBar barStyle="ight-content" /> */}
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
         {/* <Home/> */}
        
       {/* <Promotion heading="About Us" img={img}/> */}

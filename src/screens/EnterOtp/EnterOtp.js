@@ -21,7 +21,8 @@ class EnterOtp extends Component {
             focus2: false,
             focus3: false,
             focus4: false,
-            modalVisible:false
+            modalVisible:false,
+            freelancer:false
         }
     }
 
@@ -37,11 +38,11 @@ class EnterOtp extends Component {
         }
     }
     render() {
-        const { focus1, focus2, focus3, focus4, modalVisible} = this.state
+        const { focus1, focus2, focus3, focus4, modalVisible, freelancer} = this.state
         console.log("FOCUS", focus2)
         return (
             <View style={styles.container}>
-                <Header transparent style={{ elevation: 0 }} />
+                <Header transparent style={{ elevation: 0 }} androidStatusBarColor={colors.greybg} iosBarStyle="light-content"/>
                 <View style={styles.top}>
                     <Text style={styles.heading}>
                         Phone Verification
@@ -78,7 +79,7 @@ class EnterOtp extends Component {
                         Didn't you recieve any code?
                     </Text>
                     <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"  />
-                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify" onPress={() => { this.props.navigation.navigate('Services') }}/>
+                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify" onPress={() => { this.props.navigation.navigate(freelancer?'RegisterFreelancer':'Services') }}/>
                 </View>
                 <CustomModal modalVisible={modalVisible} 
                 img={success}

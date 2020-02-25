@@ -8,14 +8,17 @@ class MobileVerify extends Component{
     state= {
         modalVisible:false
     }
+    componentDidMount(){
+        console.log("NAVIGATION", this.props.navigation)
+    }
     verifyNumber = (text) =>{
             console.log(text)
             this.setState({text})
             if(text && text.length === 11){
                 this.setState((ps)=>{
                     setTimeout(()=> {
-                        this.setState({modalVisible:false})
                         this.props.navigation.navigate("EnterOtp")
+                        this.setState({modalVisible:false})
                     }, 3000)
                    return{modalVisible:!ps.modalVisible}
                 })
@@ -27,7 +30,7 @@ class MobileVerify extends Component{
         const {modalVisible, text} = this.state
         return(
             <View style={styles.container}>
-                <Header style={styles.header} >
+                <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
                     <Left >
                         <Button transparent>
                             <Icon name='arrow-back' style={{ color: "black" }} />
@@ -65,7 +68,8 @@ class MobileVerify extends Component{
 const styles = StyleSheet.create(
     {
         container: {
-            flex: 1
+            flex: 1,
+            backgroundColor:"white"
         },
         header: {
             backgroundColor: "transparent",

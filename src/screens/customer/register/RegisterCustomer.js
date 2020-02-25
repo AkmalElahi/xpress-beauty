@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Image, Dimensions } from 'react-native';
+import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar } from 'react-native';
 const width = Dimensions.get('window').width;
 import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker } from 'native-base'
 // import { Input } from '../../../components/inputs/inputs'
@@ -22,7 +22,7 @@ class Register extends Component {
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
                     <Content style={styles.content}>
-                        <Header style={styles.header}>
+                        <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content"  >
                             <Left >
                                 <Button transparent>
                                     <Icon name='arrow-back' />
@@ -83,14 +83,15 @@ const styles = StyleSheet.create(
     {
         container: {
             width: "100%",
-            height: "100%"
+            height: "100%",
+            backgroundColor:"transparent"
         },
         content: {
             height: "100%"
         },
         header: {
             backgroundColor: "transparent",
-            elevation: 0
+            elevation: 0,
         },
         top: {
             justifyContent: "center",
