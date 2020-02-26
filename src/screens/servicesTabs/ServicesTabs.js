@@ -37,7 +37,7 @@ class ServicesTabs extends Component {
                         <Facial /> 
                     </Tab>
                 </Tabs>
-                <CustomFooter/>
+                <CustomFooter navigation={this.props.navigation}/>
             </Container>
         );
     }

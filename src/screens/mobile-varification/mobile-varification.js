@@ -1,34 +1,34 @@
 import React, { Component } from 'react';
 import { View, Text, Header, Left, Body, Button, Icon } from 'native-base';
-import { StyleSheet, TextInput, Image } from 'react-native';
+import { StyleSheet, TextInput, Image, Platform } from 'react-native';
 import flag from '../../assets/flag.png';
 import messageOpen from '../../assets/message-open.png'
 import CustomModal from '../../components/Modal/Modal';
-class MobileVerify extends Component{
-    state= {
-        modalVisible:false
+class MobileVerify extends Component {
+    state = {
+        modalVisible: false
     }
-    componentDidMount(){
+    componentDidMount() {
         console.log("NAVIGATION", this.props.navigation)
     }
-    verifyNumber = (text) =>{
-            console.log(text)
-            this.setState({text})
-            if(text && text.length === 11){
-                this.setState((ps)=>{
-                    setTimeout(()=> {
-                        this.props.navigation.navigate("EnterOtp")
-                        this.setState({modalVisible:false})
-                    }, 3000)
-                   return{modalVisible:!ps.modalVisible}
-                })
-            }
-            
+    verifyNumber = (text) => {
+        console.log(text)
+        this.setState({ text })
+        if (text && text.length === 11) {
+            this.setState((ps) => {
+                setTimeout(() => {
+                    this.props.navigation.navigate("EnterOtp")
+                    this.setState({ modalVisible: false })
+                }, 3000)
+                return { modalVisible: !ps.modalVisible }
+            })
+        }
+
 
     }
-    render(){
-        const {modalVisible, text} = this.state
-        return(
+    render() {
+        const { modalVisible, text } = this.state
+        return (
             <View style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
                     <Left >
@@ -47,19 +47,19 @@ class MobileVerify extends Component{
                     </Text>
                 </View>
                 <View style={styles.body}>
-                    <TextInput 
-                     style={styles.input} 
-                     placeholder="Enter your phone number" 
-                     keyboardType="phone-pad" maxLength={11} 
-                     value={text}
-                     onChangeText={this.verifyNumber}/>
-                    <Image source={flag}  style={styles.flag} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter your phone number"
+                        keyboardType="phone-pad" maxLength={11}
+                        value={text}
+                        onChangeText={this.verifyNumber} />
+                    <Image source={flag} style={styles.flag} />
                 </View>
                 <CustomModal modalVisible={modalVisible}
-                width={60}
-                height={50} 
-                img={messageOpen}
-                text="We have sent you an SMS with OTP code  for your number"/>
+                    width={60}
+                    height={50}
+                    img={messageOpen}
+                    text="We have sent you an SMS with OTP code  for your number" />
             </View>
         )
     }
@@ -69,7 +69,7 @@ const styles = StyleSheet.create(
     {
         container: {
             flex: 1,
-            backgroundColor:"white"
+            backgroundColor: "white"
         },
         header: {
             backgroundColor: "transparent",
@@ -102,15 +102,15 @@ const styles = StyleSheet.create(
             borderBottomWidth: 1,
             borderBottomColor: "grey",
             paddingLeft: "10%",
-            fontSize:18,
-            fontWeight:"bold"
+            fontSize: 18,
+            fontWeight: "bold"
         },
-        flag:{
-            width:30,
-            height:20,
-            position:"absolute",
-            top:"30%",
-            right:"80%"
+        flag: {
+            width: 30,
+            height: 20,
+            position: "absolute",
+            top: Platform.OS === "android" ? "30%" : 0,
+            right: "80%",
         }
     }
 )

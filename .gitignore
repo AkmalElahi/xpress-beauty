@@ -23,6 +23,7 @@ DerivedData
 
 # Android/IntelliJ
 #
+All Icons
 build/
 .idea
 .gradle

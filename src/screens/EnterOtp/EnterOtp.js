@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Input, Header, Text } from 'native-base';
-import { ImageBackground, StyleSheet, TextInput } from 'react-native';
+import { ImageBackground, StyleSheet, TextInput, Platform } from 'react-native';
 import { colors } from '../../configs/colors';
 import { RoundButton } from '../../components/buttons/Buttons'
 import CustomModal from '../../components/Modal/Modal';
@@ -38,7 +38,7 @@ class EnterOtp extends Component {
         }
     }
     render() {
-        const { focus1, focus2, focus3, focus4, modalVisible, freelancer} = this.state
+        const { focus1, focus2, focus3, focus4, modalVisible, freelancer, focused} = this.state
         console.log("FOCUS", focus2)
         return (
             <View style={styles.container}>
@@ -53,6 +53,7 @@ class EnterOtp extends Component {
                 </View>
                 <View style={styles.otp}>
                     <TextInput keyboardType="number-pad"
+                        onFocus={()=> this.setState({focused:true})}
                         maxLength={1}
                         style={{ ...styles.input }}
                         onChangeText={this.setOtp}
@@ -75,10 +76,10 @@ class EnterOtp extends Component {
                         focus={focus4} />
                 </View>
                 <View style={{ justifyContent: "space-between", width: "70%", height:200, alignSelf: "center", marginTop:"8%" }}>
-                    <Text style={styles.shortText}>
+                    { !focused && <Text style={styles.shortText}>
                         Didn't you recieve any code?
-                    </Text>
-                    <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"  />
+                    </Text>}
+                    {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"  />}
                     <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify" onPress={() => { this.props.navigation.navigate(freelancer?'RegisterFreelancer':'Services') }}/>
                 </View>
                 <CustomModal modalVisible={modalVisible} 

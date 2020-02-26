@@ -21,15 +21,15 @@ class Register extends Component {
         return (
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
+                    <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content"  >
+                        <Left >
+                            <Button transparent>
+                                <Icon name='arrow-back' style={{color:"white"}} />
+                            </Button>
+                        </Left>
+                        <Body />
+                    </Header>
                     <Content style={styles.content}>
-                        <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content"  >
-                            <Left >
-                                <Button transparent>
-                                    <Icon name='arrow-back' />
-                                </Button>
-                            </Left>
-                            <Body />
-                        </Header>
                         <View style={styles.top}>
                             <Text style={styles.profileText}>Profile</Text>
                             <Image source={profile} style={styles.img} />
@@ -58,13 +58,14 @@ class Register extends Component {
                                     animationType={"fade"}
                                     androidMode={"default"}
                                     placeHolderText="Date of birth"
-                                    textStyle={{ width: width*0.75 }}
-                                    placeHolderTextStyle={{ width:width*0.75, color:"grey" }}
+                                    textStyle={{ width: width * 0.75 }}
+                                    placeHolderTextStyle={{ width: width * 0.75, color: "grey" }}
                                     onDateChange={this.setDate}
                                     disabled={false}
                                     icon={true}
+                                    animationType="slide"
                                 />
-                                <Icon name='calendar' style={styles.calenderIcon} />
+                                {/* <Icon name='calendar' style={styles.calenderIcon} /> */}
                             </Item>
                             <Item style={styles.continue} last>
                                 <RoundButton height={50} backgroundColor={colors.primaryBtn} value="Continue" color="white" onPress={() => this.props.navigation.navigate('MobileVerification')} />
@@ -84,7 +85,7 @@ const styles = StyleSheet.create(
         container: {
             width: "100%",
             height: "100%",
-            backgroundColor:"transparent"
+            backgroundColor: "transparent"
         },
         content: {
             height: "100%"
@@ -128,7 +129,7 @@ const styles = StyleSheet.create(
             marginTop: "1%",
             width: "85%",
             alignItems: "center",
-            
+
         },
         picker: {
             flexDirection: "row",
@@ -139,8 +140,8 @@ const styles = StyleSheet.create(
             position: 'absolute',
             left: "85%",
             top: 10,
-            zIndex:-1,
-            fontSize: 30, 
+            zIndex: -1,
+            fontSize: 30,
             color: 'black'
         },
         continue: {

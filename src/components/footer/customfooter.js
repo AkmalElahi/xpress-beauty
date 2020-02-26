@@ -6,8 +6,8 @@ import treatment from '../../assets/treatment.png';
 import checkout from '../../assets/checkout.png';
 
 
-const CustomFooter = () => (
-    <Footer style={{elevation:0}} >
+const CustomFooter = ({navigation}) => (
+    <Footer style={{elevation:0, backgroundColor:"white"}} >
         <FooterTab style={styles.footer}>
             <Button>
                 <Image style={styles.img} source={bookings} />
@@ -15,7 +15,7 @@ const CustomFooter = () => (
             <Button>
                 <Image style={styles.img} source={treatment} />
             </Button>
-            <Button onPress={()=> alert("ALERT")} >
+            <Button onPress={()=>navigation.navigate("Checkout")} >
                 <Image  style={styles.img} source={checkout} />
             </Button>
         </FooterTab>

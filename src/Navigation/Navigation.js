@@ -7,7 +7,9 @@ import MobileVerify from '../screens/mobile-varification/mobile-varification';
 import EnterOtp from '../screens/EnterOtp/EnterOtp';
 import Services from '../screens/customer/services/Services';
 import ServicesTabs from '../screens/servicesTabs/ServicesTabs';
-import RegisterFreelancer from '../screens/freelancer/Register/RegisterFreelancer'
+import RegisterFreelancer from '../screens/freelancer/Register/RegisterFreelancer';
+import Checkout from '../screens/customer/checkout/checkout'
+
 
 
 const CustomerStack = createStackNavigator({
@@ -48,6 +50,12 @@ const CustomerStack = createStackNavigator({
             headerShown: false,
         }
     },
+    Checkout:{
+        screen:Checkout,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
 })
 
 const FreelancerStack = createStackNavigator({
@@ -63,6 +71,7 @@ const FreelancerStack = createStackNavigator({
             headerShown: false,
         }
     },
+    
 })
 const AppNavigator = createSwitchNavigator({
     Home: Home,

@@ -13,7 +13,7 @@ class CustomSwiper extends Component {
     }
     render() {
         return (
-            <Swiper style={{ flex: 1 }}
+            <Swiper containerStyle={{ flex: 1 }}
                 autoplayTimeout={3}
                 paginationStyle={{marginBottom:42}}
                 autoplay={true} loop={false}
