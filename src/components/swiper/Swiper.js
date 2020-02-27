@@ -13,16 +13,16 @@ class CustomSwiper extends Component {
     }
     render() {
         return (
-            <Swiper containerStyle={{ flex: 1 }}
+            <Swiper containerStyle={{ flex: 1, borderWidth:0}}
                 autoplayTimeout={3}
                 paginationStyle={{marginBottom:42}}
                 autoplay={true} loop={false}
                 showsPagination={true}
                 scrollEnabled={true}
                 activeDotColor={colors.primaryBtn}>
-                <Promotion img={promotion1} heading="About Us" onPress={() => { this.props.navigation.navigate("Register") }} />
-                <Promotion img={promotion2} heading="Beauty Tips" onPress={() => { this.props.navigation.navigate("Register") }} />
-                <Promotion img={promotion3} heading="Promotions" onPress={() => { this.props.navigation.navigate("Register") }} />
+                <Promotion img={promotion1} heading="About Us" onPress={() => { this.props.navigation.navigate("MobileVerification") }} />
+                <Promotion img={promotion2} heading="Beauty Tips" onPress={() => { this.props.navigation.navigate("MobileVerification") }} />
+                <Promotion img={promotion3} heading="Promotions" onPress={() => { this.props.navigation.navigate("MobileVerification") }} />
             </Swiper>
         )
     }

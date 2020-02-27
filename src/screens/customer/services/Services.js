@@ -62,15 +62,16 @@ class Services extends Component {
                             flexDirection: 'row',
                             flexWrap: 'wrap',
                             flex: 1,
-                            alignItems: "center"
+                            // alignItems: "center"
                         }}
                         data={this.state.DATA}
                         renderItem={({ item }) => (
-                            <View style={{ width: width * 0.5 }} >
+                            <View style={{ width: width * 0.5 ,height: height * 0.25,}} >
                                 <Card style={styles.listCard} >
                                     <CardItem button style={{
                                         justifyContent: 'center',
-                                        paddingTop: 20,
+                                        // paddingTop: 20,
+                                        alignItems:"center",
                                         flexDirection:"column"
 
                                     }} onPress={() => { this.props.navigation.navigate("ServicesTabs") }}>
@@ -97,17 +98,18 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         marginTop: "3%",
-        justifyContent: "flex-end",
+        // justifyContent: "flex-end",
     },
     listCard: {
         width: width * 0.5,
         height: height * 0.25,
         elevation: 0,
+        justifyContent:"center"
 
     },
     img: {
-        width: 80,
-        height: 80,
+        width: 70,
+        height: 70,
     }
 })
 

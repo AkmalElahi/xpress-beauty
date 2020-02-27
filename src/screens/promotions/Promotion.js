@@ -7,7 +7,7 @@ import { colors } from '../../configs/colors'
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width;
 const Promotion = ({ img, heading, onPress }) => (
-    <Container style={{ justifyContent: "space-between", height }} >
+    <Container style={{ justifyContent: "space-between", height, borderWidth:0 }} >
         <Content  >
             <Card style={{
 
@@ -16,7 +16,8 @@ const Promotion = ({ img, heading, onPress }) => (
                 paddingRight: 0,
                 paddingTop: 0,
                 paddingBottom: 0,
-                height
+                height,
+                borderWidth:0
             }}
             >
                 <CardItem cardBody style={{ justifyContent: "flex-start", alignItems: "center", flexDirection: "column" }} >
@@ -47,7 +48,7 @@ const Promotion = ({ img, heading, onPress }) => (
             width: "100%",
             height: 80,
         }}>
-            <Text onPress={onPress} style={{ color: colors.primaryBtn, alignSelf: "flex-end", marginBottom: "2%", marginRight: "2%" }}>Skip</Text>
+            <Text onPress={onPress} style={{ color: colors.primaryBtn, alignSelf: "flex-end", marginBottom: "2%", marginRight: "2%" }}>SKIP</Text>
             <CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Login" onPress={onPress} />
         </View>
     </Container>

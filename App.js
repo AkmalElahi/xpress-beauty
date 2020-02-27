@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import {StatusBar,TextInput} from 'react-native';
-import {createAppContainer} from 'react-navigation';
+import { StatusBar, TextInput } from 'react-native';
+import { createAppContainer } from 'react-navigation';
 
 import img from './src/assets/promotion1.png'
 import Home from './src/screens/Home/Home';
@@ -20,24 +20,27 @@ import RegisterFreelancer from './src/screens/freelancer/Register/RegisterFreela
 import AppNavigator from './src/Navigation/Navigation';
 import 'react-native-gesture-handler';
 import { View, Container } from 'native-base';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 const AppContainer = createAppContainer(AppNavigator);
-const App = ()  => {
+const App = () => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
+    <Provider store={store}>
+      <>
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
         {/* <Home/> */}
-       
-      {/* <Promotion heading="About Us" img={img}/> */}
-      {/* <CustomSwiper/> */}
-      {/* <MobileVerify/> */}
-      {/* <RegisterCustomer/> */}
-      {/* <RegisterFreelancer/> */}
-      <Container style={{flex:1}}>
 
-      <AppContainer/>
-      </Container>
-      
-    </>
+        {/* <Promotion heading="About Us" img={img}/> */}
+        {/* <CustomSwiper/> */}
+        {/* <MobileVerify/> */}
+        {/* <RegisterCustomer/> */}
+        {/* <RegisterFreelancer/> */}
+        <Container style={{ flex: 1 }}>
+          <AppContainer />
+        </Container>
+
+      </>
+    </Provider>
   );
 };
 

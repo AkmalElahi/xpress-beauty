@@ -1,33 +1,49 @@
 import React, { Component } from 'react';
 import { View, Text, Header, Left, Body, Button, Icon } from 'native-base';
 import { StyleSheet, TextInput, Image, Platform } from 'react-native';
+
+import { connect } from 'react-redux';
+import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
+
 import flag from '../../assets/flag.png';
 import messageOpen from '../../assets/message-open.png'
 import CustomModal from '../../components/Modal/Modal';
+
+// onChanged (text) {
+//     this.setState({
+//         mobile: text.replace(/[^0-9]/g, ''),
+//     });
+// }
 class MobileVerify extends Component {
     state = {
-        modalVisible: false
+        modalVisible: false,
+        phone:""
     }
     componentDidMount() {
-        console.log("NAVIGATION", this.props.navigation)
+        // console.log("NAVIGATION", this.props.navigation)
+        
     }
     verifyNumber = (text) => {
-        console.log(text)
-        this.setState({ text })
+        text = text.replace(/[^0-9]/g, '')
+        this.setState({ phone:text })
         if (text && text.length === 11) {
-            this.setState((ps) => {
-                setTimeout(() => {
-                    this.props.navigation.navigate("EnterOtp")
-                    this.setState({ modalVisible: false })
-                }, 3000)
-                return { modalVisible: !ps.modalVisible }
-            })
+            this.props.verifyMobile(text)
         }
 
 
     }
+    componentWillReceiveProps(nextProps){
+        console.log("NEXT PROPS", nextProps.generateOtp.success)
+        if(nextProps.generateOtp.success){
+            this.setState({modalVisible:true})
+        }
+        setTimeout(()=> {
+            this.setState({modalVisible:false}),
+            this.props.navigation.navigate("EnterOtp")
+        }, 3000)
+    }
     render() {
-        const { modalVisible, text } = this.state
+        const { modalVisible, phone } = this.state
         return (
             <View style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
@@ -50,8 +66,8 @@ class MobileVerify extends Component {
                     <TextInput
                         style={styles.input}
                         placeholder="Enter your phone number"
-                        keyboardType="phone-pad" maxLength={11}
-                        value={text}
+                        keyboardType="phone-pad" maxLength={12}
+                        value={phone}
                         onChangeText={this.verifyNumber} />
                     <Image source={flag} style={styles.flag} />
                 </View>
@@ -114,5 +130,11 @@ const styles = StyleSheet.create(
         }
     }
 )
-
-export default MobileVerify;
+const mapStateToProps = ({generateOtp}) => {
+    console.log("STATE",generateOtp)
+    return {generateOtp}
+}
+const mapDispatchToProps = (dispatch) => ({
+    verifyMobile: phone => dispatch(generateOtpMiddleWare(phone))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(MobileVerify);

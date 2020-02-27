@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar } from 'react-native';
+import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform } from 'react-native';
 const width = Dimensions.get('window').width;
-import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker } from 'native-base'
+import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker, } from 'native-base'
 // import { Input } from '../../../components/inputs/inputs'
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
@@ -24,7 +24,7 @@ class Register extends Component {
                     <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content"  >
                         <Left >
                             <Button transparent>
-                                <Icon name='arrow-back' style={{color:"white"}} />
+                                <Icon name='arrow-back' style={{ color: "white" }} />
                             </Button>
                         </Left>
                         <Body />
@@ -44,7 +44,12 @@ class Register extends Component {
                             <Item regular style={styles.input}>
                                 <Input placeholder="Address" style={styles.field} />
                             </Item>
-                            <Item regular style={{ ...styles.input, paddingTop: 6, paddingLeft: 25 }}
+                            <Item regular style={{
+                                ...styles.input,
+                                paddingTop: Platform.OS === 'ios' ? 2.5 : 6,
+                                paddingLeft: Platform.OS === 'ios' ? 20 : 25,
+                                height:50
+                            }}
                             // onPress={()=>{this.setState((ps)=>({showHide:!ps.showHide}))}}
                             >
                                 <DatePicker
@@ -59,7 +64,7 @@ class Register extends Component {
                                     androidMode={"default"}
                                     placeHolderText="Date of birth"
                                     textStyle={{ width: width * 0.75 }}
-                                    placeHolderTextStyle={{ width: width * 0.75, color: "grey" }}
+                                    placeHolderTextStyle={{ width: width * 0.75, color: "grey"}}
                                     onDateChange={this.setDate}
                                     disabled={false}
                                     icon={true}
@@ -105,7 +110,8 @@ const styles = StyleSheet.create(
             fontSize: 18,
             color: "#ffffff",
             fontWeight: "bold",
-            marginBottom: 10
+            marginBottom: 10,
+
         },
         img: {
             width: 50,
@@ -145,7 +151,6 @@ const styles = StyleSheet.create(
             color: 'black'
         },
         continue: {
-            // backgroundColor:"green",
             backgroundColor: "transparent",
             borderRadius: 50,
             paddingLeft: 0,
@@ -160,15 +165,12 @@ const styles = StyleSheet.create(
             borderBottomWidth: 0
         },
         field: {
-            // backgroundColor:"green",
             paddingLeft: 25,
             paddingRight: 25,
             marginLeft: 10,
             marginRight: 10,
             marginTop: 0,
-            paddingTop: 15
-
-
+            paddingTop: Platform.OS === "android" ? 15 : 0,
         }
     }
 )
