@@ -1,23 +1,27 @@
 import React from 'react';
 import { ImageBackground, Text, StyleSheet, Image, TouchableOpacity, View,j, StatusBar } from 'react-native';
-import homebg from '../../assets/home.png';
-
 import { Container, Button, Header } from 'native-base';
+
+import { connect } from 'react-redux';
+import { setUserType } from '../../redux/user/user.actions'
+
+import homebg from '../../assets/home.png';
 import {RoundButton} from '../../components/buttons/Buttons';
-import Promotion from '../promotions/Promotion';
 import { colors } from '../../configs/colors'
 
-const Home = ({navigation}) => {
-    // console.log(navigation)
+const Home = ({navigation, setUserType}) => {
+    const setUser = (navigation) =>{
+        setUserType("customer")
+        navigation.navigate('CustomerStack')
+    }
     return(
         <ImageBackground source={homebg} style={styles.imageContainer}>
             <Header androidStatusBarColor="#7f7d7b" iosBarStyle="light-content" style={{display:"none"}}/>
             <Container style={styles.container}>
                 <View style={{justifyContent:"space-between",width:"70%", height:"25%", alignSelf:"center"}}>
-                    <RoundButton color="black" backgroundColor="white" height={60} value="Customer" onPress={()=>{navigation.navigate('CustomerStack')}}/>
+                    <RoundButton color="black" backgroundColor="white" height={60} value="Customer" onPress={()=>setUser(navigation, setUserType)}/>
                     <RoundButton color="white" backgroundColor={colors.primaryBtn}  height={60} value="Freelancer" onPress={()=>{navigation.navigate('FreelancerStack')}}/>
                 </View>
-                {/* <Promotion/> */}
             </Container>
         </ImageBackground>
     )
@@ -42,4 +46,8 @@ const styles = StyleSheet.create({
         height: "100%"
     }
 })
-export default Home;
+
+const mapDispatchToProps = dispatch => ({
+    setUserType : user_type => dispatch(setUserType(user_type))
+})
+export default connect(null, mapDispatchToProps)(Home);

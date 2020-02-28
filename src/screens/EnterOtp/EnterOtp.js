@@ -19,12 +19,24 @@ class EnterOtp extends Component {
         super(props);
         this.state = {
             otp: "",
-            focus1: true,
-            focus2: false,
-            focus3: false,
-            focus4: false,
+            mobile: "",
+            focused: false,
             modalVisible: false,
             freelancer: false
+        }
+    }
+    componentDidMount() {
+        console.log("PROPS IN ENTER OTP", this.props.generateOtp)
+        const { phone } = this.props.generateOtp
+        this.setState({
+            mobile: phone
+        })
+    }
+    verify = () => {
+        const { otp, mobile } = this.state
+        console.log("VERIFY WORKS", otp, mobile)
+        if (otp && mobile) {
+            this.props.verifyOtp({ otp, mobile })
         }
     }
     render() {
@@ -56,13 +68,26 @@ class EnterOtp extends Component {
                             }
 
                         }}
+                        onKeyPress={() => {
+                            let { otp } = this.state
+                            var toNull = otp.slice(0, 1)
+                            otp = otp.replace(toNull, '')
+                            this.setState({ otp })
+                        }}
                         value={otp.slice(0, 1)}
                     />
                     <TextInput keyboardType="numeric"
+                        onFocus={() => this.setState({ focused: true })}
                         maxLength={1}
                         style={{ ...styles.input }}
                         ref="otp2"
                         value={otp.slice(1, 2)}
+                        onKeyPress={() => {
+                            let { otp } = this.state
+                            var toNull = otp.slice(1, 2)
+                            otp = otp.replace(toNull, '')
+                            this.setState({ otp })
+                        }}
                         onChangeText={value => {
                             const num = value.replace(/[^0-9]/g, '')
                             if (num) {
@@ -75,10 +100,17 @@ class EnterOtp extends Component {
                         }}
                     />
                     <TextInput keyboardType="numeric"
+                        onFocus={() => this.setState({ focused: true })}
                         maxLength={1}
                         style={{ ...styles.input }}
                         ref="otp3"
                         value={otp.slice(2, 3)}
+                        onKeyPress={() => {
+                            let { otp } = this.state
+                            var toNull = otp.slice(2, 3)
+                            otp = otp.replace(toNull, '')
+                            this.setState({ otp })
+                        }}
                         onChangeText={value => {
                             const num = value.replace(/[^0-9]/g, '')
                             if (num) {
@@ -91,10 +123,17 @@ class EnterOtp extends Component {
                         }}
                     />
                     <TextInput keyboardType="numeric"
+                        onFocus={() => this.setState({ focused: true })}
                         maxLength={1}
                         style={{ ...styles.input }}
                         ref="otp4"
                         value={otp.slice(3, 4)}
+                        onKeyPress={() => {
+                            let { otp } = this.state
+                            var toNull = otp.slice(3, 4)
+                            otp = otp.replace(toNull, '')
+                            this.setState({ otp })
+                        }}
                         onChangeText={value => {
                             const num = value.replace(/[^0-9]/g, '')
                             if (num) {
@@ -111,7 +150,7 @@ class EnterOtp extends Component {
                         Didn't you recieve any code?
                     </Text>}
                     {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code" />}
-                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify" onPress={() => { this.props.navigation.navigate(freelancer ? 'RegisterFreelancer' : 'Register') }} />
+                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify" onPress={this.verify} />
                 </View>
                 <CustomModal modalVisible={modalVisible}
                     img={success}

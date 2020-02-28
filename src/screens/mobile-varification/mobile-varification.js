@@ -32,7 +32,7 @@ class MobileVerify extends Component {
 
 
     }
-    componentWillReceiveProps(nextProps){
+    UNSAFE_componentWillReceiveProps(nextProps){
         console.log("NEXT PROPS", nextProps.generateOtp.success)
         if(nextProps.generateOtp.success){
             this.setState({modalVisible:true})
