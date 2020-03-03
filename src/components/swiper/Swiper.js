@@ -20,9 +20,9 @@ class CustomSwiper extends Component {
                 showsPagination={true}
                 scrollEnabled={true}
                 activeDotColor={colors.primaryBtn}>
-                <Promotion img={promotion1} heading="About Us" onPress={() => { this.props.navigation.navigate("MobileVerification") }} />
-                <Promotion img={promotion2} heading="Beauty Tips" onPress={() => { this.props.navigation.navigate("MobileVerification") }} />
-                <Promotion img={promotion3} heading="Promotions" onPress={() => { this.props.navigation.navigate("MobileVerification") }} />
+                <Promotion img={promotion1} heading="About Us" onPress={() => { this.props.navigation.navigate("MapView") }} />
+                <Promotion img={promotion2} heading="Beauty Tips" onPress={() => { this.props.navigation.navigate("MapView") }} />
+                <Promotion img={promotion3} heading="Promotions" onPress={() => { this.props.navigation.navigate("MapView") }} />
             </Swiper>
         )
     }

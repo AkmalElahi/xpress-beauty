@@ -11,7 +11,7 @@ import RegisterFreelancer from '../screens/freelancer/Register/RegisterFreelance
 import Checkout from '../screens/customer/checkout/checkout'
 import AuthCustomer from '../screens/customer/authCustomer/AuthCustomer'
 import UserLoading from '../screens/userLoading/userLoading'
-
+import Map from '../screens/map/map'
 
 
 const registerCustomer = createStackNavigator({
@@ -56,6 +56,12 @@ const customerApp = createStackNavigator({
     },
     Checkout: {
         screen: Checkout,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    MapView: {
+        screen: Map,
         navigationOptions: {
             headerShown: false,
         }
