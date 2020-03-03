@@ -6,7 +6,7 @@ import { colors } from '../../configs/colors'
 
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width;
-const Promotion = ({ img, heading, onPress }) => (
+const Promotion = ({ img, heading, onPress, description }) => (
     <Container style={{ justifyContent: "space-between", height, borderWidth:0 }} >
         <Content  >
             <Card style={{
@@ -21,15 +21,16 @@ const Promotion = ({ img, heading, onPress }) => (
             }}
             >
                 <CardItem cardBody style={{ justifyContent: "flex-start", alignItems: "center", flexDirection: "column" }} >
-                    <Image source={img} style={{ height: height * 0.485, width: width * 0.9, marginTop: "3%" }} />
+                    <Image source={{uri:img}} style={{ height: height * 0.485, width: width * 0.9, marginTop: "3%" }} />
                     <View style={{ justifyContent: "center", width: width * 0.9, marginTop: 5 }} >
                         <Text style={{ fontWeight: "bold", fontSize: 25 }}>{heading} </Text>
-                        <Text style={{ fontSize: 15, paddingTop: 6 }}>
+                        {/* <Text style={{ fontSize: 15, paddingTop: 6 }}>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                              Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        </Text>
+                        </Text> */}
+                        <Text style={{ fontSize: 15, paddingTop: 6 }}>{description}</Text>
                     </View>
                 </CardItem>
 

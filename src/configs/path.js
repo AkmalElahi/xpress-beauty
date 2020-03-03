@@ -5,5 +5,10 @@ export default class Path {
     static GENERATE_OTP = `${this.BASE_URL}/GenerateOtp`
 
     static VERIFY_OTP = `${this.BASE_URL}/VerifyOtp`
+    
+    static GET_PROMOTIONS = `${this.BASE_URL}/get_promotions`
+
+    static GET_CATAGORIES = `${this.BASE_URL}/get_categories`
+
 
 }

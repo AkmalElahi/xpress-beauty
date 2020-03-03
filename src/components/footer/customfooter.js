@@ -12,7 +12,7 @@ const CustomFooter = ({navigation}) => (
             <Button>
                 <Image style={styles.img} source={bookings} />
             </Button>
-            <Button>
+            <Button onPress={()=>navigation.navigate("Services")}>
                 <Image style={styles.img} source={treatment} />
             </Button>
             <Button onPress={()=>navigation.navigate("Checkout")} >

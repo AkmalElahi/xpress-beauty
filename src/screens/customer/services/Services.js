@@ -11,7 +11,8 @@ import pedicure from '../../../assets/pedicure.png';
 // import wax from '../../../assets/wax.png';
 import CustomHeader from '../../../components/header/customHeader';
 import CustomFooter from '../../../components/footer/customfooter';
-
+import { connect } from 'react-redux';
+import { catagoriesMiddleware } from '../../../redux/catagories/catagories.middleware'
 
 
 class Services extends Component {
@@ -50,6 +51,9 @@ class Services extends Component {
             },
         ]
     }
+    componentDidMount(){
+        this.props.getCatagories({ appuid: 10, token: "fa8d8dbd-9884-4dfd-a9a5-77a4f3fbf132" })
+    }
     render() {
 
 
@@ -64,8 +68,8 @@ class Services extends Component {
                             flex: 1,
                             // alignItems: "center"
                         }}
-                        data={this.state.DATA}
-                        renderItem={({ item }) => (
+                        data={this.props.services}
+                        renderItem={({ item, index }) => (
                             <View style={{ width: width * 0.5 ,height: height * 0.25,}} >
                                 <Card style={styles.listCard} >
                                     <CardItem button style={{
@@ -74,9 +78,12 @@ class Services extends Component {
                                         alignItems:"center",
                                         flexDirection:"column"
 
-                                    }} onPress={() => { this.props.navigation.navigate("ServicesTabs") }}>
-                                        <Image source={item.source} style={styles.img} />
-                                        <Text style={{textAlign:"center", marginTop:"10%"}}>{item.text}</Text>
+                                    }} onPress={() => { this.props.navigation.navigate("ServicesTabs",{
+                                        // serviceId: item.id,
+                                        currentTab:index
+                                    }) }}>
+                                        <Image source={{uri: item.image}} style={styles.img} />
+                                        <Text style={{textAlign:"center", marginTop:"10%"}}>{item.category}</Text>
                                     </CardItem>
                                 </Card>
                             </View>
@@ -108,9 +115,12 @@ const styles = StyleSheet.create({
 
     },
     img: {
-        width: 70,
-        height: 70,
+        width: 52.5,
+        height: 54.7,
     }
 })
-
-export default Services;
+const mapStataToProps = ({services}) => (services)
+const mapDispatchToProps = dispatch => ({
+    getCatagories: data => dispatch(catagoriesMiddleware(data))
+})
+export default connect(mapStataToProps, mapDispatchToProps)(Services);
