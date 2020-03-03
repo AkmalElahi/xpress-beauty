@@ -115,8 +115,8 @@ const styles = StyleSheet.create({
 
     },
     img: {
-        width: 52.5,
-        height: 54.7,
+        width: 58,
+        height: 60,
     }
 })
 const mapStataToProps = ({services}) => (services)

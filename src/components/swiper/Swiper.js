@@ -40,7 +40,7 @@ class CustomSwiper extends Component {
                             img={promo.image}
                             heading={promo.title}
                             description={promo.description}
-                            onPress={() => { this.props.navigation.navigate("Services") }} />))}
+                            onPress={() => { this.props.navigation.navigate("MobileVerification") }} />))}
                 </Swiper> : <Loader/>}
             </View >
         )

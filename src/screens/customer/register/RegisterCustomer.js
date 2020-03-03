@@ -73,7 +73,7 @@ class Register extends Component {
                                 {/* <Icon name='calendar' style={styles.calenderIcon} /> */}
                             </Item>
                             <Item style={styles.continue} last>
-                                <RoundButton height={50} backgroundColor={colors.primaryBtn} value="Continue" color="white" onPress={() => this.props.navigation.navigate('MobileVerification')} />
+                                <RoundButton height={50} backgroundColor={colors.primaryBtn} value="Continue" color="white" onPress={() => this.props.navigation.navigate('Services')} />
                             </Item>
                         </Form>
                     </Content>

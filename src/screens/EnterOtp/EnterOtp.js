@@ -150,7 +150,7 @@ class EnterOtp extends Component {
                         Didn't you recieve any code?
                     </Text>}
                     {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code" />}
-                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"  onPress={()=>this.props.navigation.navigate("MapView")}
+                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"  onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
                     // onPress={this.verify}
                      />
                 </View>
