@@ -25,7 +25,7 @@ const verifyOtpReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: false,
                 error: true,
-                payload
+                message:action.payload
             }
         default:
             return state

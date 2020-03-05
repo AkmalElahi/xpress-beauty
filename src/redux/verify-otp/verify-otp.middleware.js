@@ -17,10 +17,13 @@ export const VerifyOtpMiddleWare =  ({ otp, mobile}) => {
             })
             res = await res.json()
             console.log("VERIFY OTP RES", res)
-            // if(res.message === "OTP Generated"){
-            //     console.log("RESPONSE", res)
-            //     dispatch(verifyOtpSuccess(res.message))
-            // }
+            if(res.message === "success"){
+                console.log("RESPONSE", res)
+                dispatch(verifyOtpSuccess(res.message))
+            }
+            else{
+                dispatch(verifyOtpFail(res.message))
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {

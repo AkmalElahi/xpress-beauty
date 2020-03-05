@@ -2,7 +2,8 @@ import { userActionTypes } from './user.actionTypes'
 
 const INITIAL_STATE = {
     user_type: "",
-    mobile: ""
+    mobile: "",
+    profile: {}
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -11,6 +12,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 user_type: action.payload
+            }
+        case userActionTypes.SET_USER_MOBILE:
+            return {
+                ...state,
+                mobile: action.payload
+            }
+        case userActionTypes.SET_USER_PROFILE:
+            return {
+                ...state,
+                profile: action.payload
             }
         case userActionTypes.GET_CURRENT_USER:
             return {

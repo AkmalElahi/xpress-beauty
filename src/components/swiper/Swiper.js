@@ -20,10 +20,10 @@ class CustomSwiper extends Component {
     }
     render() {
         // const { promotions } = this.props
-        console.log("INSIDE PROMOTIONS", this.props)
+        console.log("INSIDE PROMOTIONS", this.props.promotions)
         return (
             <View style={{ flex: 1 }}>
-                {this.props.promotions ? <Swiper
+                {this.props.success ? <Swiper
                     containerStyle={{ flex: 1, borderWidth: 0 }}
                     autoplayTimeout={3}
                     paginationStyle={{ marginBottom: 42 }}

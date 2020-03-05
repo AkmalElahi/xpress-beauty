@@ -10,7 +10,7 @@ import { RoundButton } from '../buttons/Buttons'
 
 const Tab = ({services, serviceId}) => (
     <Container>
-        {console.log("FACIAL COMPONENT", serviceId)}
+        {console.log("FACIAL COMPONENT", services)}
         <Content>
             <View style={styles.imageContainer}>
                 <Image source={facialBanner} style={styles.img} />
@@ -31,7 +31,7 @@ const Tab = ({services, serviceId}) => (
                                 flexDirection:"column",
                                 width:"50%"
                             }}>
-                                <Text style={{fontWeight:"normal", textAlign:"left", fontSize:18}}>{item.heading}</Text>
+                                <Text style={{fontWeight:"normal", textAlign:"left", fontSize:18}}>{item.service}</Text>
                                 <Text style={{textAlign:"left", fontSize:12}}>{item.duration}</Text>
                             </CardItem>
                             <CardItem style={{
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({services}) =>(
     services
 )
-export default connect(mapStateToProps)(Tab);
+export default Tab;

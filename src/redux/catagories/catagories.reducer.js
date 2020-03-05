@@ -1,7 +1,7 @@
 import { catagoriesActionType } from './catagories.types'
 
 const INITIAL_STATE = {
-    services:  [],
+    categories:  [],
     success:false,
     error:false
 }
@@ -19,7 +19,7 @@ const servicesReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: true,
                 error: false,
-                services: action.payload
+                categories: action.payload
             }
         case catagoriesActionType.GET_CATAGORIES_FAIL:
             return {

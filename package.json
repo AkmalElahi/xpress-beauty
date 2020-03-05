@@ -10,7 +10,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@kiwicom/react-native-reverse-geocode": "0.0.7",
     "@react-native-community/async-storage": "^1.8.0",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.6",
@@ -19,6 +18,7 @@
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.6.0",
+    "react-native-google-places-autocomplete": "1.4.1",
     "react-native-maps": "0.26.1",
     "react-native-masked-text": "^1.13.0",
     "react-native-reanimated": "^1.7.0",

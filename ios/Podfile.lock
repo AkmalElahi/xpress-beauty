@@ -258,8 +258,6 @@ PODS:
     - React
   - RNReanimated (1.7.0):
     - React
-  - RNReverseGeocode (0.0.7):
-    - React
   - RNScreens (2.0.0-beta.10):
     - React
   - RNVectorIcons (6.6.0):
@@ -305,7 +303,6 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
-  - "RNReverseGeocode (from `../node_modules/@kiwicom/react-native-reverse-geocode`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -383,8 +380,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
-  RNReverseGeocode:
-    :path: "../node_modules/@kiwicom/react-native-reverse-geocode"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
@@ -412,7 +407,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
-  react-native-maps: 7e5b5564781931863baae7cc762e279655c838ac
+  react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-viewpager: 118e65d8c65c56fe48d12a35cdcf1fe7e027a366
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -429,11 +424,10 @@ SPEC CHECKSUMS:
   RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNReverseGeocode: c2c1d1593e4e09804fbb2643a2ea80fa031a9543
   RNScreens: c596b54c3ab63b0390aa3cb081edd438147d40ae
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: ed6ff215a373261080c01e7761ad857ad3097437
+PODFILE CHECKSUM: fd447d5289ce4b5ddbc8bd15760f282151410be9
 
 COCOAPODS: 1.6.1

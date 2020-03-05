@@ -15,27 +15,34 @@ class ServicesTabs extends Component {
         }
     }
     componentDidMount(){
-        // console.log("ROUTE", this.props.navigation.getParam("serviceId"))
+        console.log("ROUTE", this.props.navigation.getParam("serviceId"))
+        const id = this.props.navigation.getParam("serviceId")
+        const services = this.props.categories[id].services
         const currentTab = this.props.navigation.getParam("currentTab")
         
         this.setState({
             currentTab,
-            initialPage: currentTab
+            initialPage: currentTab,
+            services
         })
     }
     setTab = (i) =>{
-        console.log("CURRENT TAB", i)
+        const id = i.ref.props.children.props.serviceId
+        console.log("CURRENT TAB", i.ref.props.serviceId)
+        const services = this.props.categories[i.ref.props.serviceId-1].services
+        console.log("SERVICES IN SET TAB", services)
         this.setState({
             currentTab:i.i,
+            services
         })
     }
     render() {
         console.log("SERVICES TABS", this.state)
-        const {currentTab, serviceId, initialPage }  = this.state
+        const {currentTab, serviceId, initialPage, services }  = this.state
         return (
             <Container style={styles.container}>
                 <CustomHeader />
-                {this.props.services && <Tabs initialPage={initialPage}  page={ currentTab } tabContainerStyle={{elevation: 0 }} renderTabBar={() => <ScrollableTab  />}  tabBarUnderlineStyle={{ backgroundColor: colors.primaryBtn }} 
+                {this.props.categories && <Tabs initialPage={initialPage}  page={ currentTab } tabContainerStyle={{elevation: 0 }} renderTabBar={() => <ScrollableTab  />}  tabBarUnderlineStyle={{ backgroundColor: colors.primaryBtn }} 
                 onChangeTab={(i)=> this.setTab(i)}
                 // onScroll={(i) => this.setTab(i)} 
                 >
@@ -57,9 +64,9 @@ class ServicesTabs extends Component {
                     <Tab heading="Wax" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
                         <Facial /> 
                     </Tab> */}
-                    {this.props.services.map(service =>
-                    <Tab heading={service.category} tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <CustomTab serviceId={serviceId}/> 
+                    {this.props.categories.map(service =>
+                    <Tab serviceId={service.id} heading={service.category} tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
+                        <CustomTab serviceId={service.id} services={services}/> 
                     </Tab>)}
                 </Tabs>}
                 <CustomFooter navigation={this.props.navigation}/>
@@ -79,5 +86,5 @@ const styles = StyleSheet.create({
         elevation:0,
     }
 })
-const mapStataToProps = ({services}) => (services)
+const mapStataToProps = ({categories}) => (categories)
 export default connect(mapStataToProps)(ServicesTabs);

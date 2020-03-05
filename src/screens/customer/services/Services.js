@@ -68,7 +68,7 @@ class Services extends Component {
                             flex: 1,
                             // alignItems: "center"
                         }}
-                        data={this.props.services}
+                        data={this.props.categories}
                         renderItem={({ item, index }) => (
                             <View style={{ width: width * 0.5 ,height: height * 0.25,}} >
                                 <Card style={styles.listCard} >
@@ -78,10 +78,12 @@ class Services extends Component {
                                         alignItems:"center",
                                         flexDirection:"column"
 
-                                    }} onPress={() => { this.props.navigation.navigate("ServicesTabs",{
-                                        // serviceId: item.id,
+                                    }} 
+                                    onPress={() => { this.props.navigation.navigate("ServicesTabs",{
+                                        serviceId: item.id,
                                         currentTab:index
-                                    }) }}>
+                                    }) }}
+                                    >
                                         <Image source={{uri: item.image}} style={styles.img} />
                                         <Text style={{textAlign:"center", marginTop:"10%"}}>{item.category}</Text>
                                     </CardItem>
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
         height: 60,
     }
 })
-const mapStataToProps = ({services}) => (services)
+const mapStataToProps = ({categories}) => (categories)
 const mapDispatchToProps = dispatch => ({
     getCatagories: data => dispatch(catagoriesMiddleware(data))
 })

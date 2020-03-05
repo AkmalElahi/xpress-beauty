@@ -1,32 +1,57 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform } from 'react-native';
+import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform,  } from 'react-native';
 const width = Dimensions.get('window').width;
-import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker, } from 'native-base'
+import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker} from 'native-base'
 // import { Input } from '../../../components/inputs/inputs'
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
 import profile from '../../../assets/profile.png';
 import { RoundButton } from '../../../components/buttons/Buttons';
+import { connect } from 'react-redux';
+import {setUserProfile} from '../../../redux/user/user.actions'
 
 
 
 class Register extends Component {
     constructor(props) {
         super(props);
-        state = {
-            showHide: false
+        this.state = {
+            showHide: false,
+            username:"",
+            email:""
         }
     }
+    componentDidMount(){
+        console.log("USER IN REGISTER",this.props.user)
+    }
+    setDate= (date) => {
+        // console.log("DATE", date.toDateString())
+        date = date.toDateString()
+        this.setState({dob:date})
+    }
+    continue = () =>{
+        const { username, email,dob} = this.state
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        // console.log(reg.test(email))
+        if(username && username.length && email && email.length && dob && dob.length) {
+            if(reg.test(email)){
+                console.log("every field exists")
+                this.props.setProfile({username, email, dob})
+                this.props.navigation.navigate("MapView")
+            }
+        }   
+    }
     render() {
+        // const { username, email, dob} = this.state
         return (
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
                     <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content"  >
-                        <Left >
+                        {/* <Left >
                             <Button transparent>
                                 <Icon name='arrow-back' style={{ color: "white" }} />
                             </Button>
-                        </Left>
+                        </Left> */}
                         <Body />
                     </Header>
                     <Content style={styles.content}>
@@ -36,14 +61,14 @@ class Register extends Component {
                         </View>
                         <Form style={styles.form}>
                             <Item regular style={styles.input}>
-                                <Input placeholder="Username" style={styles.field} />
+                                <Input placeholder="Username" style={styles.field} onChangeText={text=>this.setState({username:text})}/>
                             </Item>
                             <Item regular style={styles.input}>
-                                <Input placeholder="Email" style={styles.field} />
+                                <Input placeholder="Email" style={styles.field} onChangeText={text=>this.setState({email:text})}/>
                             </Item>
-                            <Item regular style={styles.input}>
+                            {/* <Item regular style={styles.input} onPress={()=>this.props.navigation.navigate("MapView")}>
                                 <Input placeholder="Address" style={styles.field} />
-                            </Item>
+                            </Item> */}
                             <Item regular style={{
                                 ...styles.input,
                                 paddingTop: Platform.OS === 'ios' ? 2.5 : 6,
@@ -54,9 +79,10 @@ class Register extends Component {
                             >
                                 <DatePicker
                                     // showDatePicker={this.state.showHide}  {...this.props}
-                                    defaultDate={new Date(2018, 4, 4)}
-                                    minimumDate={new Date(2018, 1, 1)}
-                                    maximumDate={new Date(2018, 12, 31)}
+                                    // defaultDate={new Date()}
+                                    minimumDate={new Date(1990, 1, 1)}
+                                    // maximumDate={new Date(2018, 12, 31)}
+                                    // formatChosenDate={format("YYYY do, MM")}
                                     locale={"en"}
                                     timeZoneOffsetInMinutes={undefined}
                                     modalTransparent={false}
@@ -73,7 +99,7 @@ class Register extends Component {
                                 {/* <Icon name='calendar' style={styles.calenderIcon} /> */}
                             </Item>
                             <Item style={styles.continue} last>
-                                <RoundButton height={50} backgroundColor={colors.primaryBtn} value="Continue" color="white" onPress={() => this.props.navigation.navigate('Services')} />
+                                <RoundButton height={50} backgroundColor={colors.primaryBtn} value="Continue" color="white" onPress={this.continue} />
                             </Item>
                         </Form>
                     </Content>
@@ -90,6 +116,7 @@ const styles = StyleSheet.create(
         container: {
             width: "100%",
             height: "100%",
+            marginTop:0,
             backgroundColor: "transparent"
         },
         content: {
@@ -174,5 +201,8 @@ const styles = StyleSheet.create(
         }
     }
 )
-
-export default Register;
+const mapStateToProps = ({user}) => ({user:user})
+const maDispatchToProps = dispatch => ({
+    setProfile : data => dispatch(setUserProfile(data))
+})
+export default connect(mapStateToProps, maDispatchToProps)(Register);

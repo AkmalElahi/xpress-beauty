@@ -10,5 +10,11 @@ export default class Path {
 
     static GET_CATAGORIES = `${this.BASE_URL}/get_categories`
 
+    static GET_ALL_CATAGORIES = `${this.BASE_URL}/get_allcategories`
+    
+    static GET_COUNTRIES = `${this.BASE_URL}/get_country`
+
+    static UPDATE_PROFILE = `${this.BASE_URL}/UserProfile`
+
 
 }

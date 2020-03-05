@@ -4,10 +4,12 @@ export default styles = StyleSheet.create({
   container: {
     display: "flex",
     height: Dimensions.get("screen").height,
-    width: Dimensions.get("screen").width
+    width: Dimensions.get("screen").width,
   },
   map: {
-    flex: 1
+  
+    height: Dimensions.get("screen").height,
+    width: Dimensions.get("screen").width
   },
   mapMarkerContainer: {
     left: '47%',
@@ -19,7 +21,7 @@ export default styles = StyleSheet.create({
     color: "red"
   },
   deatilSection: {
-    flex: 1,
+    flex: 4,
     backgroundColor: "#fff",
     padding: 10,
     display: "flex",

@@ -1,15 +1,13 @@
-import { getCatagories, getCatagoriesSuccess, getCatagoriesFail } from './catagories.actions'
+import { getCountries, getCountriesSuccess, getCountriesFail } from './countries.actions'
 import Path from '../../configs/path'
 const formData = new FormData()
 
-export const catagoriesMiddleware =  ({ appuid, token}) => {
+export const countriesMiddleware =  () => {
     return  async dispatch=>{
-        dispatch(getCatagories(token))
+        dispatch(getCountries())
            try {
-               formData.append("appuid", appuid )
                formData.append("language", "en")
-               formData.append("token", token)
-             let res = await fetch(Path.GET_ALL_CATAGORIES, {
+             let res = await fetch(Path.GET_COUNTRIES, {
                 method: 'post',
                 headers: { 'Content-Type': 'multipart/form-data' },
                 body: formData
@@ -17,14 +15,14 @@ export const catagoriesMiddleware =  ({ appuid, token}) => {
             res = await res.json()
             // console.log("PROMOTIONS MIDDLEWARE", res)
             if(res.message === "success"){
-                console.log("CATAGORIES", res)
-                dispatch(getCatagoriesSuccess(res.data))
+                // console.log("RESPONSE", res)
+                dispatch(getCountriesSuccess(res.data))
             }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {
                console.log("ERROR", error)
-               dispatch(getCatagoriesFail(error))
+               dispatch(getCountriesFail(error))
            }
     }
 }

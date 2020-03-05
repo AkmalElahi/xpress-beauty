@@ -4,12 +4,13 @@ import { StyleSheet, TextInput, Image, Platform , TouchableOpacity } from 'react
 
 import { connect } from 'react-redux';
 import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
+import {countriesMiddleware } from '../../redux/countries/countries.middleware'
 
 import flag from '../../assets/flag.png';
 import messageOpen from '../../assets/message-open.png'
 import CustomModal from '../../components/Modal/Modal';
 import { CustomButton } from '../../components/buttons/Buttons';
-const countries = require('../../configs/countries.json')
+const countriesJson = require('../../configs/countries.json')
 import {colors} from '../../configs/colors'
 // onChanged (text) {
 //     this.setState({
@@ -28,36 +29,44 @@ class MobileVerify extends Component {
     }
     componentDidMount() {
         // console.log("NAVIGATION", this.props.navigation)
-        this.getFlags()
+        
+        this.props.getCountries()
     }
-    verifyNumber = (text) => {
-        text = text.replace(/[^0-9]/g, '')
-        this.setState({ phone: text })
-        if (text && text.length === 11) {
-            this.props.verifyMobile(text)
+    verifyNumber = () => {
+        // text = text.replace(/[^0-9]/g, '')
+        const {phone} = this.state
+        if (phone.length >= 12) {
+            this.props.verifyMobile(phone)
         }
     }
     UNSAFE_componentWillReceiveProps(nextProps) {
-        console.log("NEXT PROPS", nextProps.generateOtp.success)
+        console.log("NEXT PROPS", nextProps)
         if (nextProps.generateOtp.success) {
             this.setState({ modalVisible: true })
-        }
+            this.props.navigation.navigate("EnterOtp")
         setTimeout(() => {
-            this.setState({ modalVisible: false }),
-                this.props.navigation.navigate("EnterOtp")
+            this.setState({ modalVisible: false })
         }, 3000)
     }
-    getFlags = () =>{
-       const flags =  codes.map(code =>  countries.find(country => country.code === code))
-       this.setState({
-           flags,
-           country:flags[0],
-           phone:flags[0].dialCode
-       })
+    if(nextProps.countries){
+        this.getFlags(nextProps.countries)
+    }
+    }
+    getFlags = ({countries}) =>{
+       if(countries.length){
+        const flags =  countries.map(country =>  countriesJson.find(countryJson => countryJson.code === country.code))
+        console.log("FLAGAS", flags)
+        this.setState({
+            flags,
+            country:flags[0],
+            phone:flags[0].dialCode
+        })
+       }
     }
     render() {
         const { modalVisible, phone, openPicker , flags } = this.state
-        console.log("FLAGS", flags)
+        console.log("COUNTRIES", this.props.countries)
+        console.log()
         return (
             <View style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
@@ -103,7 +112,7 @@ class MobileVerify extends Component {
                         <Picker.Item label="JavaScript" value="js" /> */}
                         {flags.map(flag => <Picker.Item label={`${flag.emoji}`} value={flag}/>)}
                     </Picker>}
-                    <Icon  name="send" style={styles.send} onPress={()=> this.props.verifyMobile(this.state.phone)}/>
+                    <Icon  name="send" style={styles.send} onPress={this.verifyNumber}/>
                    </View>
                     {/* <View style={{width:"70%"}}><CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Submit"  /></View> */}
                 </View>
@@ -181,11 +190,12 @@ const styles = StyleSheet.create(
         }
     }
 )
-const mapStateToProps = ({ generateOtp }) => {
+const mapStateToProps = ({ generateOtp, countries }) => {
     console.log("STATE", generateOtp)
-    return { generateOtp }
+    return { generateOtp, countries }
 }
 const mapDispatchToProps = (dispatch) => ({
-    verifyMobile: phone => dispatch(generateOtpMiddleWare(phone))
+    verifyMobile: phone => dispatch(generateOtpMiddleWare(phone)),
+    getCountries: () => dispatch(countriesMiddleware())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(MobileVerify);
