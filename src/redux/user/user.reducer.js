@@ -3,7 +3,11 @@ import { userActionTypes } from './user.actionTypes'
 const INITIAL_STATE = {
     user_type: "",
     mobile: "",
-    profile: {}
+    appuid:"",
+    username:"",
+    email:"",
+    dob:"",
+    address:{}
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -16,12 +20,15 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case userActionTypes.SET_USER_MOBILE:
             return {
                 ...state,
-                mobile: action.payload
+                mobile: action.payload.mobile,
+                appuid:action.payload.appuid
             }
         case userActionTypes.SET_USER_PROFILE:
             return {
                 ...state,
-                profile: action.payload
+                username: action.payload.username,
+                dob: action.payload.dob,
+                email: action.payload.email
             }
         case userActionTypes.GET_CURRENT_USER:
             return {

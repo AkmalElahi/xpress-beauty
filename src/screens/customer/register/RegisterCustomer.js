@@ -18,22 +18,23 @@ class Register extends Component {
         this.state = {
             showHide: false,
             username:"",
-            email:""
+            email:"",
+            dob:""
         }
     }
     componentDidMount(){
         console.log("USER IN REGISTER",this.props.user)
     }
     setDate= (date) => {
-        // console.log("DATE", date.toDateString())
-        date = date.toDateString()
+        // console.log("DATE", date)
+        // date = date.toString()
         this.setState({dob:date})
     }
     continue = () =>{
         const { username, email,dob} = this.state
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         // console.log(reg.test(email))
-        if(username && username.length && email && email.length && dob && dob.length) {
+        if(username && username.length && email && email.length && dob) {
             if(reg.test(email)){
                 console.log("every field exists")
                 this.props.setProfile({username, email, dob})
@@ -80,7 +81,7 @@ class Register extends Component {
                                 <DatePicker
                                     // showDatePicker={this.state.showHide}  {...this.props}
                                     // defaultDate={new Date()}
-                                    minimumDate={new Date(1990, 1, 1)}
+                                    minimumDate={new Date(1950, 1, 1)}
                                     // maximumDate={new Date(2018, 12, 31)}
                                     // formatChosenDate={format("YYYY do, MM")}
                                     locale={"en"}

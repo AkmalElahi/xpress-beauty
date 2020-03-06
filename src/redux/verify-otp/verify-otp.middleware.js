@@ -19,7 +19,7 @@ export const VerifyOtpMiddleWare =  ({ otp, mobile}) => {
             console.log("VERIFY OTP RES", res)
             if(res.message === "success"){
                 console.log("RESPONSE", res)
-                dispatch(verifyOtpSuccess(res.message))
+                dispatch(verifyOtpSuccess({token:res.data.token,appuid:res.data.appuid,message:res.message}))
             }
             else{
                 dispatch(verifyOtpFail(res.message))

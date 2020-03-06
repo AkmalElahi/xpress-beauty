@@ -50,8 +50,8 @@ class EnterOtp extends Component {
     }
     UNSAFE_componentWillReceiveProps(nextProps){
         if(nextProps.verifyOtp.success){
-            console.log("ENTER OT NEXT PROPS",nextProps.verifyOtp.phone)
-            this.props.setUserMobile(nextProps.verifyOtp.phone)
+            console.log("ENTER OT NEXT PROPS",nextProps.verifyOtp)
+            this.props.setUserMobile({token:nextProps.verifyOtp.token,mobile:nextProps.verifyOtp.phone,appuid:nextProps.verifyOtp.appuid })
             this.setState({
                 modalVisible:true,
                 modalText:"Your OTP has successfully verified ",
@@ -65,7 +65,7 @@ class EnterOtp extends Component {
             },3000)
 
         }
-        else{
+        if(nextProps.verifyOtp.error){
             this.setState({modalText:"Please Enter Valid OTP" , error:true})
         }
     }

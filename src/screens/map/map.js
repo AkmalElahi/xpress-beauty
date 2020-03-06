@@ -43,7 +43,7 @@ class Map extends Component {
                 });
             },
             (error) => {
-                alert(error);
+                // alert(error);
                 this.setState({
                     error: error.message,
                     loading: false,
@@ -172,7 +172,7 @@ class Map extends Component {
                         </View>
                     </View> */}
                     </View>
-                    <View style={{ position: "absolute", top: 100, width: "90%", height: "10%", alignSelf: "center" }}>
+                    <View style={{ position: "absolute", top: 100, width: "90%",  alignSelf: "center", backgroundColor:"white" }}>
                         <GooglePlacesAutocomplete
                             styles={{
                                 textInputContainer: {
@@ -196,7 +196,7 @@ class Map extends Component {
                             // currentLocationLabel="Current location"
                             text={this.state.userLocation ? this.state.userLocation : ""}
                             placeholder='Enter your address'
-                            minLength={2} // minimum length of text to search
+                            minLength={5} // minimum length of text to search
                             autoFocus={true}
                             returnKeyType={'search'} // Can be left out for default return key 
                             listViewDisplayed={false}    // true/false/undefined
@@ -211,8 +211,8 @@ class Map extends Component {
                                 }
                                 this.setState({
                                     region
-                                })
-                                // }, ()=> this.fetchAddress())
+                                    }, ()=> this.fetchAddress())
+                                // })
                             }
                             }
 

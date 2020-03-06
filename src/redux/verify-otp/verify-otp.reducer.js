@@ -3,7 +3,8 @@ import { verifyOtpActionType } from './verify-otp.types'
 const INITIAL_STATE = {
     success: false,
     phone: null,
-    error: false
+    error: false,
+    appuid:""
 }
 
 const verifyOtpReducer = (state = INITIAL_STATE, action) => {
@@ -18,7 +19,8 @@ const verifyOtpReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: true,
                 error: false,
-                message: action.payload
+                message: action.payload.message,
+                appuid:action.payload.appuid
             }
         case verifyOtpActionType.VERIFY_OTP_FAIL:
             return {
