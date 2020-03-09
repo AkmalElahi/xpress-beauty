@@ -48,7 +48,7 @@ class Checkout extends Component {
                     </ListItem>
                     <ListItem style={styles.listItem}>
                         <Image source={count >= 4 ? checked : unchecked} />
-                        <Text style={styles.listText}>REQUEST</Text>
+                        <Text style={styles.listText}>SUMMARY</Text>
                     </ListItem>
                 </List>
                 <Review/>

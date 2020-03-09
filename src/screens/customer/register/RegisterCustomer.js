@@ -24,10 +24,12 @@ class Register extends Component {
     }
     componentDidMount(){
         console.log("USER IN REGISTER",this.props.user)
+        
     }
     setDate= (date) => {
         // console.log("DATE", date)
-        // date = date.toString()
+        if(Platform.OS==="android"){date = date.toString()}
+        // alert(date)
         this.setState({dob:date})
     }
     continue = () =>{
@@ -62,10 +64,10 @@ class Register extends Component {
                         </View>
                         <Form style={styles.form}>
                             <Item regular style={styles.input}>
-                                <Input placeholder="Username" style={styles.field} onChangeText={text=>this.setState({username:text})}/>
+                                <Input placeholder="Username" keyboardType="default" style={styles.field} onChangeText={text=>this.setState({username:text})}/>
                             </Item>
                             <Item regular style={styles.input}>
-                                <Input placeholder="Email" style={styles.field} onChangeText={text=>this.setState({email:text})}/>
+                                <Input placeholder="Email" keyboardType="email-address" style={styles.field} onChangeText={text=>this.setState({email:text})}/>
                             </Item>
                             {/* <Item regular style={styles.input} onPress={()=>this.props.navigation.navigate("MapView")}>
                                 <Input placeholder="Address" style={styles.field} />

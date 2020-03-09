@@ -43,7 +43,7 @@ class AuthCustomer extends Component {
             <View>
                 <Loader />
                 {
-                    this.props.user.user_type === "" ? this.props.navigation.navigate("customerApp") 
+                    this.props.user.mobile  ? this.props.navigation.navigate("customerApp") 
                         : this.props.navigation.navigate("registerCustomer") 
                 }
             </View>

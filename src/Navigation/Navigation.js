@@ -39,6 +39,12 @@ const registerCustomer = createStackNavigator({
         navigationOptions: {
             headerShown: false,
         }
+    },
+    MapView: {
+        screen: Map,
+        navigationOptions: {
+            headerShown: false,
+        }
     }
 })
 const customerApp = createStackNavigator({

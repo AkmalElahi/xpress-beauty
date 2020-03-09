@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     success: false,
     phone: null,
     error: false,
-    appuid:""
+    appuid:"",
+    token:""
 }
 
 const verifyOtpReducer = (state = INITIAL_STATE, action) => {
@@ -20,7 +21,8 @@ const verifyOtpReducer = (state = INITIAL_STATE, action) => {
                 success: true,
                 error: false,
                 message: action.payload.message,
-                appuid:action.payload.appuid
+                appuid:action.payload.appuid,
+                token:action.payload.token
             }
         case verifyOtpActionType.VERIFY_OTP_FAIL:
             return {

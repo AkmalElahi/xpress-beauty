@@ -6,6 +6,7 @@ import { colors } from '../../configs/colors';
 import CustomTab from '../../components/tab/Tab';
 import CustomFooter from '../../components/footer/customfooter';
 import { connect } from 'react-redux';
+import { addServiceToCart } from '../../redux/cart/cart.actions';
 
 class ServicesTabs extends Component {
     constructor(props) {
@@ -36,9 +37,18 @@ class ServicesTabs extends Component {
             services
         })
     }
+    addItem = (item) => {
+        console.log("ITEM RECIVEEEED", item)
+        // this.setState()
+        if(item){
+            this.props.addItemToCart(item)
+        }
+
+        
+    }
     render() {
         console.log("SERVICES TABS", this.state)
-        const {currentTab, serviceId, initialPage, services }  = this.state
+        const {currentTab, serviceId, initialPage, services, }  = this.state
         return (
             <Container style={styles.container}>
                 <CustomHeader />
@@ -66,7 +76,7 @@ class ServicesTabs extends Component {
                     </Tab> */}
                     {this.props.categories.map(service =>
                     <Tab serviceId={service.id} heading={service.category} tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <CustomTab serviceId={service.id} services={services}/> 
+                        <CustomTab serviceId={service.id} services={service.services} onPress={this.addItem}/> 
                     </Tab>)}
                 </Tabs>}
                 <CustomFooter navigation={this.props.navigation}/>
@@ -87,4 +97,7 @@ const styles = StyleSheet.create({
     }
 })
 const mapStataToProps = ({categories}) => (categories)
-export default connect(mapStataToProps)(ServicesTabs);
+const mapDispatchToProps = dispatch => ({
+    addItemToCart : data => dispatch(addServiceToCart(data))
+})
+export default connect(mapStataToProps, mapDispatchToProps)(ServicesTabs);

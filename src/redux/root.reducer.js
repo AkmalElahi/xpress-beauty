@@ -6,6 +6,7 @@ import userReducer from './user/user.reducer'
 import promotionsReducer from "./promotions/promotions.reducer";
 import countriesReducer from "./countries/countries.reducer";
 import verifyOtpReducer from './verify-otp/verify-otp.reducer'
+import cartReducer from "./cart/cart.reducer";
 
 const rootReducer = combineReducers({
     categories: servicesReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     user: userReducer,
     promotions: promotionsReducer,
     countries: countriesReducer,
-    verifyOtp: verifyOtpReducer
+    verifyOtp: verifyOtpReducer,
+    cart: cartReducer
 })
 
 export default rootReducer

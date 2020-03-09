@@ -20,7 +20,9 @@ const Home = ({navigation, setUserType}) => {
             <Container style={styles.container}>
                 <View style={{justifyContent:"space-between",width:"70%", height:"25%", alignSelf:"center"}}>
                     <RoundButton color="black" backgroundColor="white" height={60} value="Customer" onPress={()=>setUser(navigation, setUserType)}/>
-                    <RoundButton color="white" backgroundColor={colors.primaryBtn}  height={60} value="Freelancer" onPress={()=>{navigation.navigate('FreelancerStack')}}/>
+                    <RoundButton color="white" backgroundColor={colors.primaryBtn}  height={60} value="Freelancer" 
+                    // onPress={()=>{navigation.navigate('FreelancerStack')}}
+                    />
                 </View>
             </Container>
         </ImageBackground>

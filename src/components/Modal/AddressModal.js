@@ -14,7 +14,14 @@ class AddressModal extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            modalVisible: false
+            building:"", 
+            street:"", 
+            area:"", 
+            city:"", 
+            modalVisible:false, 
+            house:"", 
+            address_note:""
+
         }
     }
     componentDidMount() {
@@ -44,18 +51,37 @@ class AddressModal extends Component {
                 // :addressComponents[2].long_name,
             })
         }
+        if(user.success){
+            console.log("USER CREATED")
+            this.props.navigation.navigate("Services")
+
+        }
     }
     confirm = () => {
-        const { user, building, street, area, city } = this.state
+        const { user, building, street, area, city, house, address_note } = this.state
         console.log("UPDATED PROFILE", user, building, street, area, city)
-        const address = `${building} ${street} ${area} ${city}`
+        this.props.createProfile({
+            building,
+            street,
+            area,
+            city,
+            house,
+            address_note, 
+            user})
+        // const address = `${building} ${street} ${area} ${city}`
+        // const address = {
+        //     building,
+        //     street,
+        //     area,
+        //     city,
+        //     house,address_note
+        // }
         // console.log("ADDRESS", address)
-        this.props.createProfile({address, user})
         // this.props.navigation.navigate("Services")
     }
     render() {
         const { addressComponents, addressType,  } = this.props
-        const { building, street, area, city, modalVisible} = this.state
+        const { building, street, area, city, modalVisible, house, address_note} = this.state
         return (
             <Modal transparent={true}
                 animationType={"fade"}
@@ -69,16 +95,22 @@ class AddressModal extends Component {
                             <Icon name="close"/>
                         </TouchableOpacity>
                         <View style={styles.input}>
-                            <TextInput style={styles.inputField} value={building} onChangeText={(text) => this.setState({ building: text })} />
+                            <TextInput placeholder="building / Plot" style={styles.inputField} value={building} onChangeText={(text) => this.setState({ building: text })} />
                         </View>
                         <View style={styles.input}>
-                            <TextInput style={styles.inputField} value={street} onChangeText={(text) => this.setState({ street: text })} />
+                            <TextInput placeholder="street / block" style={styles.inputField} value={street} onChangeText={(text) => this.setState({ street: text })} />
                         </View>
                         <View style={styles.input}>
-                            <TextInput style={styles.inputField} value={area} onChangeText={(text) => this.setState({ area: text })} />
+                            <TextInput placeholder="area" style={styles.inputField} value={area} onChangeText={(text) => this.setState({ area: text })} />
                         </View>
                         <View style={styles.input}>
-                            <TextInput style={styles.inputField} value={city} onChangeText={(text) => this.setState({ city: text })} />
+                            <TextInput placeholder="city" style={styles.inputField} value={city} onChangeText={(text) => this.setState({ city: text })} />
+                        </View>
+                        <View style={styles.input}>
+                            <TextInput placeholder="flat/Unit/house no (optional)" style={styles.inputField} value={house} onChangeText={(text) => this.setState({ house: text })} />
+                        </View>
+                        <View style={styles.input}>
+                            <TextInput placeholder="additional note for freelancer no (optional)" style={styles.inputField} value={address_note} onChangeText={(text) => this.setState({ address_note: text })} />
                         </View>
                         <View style={{ width: "80%", marginTop: "20%", }}><CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Confirm" onPress={this.confirm} /></View>
                     </View>}
