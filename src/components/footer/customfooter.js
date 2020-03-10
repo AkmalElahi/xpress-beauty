@@ -5,7 +5,7 @@ import bookings from '../../assets/bookings.png';
 import treatment from '../../assets/treatment.png';
 import checkout from '../../assets/checkout.png';
 import { connect } from 'react-redux';
-// const height = Dimensions.get('window').height
+const height = Dimensions.get('window').height
 // console.log(height)
 class CustomFooter extends Component {
     state = {
@@ -23,7 +23,7 @@ class CustomFooter extends Component {
     }
     render() {
         return (
-            <Footer style={{ elevation: 0, backgroundColor: "blue", height: "8%", marginTop: 10 }} >
+            <Footer style={{ elevation: 0, marginTop: 10, backgroundColor:"white" }} >
                 <FooterTab style={styles.footer}>
                     <Button>
                         <Image style={{ width: 35, height: 35 }} source={bookings} />
@@ -33,12 +33,13 @@ class CustomFooter extends Component {
                         <Image style={{ height: 35, width: 40 }} source={treatment} />
                         <Text style={{ color: "black" }}>Treatments</Text>
                     </Button>
-                    <Button onPress={() => this.props.navigation.navigate("Checkout")} >
+                    <Button onPress={ () =>  this.props.count ? this.props.navigation.navigate("Checkout"):""} >
                         <Image style={{ height: 40, width: 35 }} source={checkout} />
                         <Text style={{ color: "black" }}>checkout</Text>
+                        <View onPress={ () =>  this.props.count ? this.props.navigation.navigate("Checkout") :""} style={styles.items}><Text style={{ textAlign: "center" }}>{this.props.count}</Text></View>
                     </Button>
                 </FooterTab>
-                <View onPress={() => this.props.navigation.navigate("Checkout")} style={styles.items}><Text style={{ textAlign: "center" }}>{this.props.count}</Text></View>
+                
             </Footer>
         )
     }
@@ -57,9 +58,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         display: "flex",
         alignSelf: "center",
-        width: 50,
-        top: Platform.OS === 'ios' ? "20%" : "15%",
-        right: Platform.OS === 'ios' ? "10%" : "9.5%",
+        // backgroundColor:"green"
+        // width: 50,
+        // top: Platform.OS === 'ios' ? "20%" : "15%",
+        // right: Platform.OS === 'ios' ? "10%" : "9.5%",
         // zIndex:-1
     }
 })

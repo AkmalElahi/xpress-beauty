@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Header, Left, Body, Button, Icon, Picker } from 'native-base';
-import { StyleSheet, TextInput, Image, Platform , TouchableOpacity } from 'react-native';
+import { View, Text, Header, Left, Body, Button, Icon, Picker  } from 'native-base';
+import { StyleSheet, TextInput, Image, Platform , TouchableOpacity, Keyboard } from 'react-native';
 
 import { connect } from 'react-redux';
 import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
@@ -34,6 +34,7 @@ class MobileVerify extends Component {
     }
     verifyNumber = () => {
         // text = text.replace(/[^0-9]/g, '')
+        Keyboard.dismiss()
         const {phone} = this.state
         if (phone.length >= 12) {
             this.props.verifyMobile(phone)

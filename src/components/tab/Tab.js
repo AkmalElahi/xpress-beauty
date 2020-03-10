@@ -33,14 +33,13 @@ const Tab = ({ services, serviceId, onPress }) => (
                                 style={{
                                     justifyContent: "center",
                                     flexDirection: "column",
-                                    width: "50%",
+                                    width: "70%",
                                 }}>
-                                <Text style={{ fontWeight: "normal", textAlign: "left", fontSize: 18, width: "100%" }}>{item.service}</Text>
-                                <View style={{flexDirection:"row", justifyContent:"space-evenly", width:"100%", marginLeft:-15}}>
-                                    <Image source={clock} style={{ width: 20, height: 20,  }} />
-                                    <Text style={{ textAlign:"left", justifyContent:"center", alignItems:"center", }}>{item.duration}</Text>
-                                    <Text>Rs.</Text>
-                                    <Text style={{  textAlign:"left"}}>{item.price}</Text>
+                                <Text style={{ fontWeight: "normal", textAlign: "left", fontSize: 18, width: "100%", }}>{item.service}</Text>
+                                <View style={{flexDirection:"row", justifyContent:"flex-start", width:"100%", }}>
+                                    <Image source={clock} style={{ width: 18, height: 18,  }} />
+                                    <Text style={{ textAlign:"left", justifyContent:"center", alignItems:"center", paddingLeft:1 }}>{item.duration} mins</Text>
+                                    <Text style={{  textAlign:"left", paddingLeft:5}}>Rs. {item.price}</Text>
                                 </View>
 
                             </CardItem>

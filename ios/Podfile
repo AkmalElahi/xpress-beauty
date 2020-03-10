@@ -35,6 +35,8 @@ target 'xpressbeauty' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
   target 'xpressbeautyTests' do
     inherit! :search_paths
     # Pods for testing

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform,  } from 'react-native';
-const width = Dimensions.get('window').width;
+import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform, Keyboard,  } from 'react-native';
+import moment from "moment";
 import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker} from 'native-base'
 // import { Input } from '../../../components/inputs/inputs'
 import { colors } from '../../../configs/colors'
@@ -10,6 +10,7 @@ import { RoundButton } from '../../../components/buttons/Buttons';
 import { connect } from 'react-redux';
 import {setUserProfile} from '../../../redux/user/user.actions'
 
+const width = Dimensions.get('window').width;
 
 
 class Register extends Component {
@@ -27,9 +28,11 @@ class Register extends Component {
         
     }
     setDate= (date) => {
-        // console.log("DATE", date)
-        if(Platform.OS==="android"){date = date.toString()}
+        Keyboard.dismiss()
+        console.log("DATE", moment(date).format('YYYY-MM-DD'))
+        // if(Platform.OS==="android"){date = date.toString()}
         // alert(date)
+        date = moment(date).format('YYYY-MM-DD')
         this.setState({dob:date})
     }
     continue = () =>{
@@ -82,10 +85,11 @@ class Register extends Component {
                             >
                                 <DatePicker
                                     // showDatePicker={this.state.showHide}  {...this.props}
-                                    // defaultDate={new Date()}
+                                    defaultDate={new Date(1980,1,1)}
                                     minimumDate={new Date(1950, 1, 1)}
                                     // maximumDate={new Date(2018, 12, 31)}
                                     // formatChosenDate={format("YYYY do, MM")}
+                                    // formatChosenDate={date => {return moment(date).format('YYYY-MM-DD');}}
                                     locale={"en"}
                                     timeZoneOffsetInMinutes={undefined}
                                     modalTransparent={false}

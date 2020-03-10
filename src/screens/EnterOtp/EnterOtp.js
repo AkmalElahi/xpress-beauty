@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Input, Header, Text } from 'native-base';
-import { ImageBackground, StyleSheet, TextInput, Platform } from 'react-native';
+import { ImageBackground, StyleSheet, TextInput, Platform, Keyboard } from 'react-native';
 import { colors } from '../../configs/colors';
 import { RoundButton } from '../../components/buttons/Buttons'
 import CustomModal from '../../components/Modal/Modal';
@@ -36,6 +36,7 @@ class EnterOtp extends Component {
         })
     }
     verify = () => {
+        Keyboard.dismiss()
         const { otp, mobile } = this.state
         if (otp.length && mobile) {
             console.log("VERIFY WORKS", otp, mobile)

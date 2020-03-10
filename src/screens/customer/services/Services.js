@@ -68,7 +68,7 @@ class Services extends Component {
                             flex: 1,
                             // alignItems: "center"
                         }}
-                        data={this.props.categories}
+                        data={this.props.categories && this.props.categories}
                         renderItem={({ item, index }) => (
                             <View style={{ width: width * 0.5 ,height: height * 0.25,}} >
                                 <Card style={styles.listCard} >

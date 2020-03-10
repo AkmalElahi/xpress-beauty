@@ -8,6 +8,7 @@ import CustomFooter from '../../../components/footer/customfooter';
 import checked from '../../../assets/checked.png'
 import unchecked from '../../../assets/unchecked.png'
 import Review from '../../../components/review/Review';
+import Time from '../../../components/review/Time';
 
 
 class Checkout extends Component {
@@ -19,7 +20,7 @@ class Checkout extends Component {
     }
     continue = () => {
         const { count } = this.state
-        if (count <= 3) {
+        if (count <2) {
             this.setState((ps) => {
                 console.log(count)
                 return { count: ++ps.count }
@@ -51,8 +52,10 @@ class Checkout extends Component {
                         <Text style={styles.listText}>SUMMARY</Text>
                     </ListItem>
                 </List>
-                <Review/>
-                <CustomButton value="Continue" backgroundColor={colors.primaryBtn} height={60} color="white" fontSize={25} onPress={this.continue} />
+                {count === 1 && <Review navigation ={this.props.navigation}/>}
+                {count === 2 && <Time navigation ={this.props.navigation}/>}
+                <CustomButton
+                value="Continue" backgroundColor={colors.primaryBtn} height={60} color="white" fontSize={25} onPress={this.continue}/>
                 <CustomFooter navigation={this.props.navigation} />
             </Container>
         );

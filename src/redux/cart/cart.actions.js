@@ -4,3 +4,8 @@ export const addServiceToCart = payload =>({
     type: cartActionTypes.ADD_SERVICE_CART,
     payload
 })
+
+export const removeServiceFromCart = payload => ({
+    type: cartActionTypes.REMOVE_SERVICE_CART,
+    payload
+})
