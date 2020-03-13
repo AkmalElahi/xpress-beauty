@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Content, ListItem, Text, View, Icon, Input } from 'native-base';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
-import { FlatList, TextInput } from 'react-native-gesture-handler';
+
+import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Image, } from 'react-native';
 import { CustomButton } from '../buttons/Buttons'
 import clock from '../../assets/clock.png'
@@ -11,41 +11,34 @@ import { connect } from 'react-redux';
 import { removeServiceFromCart } from '../../redux/cart/cart.actions';
 
 class Time extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            show: false,
-            date: "",
-            mode: 'date'
-        }
-    }
-    onChange = (event, selectedDate) => {
-        console.log("DATE", selectedDate, event.memoizedProps)
-        const date = moment(selectedDate).format('llll')
-        const time = moment(selectedDate).format('HH.mm')
-        if (this.state.mode === "time") {
-            this.setState({
-                show: false,
-                selectedDate,
-                date,
-                time,
-                mode:"date"
-            })
-        }
-        else{
-            this.setState({
-                selectedDate,
-                date,
-                mode: 'time',
-                time
-            })
-        }
 
-    }
+    // onChange = (event, selectedDate) => {
+    //     console.log("DATE", selectedDate, event.memoizedProps)
+    //     const date = moment(selectedDate).format('llll')
+    //     const time = moment(selectedDate).format('HH.mm')
+    //     if (this.state.mode === "time") {
+    //         this.setState({
+    //             show: false,
+    //             selectedDate,
+    //             date,
+    //             time,
+    //             mode:"date"
+    //         })
+    //     }
+    //     else{
+    //         this.setState({
+    //             selectedDate,
+    //             date,
+    //             mode: 'time',
+    //             time
+    //         })
+    //     }
+
+    // }
     render() {
-        const { show, date, mode, time, selectedDate } = this.state
+        const { show, date, mode, time, selectedDate, setShow, setMode } = this.props
         return <Content contentContainerStyle={{ marginTop: "5%" }} scrollEnabled={false}>
-            <View style={{ height: 400, justifyContent: "flex-start", alignSelf: "center", width: "90%" }}>
+            <View style={{ height: 200, justifyContent: "flex-start", alignSelf: "center", width: "90%" }}>
                 <View style={styles.head}>
                     <Text style={{ fontWeight: "bold", fontSize: 18 }}>Choose Appointment</Text>
                     <Text style={{ fontSize: 18 }}>from 9:00 to 19:00 hours</Text>
@@ -53,13 +46,15 @@ class Time extends Component {
                 <View style={styles.appointment}>
                     <View style={styles.input}>
                         <Text  >{date ? `${date}` : "Add Appintment Time"}  </Text>
-                        <Icon onPress={() => this.setState({ show: true })} name="calendar" style={{ position: 'absolute', bottom: "1%", right: "1%", color: colors.primaryBtn }} />
+                        <Icon onPress={setShow} name="calendar" style={{ position: 'absolute', bottom: "1%", right: "1%", color: colors.primaryBtn }} />
                     </View>
                     {/* <View style={styles.input}>
                         <Text >Add Alternative Time (optional)</Text>
                     </View> */}
                 </View>
-                {show && <DateTimePicker
+            </View>
+            {show && <TouchableOpacity onPress={setMode} style={{ width:"80%", alignSelf:"center",}}>
+                <DateTimePicker
                     testID="dateTimePicker"
                     // timeZoneOffsetInMinutes={0}
                     minimumDate={new Date()}
@@ -67,15 +62,15 @@ class Time extends Component {
                     mode={mode}
                     is24Hour={false}
                     display="default"
-                    onChange={this.onChange}
-                />}
-            </View>
+                    onChange={this.props.onChange}
+                />
+            </TouchableOpacity>}
         </Content>
     }
 }
 const styles = StyleSheet.create({
     head: {
-        height: "20%",
+        height: "50%",
         width: "80%",
         alignSelf: "center"
     },
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
     appointment: {
         // backgroundColor:"green",
         marginTop: "5%",
-        height: "40%",
+        height: "50%",
         justifyContent: 'center'
 
     }

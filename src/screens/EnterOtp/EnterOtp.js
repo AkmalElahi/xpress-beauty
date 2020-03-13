@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Input, Header, Text } from 'native-base';
 import { ImageBackground, StyleSheet, TextInput, Platform, Keyboard } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 import { colors } from '../../configs/colors';
 import { RoundButton } from '../../components/buttons/Buttons'
 import CustomModal from '../../components/Modal/Modal';
@@ -24,24 +25,37 @@ class EnterOtp extends Component {
             focused: false,
             modalVisible: false,
             freelancer: false,
-            error:false,
-            modalText:""
+            error: false,
+            modalText: "",
+            user_type: ""
         }
     }
     componentDidMount() {
-        console.log("PROPS IN ENTER OTP", this.props.generateOtp)
+        console.log("PROPS IN ENTER OTP", this.props.generateOtp, this.props.user.user_type)
         const { phone } = this.props.generateOtp
+        const { user_type } = this.props.user
         this.setState({
-            mobile: phone
+            mobile: phone,
+            user_type
         })
     }
     verify = () => {
         Keyboard.dismiss()
-        const { otp, mobile } = this.state
-        if (otp.length && mobile) {
-            console.log("VERIFY WORKS", otp, mobile)
-            this.props.verifyNumberOtp({ otp, mobile })
-        }
+        const unsubscribe = NetInfo.addEventListener(state => {
+            console.log("Connection type", state.type);
+            // console.log("Is connected?", state.isConnected);
+
+            if (state.isConnected) {
+                const { otp, mobile, user_type } = this.state
+                if (otp.length && mobile) {
+                    console.log("VERIFY WORKS", otp, mobile)
+                    this.props.verifyNumberOtp({ otp, mobile, user_type })
+                }
+            }
+            else {
+                alert("You are Offline")
+            }
+        });
         // else{
         //     this.setState({
         //         modalText: "Please Enter OTP",
@@ -49,30 +63,34 @@ class EnterOtp extends Component {
         //     })
         // }
     }
-    UNSAFE_componentWillReceiveProps(nextProps){
-        if(nextProps.verifyOtp.success){
-            console.log("ENTER OT NEXT PROPS",nextProps.verifyOtp)
-            this.props.setUserMobile({token:nextProps.verifyOtp.token,mobile:nextProps.verifyOtp.phone,appuid:nextProps.verifyOtp.appuid })
-            this.setState({
-                modalVisible:true,
-                modalText:"Your OTP has successfully verified ",
-                error:false
+    componentDidUpdate(prevProps) {
+        if (prevProps.verifyOtp.success !== this.props.verifyOtp.success) {
+            console.log("ENTER OT NEXT PROPS", this.props.verifyOtp)
+            this.props.setUserMobile({
+                token: this.props.verifyOtp.token,
+                mobile: this.props.verifyOtp.phone,
+                appuid: this.props.verifyOtp.appuid
             })
-            setTimeout(()=>{
+            this.setState({
+                modalVisible: true,
+                modalText: "Your OTP has successfully verified ",
+                error: false
+            })
+            setTimeout(() => {
                 this.setState({
-                    modalVisible:false
+                    modalVisible: false
                 }),
-                this.props.navigation.navigate("createCustomerProfile")
-            },3000)
+                    this.props.navigation.navigate("createCustomerProfile")
+            }, 3000)
 
         }
-        if(nextProps.verifyOtp.error){
-            this.setState({modalText:"Please Enter Valid OTP" , error:true})
+        else if (prevProps.verifyOtp.error !== this.props.verifyOtp.error) {
+            this.setState({ modalText: "Please Enter Valid OTP", error: true })
         }
     }
     render() {
-        const { modalVisible, freelancer, focused, otp, modalText, error } = this.state
-        console.log("OTP", otp)
+        const { modalVisible, focused, otp, modalText, error } = this.state
+        // console.log("OTP", otp)
         return (
             <View style={styles.container}>
                 <Header transparent style={{ elevation: 0 }} androidStatusBarColor={colors.greybg} iosBarStyle="light-content" />
@@ -176,16 +194,16 @@ class EnterOtp extends Component {
                         }}
                     />
                 </View>
-                    {error && <Text style={{ marginTop:5, color:"red"}}>{modalText}</Text>}
+                {error && <Text style={{ marginTop: 5, color: "red" }}>{modalText}</Text>}
                 <View style={{ justifyContent: "space-between", width: "70%", height: 200, alignSelf: "center", marginTop: "8%" }}>
                     {!focused && <Text style={styles.shortText}>
                         Didn't you recieve any code?
                     </Text>}
                     {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code" />}
-                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"  
-                    // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
-                    onPress={this.verify}
-                     />
+                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
+                        // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
+                        onPress={this.verify}
+                    />
                 </View>
                 <CustomModal modalVisible={modalVisible}
                     img={success}
@@ -239,11 +257,9 @@ const styles = StyleSheet.create({
         color: "white"
     }
 })
-const mapStateToProps = ({ generateOtp, verifyOtp }) => (
-    {
-        generateOtp, verifyOtp
-    }
-)
+const mapStateToProps = ({ generateOtp, verifyOtp, user }) => ({
+    generateOtp, verifyOtp, user
+})
 const mapDispatchToProps = dispatch => (
     {
         verifyNumberOtp: data => dispatch(VerifyOtpMiddleWare(data)),

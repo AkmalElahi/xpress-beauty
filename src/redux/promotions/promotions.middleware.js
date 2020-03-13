@@ -2,13 +2,13 @@ import { getPromotions, getPromotionsSuccess, getPromotionsFail } from './promot
 import Path from '../../configs/path'
 const formData = new FormData()
 
-export const promotionsMiddleware =  ({ appuid, token}) => {
+export const promotionsMiddleware =  () => {
     return  async dispatch=>{
-        dispatch(getPromotions(token))
+        dispatch(getPromotions())
            try {
-               formData.append("appuid", appuid )
+            //    formData.append("appuid", appuid )
                formData.append("language", "en")
-               formData.append("token", token)
+            //    formData.append("token", token)
              let res = await fetch(Path.GET_PROMOTIONS, {
                 method: 'post',
                 headers: { 'Content-Type': 'multipart/form-data' },

@@ -8,7 +8,7 @@ import bg from '../../../assets/registerbg.png';
 import profile from '../../../assets/profile.png';
 import { RoundButton } from '../../../components/buttons/Buttons';
 import { connect } from 'react-redux';
-import {setUserProfile} from '../../../redux/user/user.actions'
+import {setUserProfile, getCurrentUser} from '../../../redux/user/user.actions'
 
 const width = Dimensions.get('window').width;
 
@@ -25,6 +25,11 @@ class Register extends Component {
     }
     componentDidMount(){
         console.log("USER IN REGISTER",this.props.user)
+        this.setState({
+            username:this.props.user.username,
+            email:this.props.user.email,
+            dob:this.props.user.dob
+        })
         
     }
     setDate= (date) => {
@@ -48,7 +53,7 @@ class Register extends Component {
         }   
     }
     render() {
-        // const { username, email, dob} = this.state
+        const { username, email, dob} = this.state
         return (
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
@@ -67,10 +72,10 @@ class Register extends Component {
                         </View>
                         <Form style={styles.form}>
                             <Item regular style={styles.input}>
-                                <Input placeholder="Username" keyboardType="default" style={styles.field} onChangeText={text=>this.setState({username:text})}/>
+                                <Input value={username} placeholder="Username" keyboardType="default" style={styles.field} onChangeText={text=>this.setState({username:text})}/>
                             </Item>
                             <Item regular style={styles.input}>
-                                <Input placeholder="Email" keyboardType="email-address" style={styles.field} onChangeText={text=>this.setState({email:text})}/>
+                                <Input value={email} placeholder="Email" keyboardType="email-address" style={styles.field} onChangeText={text=>this.setState({email:text})}/>
                             </Item>
                             {/* <Item regular style={styles.input} onPress={()=>this.props.navigation.navigate("MapView")}>
                                 <Input placeholder="Address" style={styles.field} />
@@ -95,9 +100,9 @@ class Register extends Component {
                                     modalTransparent={false}
                                     animationType={"fade"}
                                     androidMode={"default"}
-                                    placeHolderText="Date of birth"
+                                    placeHolderText={dob ? dob :"Date of birth"}
                                     textStyle={{ width: width * 0.75 }}
-                                    placeHolderTextStyle={{ width: width * 0.75, color: "grey"}}
+                                    placeHolderTextStyle={{ width: width * 0.75, color: "black"}}
                                     onDateChange={this.setDate}
                                     disabled={false}
                                     icon={true}
@@ -210,6 +215,7 @@ const styles = StyleSheet.create(
 )
 const mapStateToProps = ({user}) => ({user:user})
 const maDispatchToProps = dispatch => ({
-    setProfile : data => dispatch(setUserProfile(data))
+    setProfile : data => dispatch(setUserProfile(data)),
+    getCurrentUser: () => dispatch(getCurrentUser())
 })
 export default connect(mapStateToProps, maDispatchToProps)(Register);

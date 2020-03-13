@@ -16,7 +16,7 @@ class CustomSwiper extends Component {
         super(props)
     }
     componentDidMount() {
-        this.props.getPromotions({ appuid: 10, token: "fa8d8dbd-9884-4dfd-a9a5-77a4f3fbf132" })
+        this.props.getPromotions()
     }
     render() {
         // const { promotions } = this.props
@@ -47,7 +47,7 @@ class CustomSwiper extends Component {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    getPromotions: data => dispatch(promotionsMiddleware(data))
+    getPromotions: () => dispatch(promotionsMiddleware())
 })
-mapStateToProps = ({ promotions }) => promotions
+mapStateToProps = ({ promotions, user }) => (promotions)
 export default connect(mapStateToProps, mapDispatchToProps)(CustomSwiper);

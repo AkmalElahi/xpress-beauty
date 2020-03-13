@@ -12,6 +12,7 @@ import Checkout from '../screens/customer/checkout/checkout'
 import AuthCustomer from '../screens/customer/authCustomer/AuthCustomer'
 import UserLoading from '../screens/userLoading/userLoading'
 import Map from '../screens/map/map'
+import CustomDrawer from '../components/Drawer/Drawer';
 
 
 const registerCustomer = createStackNavigator({
@@ -71,7 +72,13 @@ const customerApp = createStackNavigator({
         navigationOptions: {
             headerShown: false,
         }
-    }
+    },
+    // CustomDrawer:{
+    //     screen: CustomDrawer,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    // }
 })
 const CustomerStack = createSwitchNavigator({
     AuthCustomer,

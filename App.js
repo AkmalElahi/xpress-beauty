@@ -21,8 +21,10 @@ import AppNavigator from './src/Navigation/Navigation';
 import 'react-native-gesture-handler';
 import { View, Container } from 'native-base';
 import { Provider } from 'react-redux';
-import { store } from './src/redux/store';
+import { store, persistor } from './src/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 const AppContainer = createAppContainer(AppNavigator);
+import SplashScreen from 'react-native-splash-screen'
 const App = () => {
   return (
     <Provider store={store}>
@@ -35,9 +37,11 @@ const App = () => {
         {/* <MobileVerify/> */}
         {/* <RegisterCustomer/> */}
         {/* <RegisterFreelancer/> */}
+        <PersistGate persistor={persistor}>
         <Container style={{ flex: 1 }}>
           <AppContainer />
         </Container>
+        </PersistGate>
 
       </>
     </Provider>

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, Button, PermissionsAndroid } from 'react-native';
+import { Text, View, ActivityIndicator, Button, PermissionsAndroid, Dimensions } from 'react-native';
 import MapView from "react-native-maps";
 import styles from "./styles";
 import Geolocation from '@react-native-community/geolocation';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import AddressModal from '../../components/Modal/AddressModal'
 import { connect } from 'react-redux';
-
+let { width, height } = Dimensions.get('window')
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.0062998339347544174 //Very high zoom level
+const LONGITUDE_DELTA = 0.004023313891394764
 // Disable yellow box warning messages
 console.disableYellowBox = true;
 
@@ -26,13 +29,14 @@ class Map extends Component {
         };
     }
     getPosition = async () => {
+        console.log("INSIDE GET POSTION")
         Geolocation.getCurrentPosition(
             (position) => {
                 const region = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitudeDelta: LATITUDE_DELTA,
+                    longitudeDelta: LONGITUDE_DELTA,
                 };
                 console.log("REGION", position)
                 this.setState({
@@ -50,8 +54,8 @@ class Map extends Component {
                     initialRegion: {
                         latitude: 24.926294,
                         longitude: 67.022095,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        latitudeDelta: LATITUDE_DELTA,
+                        longitudeDelta: LONGITUDE_DELTA,
                     },
                 })
             },
@@ -60,7 +64,63 @@ class Map extends Component {
     }
     componentDidMount() {
         console.log("USER FROM REDUX", this.props.user)
+        const { user } = this.props
+        console.log("FROM IN MAP", this.props.navigation.getParam("from"))
+        const from = this.props.navigation.getParam("from")
         this.getPosition()
+        if (from === "checkout") {
+            this.setState({
+                from,
+                userLocation:user.house ? user.house : user.building,
+                modalVisible: false,
+                initialRegion: {
+                    latitude: 24.926294,
+                    longitude: 67.022095,
+                    latitudeDelta: LATITUDE_DELTA,
+                    longitudeDelta: LONGITUDE_DELTA,
+                },
+                addressType: ["street_address"],
+                addressComponents: [
+                    {
+                        "long_name": user.building,
+                    },
+                    {
+                        "long_name": user.street,
+                    },
+                    {
+                        "long_name": user.street,
+                    },
+                    {
+                        "long_name": user.area,
+                    },
+                    {
+                        "long_name": user.city,
+                    }
+                ]
+            })
+        }
+
+
+
+
+        // ${user.street} ${user.area} ${user.city}`,
+        // initialRegion:{
+        //     latitude: 24.926294,
+        //     longitude: 67.022095,
+        //     latitudeDelta: LATITUDE_DELTA,
+        //     longitudeDelta: LONGITUDE_DELTA,
+        // }
+        // userLocation : "G 6, Block 8 Clifton, Karachi, Karachi City, Sindh 75600, Pakistan"
+        // this.fetchAddress()
+        // this.setState({
+        //     loading: false,
+        //     initialRegion: {
+        //         latitude: 24.926294,
+        //         longitude: 67.022095,
+        //         latitudeDelta: 0.0922,
+        //         longitudeDelta: 0.0421,
+        //     },
+        // })
         // Geolocation.getCurrentPosition(
         //     (position) => {
         //         const region = {
@@ -95,7 +155,7 @@ class Map extends Component {
         fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + this.state.region.latitude + "," + this.state.region.longitude + "&key=" + "AIzaSyBr2Ajtt8LqfpdhU3ZM9wH9T2J78L6latk")
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("Response", responseJson.results[0])
+                console.log("Response", responseJson.results[0].types)
                 const userLocation = responseJson.results[0].formatted_address;
                 this.setState({
                     userLocation: userLocation,
@@ -112,7 +172,10 @@ class Map extends Component {
         this.setState({
             region,
             regionChangeProgress: true
-        }, () => this.fetchAddress());
+        }, 
+       () => {
+        !this.state.initialRegion && this.fetchAddress()}
+        );
         // this.setState({
         //     region
         // })
@@ -121,7 +184,7 @@ class Map extends Component {
     // Action to be taken after select location button click
     onLocationSelect = () => alert(this.state.userLocation);
     createProfile = () => {
-        const {} = this.state
+        const { } = this.state
     }
     render() {
         if (this.state.loading) {
@@ -134,14 +197,15 @@ class Map extends Component {
             return (
                 <View style={styles.container}>
                     <View style={{ width: "100%", height: "100%" }}>
-                        {(this.state.initialRegion || this.state.region) &&
+                        {
+                            (this.state.initialRegion || this.state.region) &&
                             // !!this.state.region.latitude && !!this.state.region.longitude &&
                             <MapView
                                 style={{ flex: 1 }}
                                 // initialRegion={this.state.initialRegion}
                                 showsUserLocation={true}
                                 autoFocus={true}
-                                region={this.state.region ? this.state.region : null}
+                                region={this.state.region ? this.state.region : this.state.initialRegion}
                                 onMapReady={this.onMapReady}
                                 onRegionChangeComplete={this.onRegionChange}
                             >
@@ -172,7 +236,7 @@ class Map extends Component {
                         </View>
                     </View> */}
                     </View>
-                    <View style={{ position: "absolute", top: 100, width: "90%",  alignSelf: "center", backgroundColor:"white" }}>
+                    <View style={{ position: "absolute", top: 100, width: "90%", alignSelf: "center", backgroundColor: "white" }}>
                         <GooglePlacesAutocomplete
                             styles={{
                                 textInputContainer: {
@@ -196,7 +260,7 @@ class Map extends Component {
                             // currentLocationLabel="Current location"
                             text={this.state.userLocation ? this.state.userLocation : ""}
                             placeholder='Enter your address'
-                            minLength={5} // minimum length of text to search
+                            minLength={1} // minimum length of text to search
                             autoFocus={true}
                             returnKeyType={'search'} // Can be left out for default return key 
                             listViewDisplayed={false}    // true/false/undefined
@@ -204,14 +268,14 @@ class Map extends Component {
                             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                                 console.log("SEARCH RESULT", details.geometry.location);
                                 const region = {
-                                    latitudeDelta: 0.0922,
-                                    longitudeDelta: 0.0421,
+                                    latitudeDelta: LATITUDE_DELTA,
+                                    longitudeDelta: LONGITUDE_DELTA,
                                     latitude: details.geometry.location.lat,
                                     longitude: details.geometry.location.lng
                                 }
                                 this.setState({
                                     region
-                                    }, ()=> this.fetchAddress())
+                                }, () => this.fetchAddress())
                                 // })
                             }
                             }
@@ -219,18 +283,24 @@ class Map extends Component {
                             query={{
                                 key: 'AIzaSyBr2Ajtt8LqfpdhU3ZM9wH9T2J78L6latk',
                                 language: 'en',
-                                components: "country:pk"
+                                components: "country:pk",
+                                // types: '(address)'
                             }}
-
+                            // GooglePlacesSearchQuery={{
+                            //     // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                            //     rankby: 'distance',
+                            //     type: 'address'
+                            // }}
                             nearbyPlacesAPI="GoogleReverseGeocoding"
                             debounce={300}
+                        // predefinedPlaces={[this.state.userLocation]}
                         />
                     </View>
-                    <AddressModal navigation={this.props.navigation} modalVisible={this.state.modalVisible} addressComponents={this.state.addressComponents} addressType={this.state.addressType} />
+                    <AddressModal from={this.state.from} navigation={this.props.navigation} modalVisible={this.state.modalVisible} addressComponents={this.state.addressComponents} addressType={this.state.addressType} />
                 </View>
             );
         }
     }
 }
-const mapStateToProps = ({user}) => ({user:user})
+const mapStateToProps = ({ user }) => ({ user: user })
 export default connect(mapStateToProps)(Map)

@@ -9,10 +9,8 @@ class AuthCustomer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user_type :"freelancer",
-            authenticated: false
-        }
     }
+}
     componentDidMount() {
         this.props.getCurrentUser()
     }
@@ -43,7 +41,7 @@ class AuthCustomer extends Component {
             <View>
                 <Loader />
                 {
-                    this.props.user.mobile  ? this.props.navigation.navigate("customerApp") 
+                    this.props.user.isProfileComplete  ? this.props.navigation.navigate("customerApp") 
                         : this.props.navigation.navigate("registerCustomer") 
                 }
             </View>

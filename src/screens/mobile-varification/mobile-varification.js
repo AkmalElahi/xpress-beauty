@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, Header, Left, Body, Button, Icon, Picker  } from 'native-base';
-import { StyleSheet, TextInput, Image, Platform , TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, Header, Left, Body, Button, Icon, Picker } from 'native-base';
+import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, Keyboard } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
+import { TextInputMask } from 'react-native-masked-text'
 
 import { connect } from 'react-redux';
 import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
-import {countriesMiddleware } from '../../redux/countries/countries.middleware'
+import { countriesMiddleware } from '../../redux/countries/countries.middleware'
 
 import flag from '../../assets/flag.png';
 import messageOpen from '../../assets/message-open.png'
 import CustomModal from '../../components/Modal/Modal';
 import { CustomButton } from '../../components/buttons/Buttons';
 const countriesJson = require('../../configs/countries.json')
-import {colors} from '../../configs/colors'
+import { colors } from '../../configs/colors'
 // onChanged (text) {
 //     this.setState({
 //         mobile: text.replace(/[^0-9]/g, ''),
@@ -24,24 +26,44 @@ class MobileVerify extends Component {
     state = {
         modalVisible: false,
         phone: "",
-        openPicker:false,
-        country:""
+        openPicker: false,
+        country: ""
     }
     componentDidMount() {
         // console.log("NAVIGATION", this.props.navigation)
-        
+
         this.props.getCountries()
     }
     verifyNumber = () => {
         // text = text.replace(/[^0-9]/g, '')
         Keyboard.dismiss()
-        const {phone} = this.state
+        const { phone, country  } = this.state
         if (phone.length >= 12) {
-            this.props.verifyMobile(phone)
+            const endphone = country.dialCode+phone.replace(/[^0-9]/g, '')
+            console.log("END PHONE", endphone)
+            // this.props.verifyMobile(phone)
             // console.log("VERIFICATION")
             // this.props.navigation.navigate("MapView")
 
         }
+        const unsubscribe = NetInfo.addEventListener(state => {
+            console.log("Connection type", state.type);
+            // console.log("Is connected?", state.isConnected);
+            
+            if(state.isConnected){
+                if (phone.length >= 12) {
+                    const endphone = country.dialCode+phone.replace(/[^0-9]/g, '')
+                    console.log("END PHONE", endphone)
+                    this.props.verifyMobile(endphone)
+                    // console.log("VERIFICATION")
+                    // this.props.navigation.navigate("MapView")
+        
+                }
+            }
+            else{
+                alert("Internet in not available")
+            }
+          });
     }
     // UNSAFE_componentWillReceiveProps(nextProps) {
     //     console.log("NEXT PROPS", nextProps)
@@ -66,31 +88,31 @@ class MobileVerify extends Component {
     // }
     componentDidUpdate(prevProps) {
         // console.log("NEXT PROPS", prevProps.countries)
-        if (this.props.generateOtp !== prevProps.generateOtp) {
+        if (this.props.generateOtp.success !== prevProps.generateOtp.success) {
             this.setState({ modalVisible: true })
             this.props.navigation.navigate("EnterOtp")
-        setTimeout(() => {
-            this.setState({ modalVisible: false })
-        }, 3000)
+            setTimeout(() => {
+                this.setState({ modalVisible: false })
+            }, 3000)
+        }
+        if (this.props.countries !== prevProps.countries) {
+            this.getFlags(this.props.countries)
+        }
     }
-    if(this.props.countries !== prevProps.countries ){
-        this.getFlags(this.props.countries)
-    }
-    }
-    getFlags = ({countries}) =>{
-       if(countries.length){
-        const flags =  countries.map(country =>  countriesJson.find(countryJson => countryJson.code === country.code))
-        console.log("FLAGAS", flags)
-        this.setState({
-            flags,
-            country:flags[0],
-            phone:flags[0].dialCode
-        })
-       }
+    getFlags = ({ countries }) => {
+        if (countries.length) {
+            const flags = countries.map(country => countriesJson.find(countryJson => countryJson.code === country.code))
+            console.log("FLAGAS", flags)
+            this.setState({
+                flags,
+                country: flags[0],
+                // phone: flags[0].dialCode
+            })
+        }
     }
     render() {
-        const { modalVisible, phone, openPicker , flags } = this.state
-        // console.log("COUNTRIES", this.props.countries)
+        const { modalVisible, phone, openPicker, flags } = this.state
+        console.log("COUNTRIES", this.state.country)
         return (
             <View style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
@@ -110,34 +132,57 @@ class MobileVerify extends Component {
                     </Text>
                 </View>
                 <View style={styles.body}>
-                   <View style={{height:"100%", width:"80%"}}>
-                   <TextInput
+                    <View style={{ width: "80%",borderBottomWidth: 1,
+                        borderBottomColor: "grey" }}>
+                        {/* <TextInput
                         style={styles.input}
-                        placeholder="Enter your phone number"
                         keyboardType="phone-pad" maxLength={15}
-                        value={phone}
                         // onChangeText={this.verifyNumber} 
                         onChangeText={(text)=> this.setState({phone:text})} 
+                    /> */}
+                        <TextInputMask
+                            value={phone}
+                            placeholder="Enter phone number"
+                            type={'cel-phone'}
+                            options={{
+                                maskType: 'BRL',
+                                // withDDD: true,
+                                dddMask: '999 999 9999'
+                              }}
+                              maxLength={13}
+                            value={phone}
+                            onChangeText={text => {
+                                console.log("TEXT",text)
+                                text.indexOf(0) === 0 && (text = text.slice(1) )
+                                this.setState({
+                                    phone: text
+                                })
+                            }}
+                            style={styles.input}
                         />
-                    {/* <TouchableOpacity style={styles.flag} onPress={()=>this.setState({openPicker:true})}> */}
+                        {/* <TouchableOpacity style={styles.flag} onPress={()=>this.setState({openPicker:true})}> */}
                         {/* <TE source={flag} style={styles.flag} /> */}
                         {/* <Text>{countries.find(country => country.code === "PK").emoji}</Text> */}
                         {/* <Text>{this.state.country.emoji}</Text> */}
-                    {/* </TouchableOpacity> */}
-                    <Picker
-                        mode='dialog'
-                        selectedValue={this.state.country}
-                        style={styles.flag}
-                        // style={{width:"100%"}}
-                        onValueChange={(itemValue, itemIndex) =>
-                            this.setState({ country: itemValue,  phone:itemValue.dialCode })
-                        }>
-                        {/* <Picker.Item label="Java" value="java" />
+                        {/* </TouchableOpacity> */}
+                        <Picker
+                            mode='dialog'
+                            selectedValue={this.state.country }
+                            style={styles.flag}
+                            itemTextStyle={{fontSize: 16,
+                                fontWeight: "bold",textAlign:"center"}}
+                                textStyle={{fontSize: 18,
+                                    fontWeight: "bold",textAlign:"center"}}
+                            // style={{width:"100%"}}
+                            onValueChange={(itemValue, itemIndex) =>
+                                this.setState({ country: itemValue, phone:"" })
+                            }>
+                            {/* <Picker.Item label="Java" value="java" />
                         <Picker.Item label="JavaScript" value="js" /> */}
-                        {flags && flags.map(flag => <Picker.Item label={`${flag.emoji}`} value={flag}/>)}
-                    </Picker>
-                    <Icon  name="send" style={styles.send} onPress={this.verifyNumber}/>
-                   </View>
+                            {flags && flags.map(flag => <Picker.Item label={`${flag.emoji} ${flag.dialCode}`} value={flag} />)}
+                        </Picker>
+                        <Icon name="send" style={styles.send} onPress={this.verifyNumber} />
+                    </View>
                     {/* <View style={{width:"70%"}}><CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Submit"  /></View> */}
                 </View>
                 <CustomModal modalVisible={modalVisible}
@@ -155,7 +200,7 @@ const styles = StyleSheet.create(
         container: {
             flex: 1,
             backgroundColor: "white",
-            
+
         },
         header: {
             backgroundColor: "transparent",
@@ -181,36 +226,38 @@ const styles = StyleSheet.create(
         },
         body: {
             // backgroundColor:"green",
-            width:"100%",
-            height:"20%",
+            width: "100%",
+            height: "20%",
             alignItems: "center",
             // backgroundColor:"green",
-            justifyContent:"space-between"
+            justifyContent: "space-between"
         },
         input: {
             // width: "80%",
-            borderBottomWidth: 1,
-            borderBottomColor: "grey",
-            paddingLeft: "10%",
+            
+            paddingLeft: "25%",
+            marginBottom:2,
             fontSize: 18,
             fontWeight: "bold",
-            // backgroundColor:"green"
+            textAlign:"left"
         },
         flag: {
-            // width: 35,
-            height: 50,
-            width:85,
+            // width: 90,
+            // height: 50,
+            // width: 85,
             position: "absolute",
             top: Platform.OS === "android" ? "0.5%" : -35,
             right: Platform.OS === "android" ? "75%" : "75%",
-            backgroundColor:"transparent",
+            backgroundColor: "transparent",
             // zIndex:-1,
+            fontSize:18,
+            fontWeight: "bold",
             // backgroundColor:"green"
         },
-        send:{
-            position:"absolute", 
+        send: {
+            position: "absolute",
             top: Platform.OS === "android" ? 10 : -8,
-            right:Platform.OS === "android" ? 0 :0,
+            right: Platform.OS === "android" ? 0 : 0,
         }
     }
 )

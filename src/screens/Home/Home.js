@@ -9,19 +9,20 @@ import homebg from '../../assets/home.png';
 import {RoundButton} from '../../components/buttons/Buttons';
 import { colors } from '../../configs/colors'
 
-const Home = ({navigation, setUserType}) => {
-    const setUser = (navigation) =>{
-        setUserType("customer")
-        navigation.navigate('CustomerStack')
-    }
+const setUser = (navigation, setType, userType) =>{
+    setType(userType)
+    console.log("IN USER TYPE")
+    navigation.navigate('UserLoading')
+}
+const Home = ({navigation, setType}) => {
     return(
         <ImageBackground source={homebg} style={styles.imageContainer}>
             <Header androidStatusBarColor="#7f7d7b" iosBarStyle="light-content" style={{display:"none"}}/>
             <Container style={styles.container}>
                 <View style={{justifyContent:"space-between",width:"70%", height:"25%", alignSelf:"center"}}>
-                    <RoundButton color="black" backgroundColor="white" height={60} value="Customer" onPress={()=>setUser(navigation, setUserType)}/>
+                    <RoundButton color="black" backgroundColor="white" height={60} value="Customer" onPress={()=>setUser(navigation, setType, "customer")}/>
                     <RoundButton color="white" backgroundColor={colors.primaryBtn}  height={60} value="Freelancer" 
-                    // onPress={()=>{navigation.navigate('FreelancerStack')}}
+                    // onPress={()=>setUser(navigation ,setType, "freelancer")}
                     />
                 </View>
             </Container>
@@ -50,6 +51,6 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = dispatch => ({
-    setUserType : user_type => dispatch(setUserType(user_type))
+    setType : user_type => dispatch(setUserType(user_type))
 })
 export default connect(null, mapDispatchToProps)(Home);

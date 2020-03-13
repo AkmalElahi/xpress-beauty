@@ -13,7 +13,7 @@ export const userMiddleWare = (data) => {
             formData.append("token", data.user.token)
             formData.append("username", data.user.username)
             formData.append("email", data.user.email)
-            formData.append("date_of_birth", data.user.dob)
+            formData.append("dob", data.user.dob)
             formData.append("user_type", data.user.user_type)
             formData.append("building", data.building)
             formData.append("street", data.street)

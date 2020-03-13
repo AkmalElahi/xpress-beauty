@@ -62,7 +62,7 @@ class ServicesTabs extends Component {
         const { currentTab, serviceId, initialPage, } = this.state
         return (
             <Container style={styles.container}>
-                <CustomHeader />
+                <CustomHeader header="Services" icon="menu"/>
                 {this.props.categories && <Tabs initialPage={initialPage} page={currentTab} tabContainerStyle={{ elevation: 0 }} renderTabBar={() => <ScrollableTab />} tabBarUnderlineStyle={{ backgroundColor: colors.primaryBtn }}
                     onChangeTab={(i) => this.setTab(i)}
                 // onScroll={(i) => this.setTab(i)} 

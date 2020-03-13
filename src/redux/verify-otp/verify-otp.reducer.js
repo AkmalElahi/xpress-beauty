@@ -13,7 +13,9 @@ const verifyOtpReducer = (state = INITIAL_STATE, action) => {
         case verifyOtpActionType.REQUEST_VERIFY_OTP:
             return {
                 ...state,
-                phone: action.payload
+                phone: action.payload,
+                success:false,
+                error:false
             }
         case verifyOtpActionType.VERIFY_OTP_SUCCESS:
             return {

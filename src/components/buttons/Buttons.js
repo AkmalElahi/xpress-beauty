@@ -12,8 +12,8 @@ export const RoundButton = ({ backgroundColor, fontSize, color, height , value, 
     </TouchableOpacity>
 )
 
-export const CustomButton = ({ backgroundColor, color, height, value, onPress }) => (
-    <TouchableOpacity style={{ height, width: "100%", backgroundColor, justifyContent: "center", alignItems: "stretch" }} onPress={onPress}>
+export const CustomButton = ({ backgroundColor, color, height, value, onPress, disabled }) => (
+    <TouchableOpacity disabled={disabled} style={{ height, width: "100%", backgroundColor, justifyContent: "center", alignItems: "stretch" }} onPress={onPress}>
         <Text style={{ textAlign: "center", alignSelf: 'center', justifyContent: "center", alignItems: "center", alignContent: "center", color }}>
             {value}
         </Text>

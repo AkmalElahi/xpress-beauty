@@ -3,6 +3,7 @@ import { } from 'react-native';
 import { connect } from 'react-redux';
 import Loader from '../../components/loader/Loader';
 import { getCurrentUser } from '../../redux/user/user.actions';
+import SplashScreen from 'react-native-splash-screen'
 import { View } from 'native-base';
 
 class UserLoading extends Component {
@@ -13,8 +14,12 @@ class UserLoading extends Component {
             authenticated: false
         }
     }
-    componentDidMount() {
+    componentDidMount(){
         this.props.getCurrentUser()
+        SplashScreen.hide();
+    }
+    componentDidUpdate() {
+        
         switch (this.props.user.user_type) {
             case "customer":
                 this.props.navigation.navigate("CustomerStack")

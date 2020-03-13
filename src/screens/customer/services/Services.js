@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, FlatList, Image } from 'react-native';
-import { View, Card, Body, CardItem, Container, Content, Text, Header } from 'native-base';
+import { View, Card, Body, CardItem, Container, Content, Text, Header, Drawer } from 'native-base';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 import facial from '../../../assets/facial.png';
@@ -13,6 +13,8 @@ import CustomHeader from '../../../components/header/customHeader';
 import CustomFooter from '../../../components/footer/customfooter';
 import { connect } from 'react-redux';
 import { catagoriesMiddleware } from '../../../redux/catagories/catagories.middleware'
+import { timing } from 'react-native-reanimated';
+import DrawerContent from '../../../components/Drawer/Drawer';
 
 
 class Services extends Component {
@@ -51,15 +53,26 @@ class Services extends Component {
             },
         ]
     }
-    componentDidMount(){
+    componentDidMount() {
         this.props.getCatagories({ appuid: 10, token: "fa8d8dbd-9884-4dfd-a9a5-77a4f3fbf132" })
     }
+    openDrawer = () => {
+        this.drawer._root.open()
+      };
+      closeDrawer = () => {
+        this.drawer._root.close()
+      }
     render() {
 
 
         return (
+        <Drawer
+            tapToClose={true}
+            ref={(ref) => { this.drawer = ref; }}
+            content={<DrawerContent/>}
+            onClose={() => this.closeDrawer()} >
             <Container style={styles.container} >
-                <CustomHeader />
+                <CustomHeader icon={"menu"} leftButton={() => this.openDrawer()} header="Services"/>
                 <Content height="80%">
                     <FlatList
                         contentContainerStyle={{
@@ -70,22 +83,24 @@ class Services extends Component {
                         }}
                         data={this.props.categories && this.props.categories}
                         renderItem={({ item, index }) => (
-                            <View style={{ width: width * 0.5 ,height: height * 0.25,}} >
+                            <View style={{ width: width * 0.5, height: height * 0.25, }} >
                                 <Card style={styles.listCard} >
                                     <CardItem button style={{
                                         justifyContent: 'center',
                                         // paddingTop: 20,
-                                        alignItems:"center",
-                                        flexDirection:"column"
+                                        alignItems: "center",
+                                        flexDirection: "column"
 
-                                    }} 
-                                    onPress={() => { this.props.navigation.navigate("ServicesTabs",{
-                                        serviceId: item.id,
-                                        currentTab:index
-                                    }) }}
+                                    }}
+                                        onPress={() => {
+                                            this.props.navigation.navigate("ServicesTabs", {
+                                                serviceId: item.id,
+                                                currentTab: index
+                                            })
+                                        }}
                                     >
-                                        <Image source={{uri: item.image}} style={styles.img} />
-                                        <Text style={{textAlign:"center", marginTop:"10%"}}>{item.category}</Text>
+                                        <Image source={{ uri: item.image }} style={styles.img} />
+                                        <Text style={{ textAlign: "center", marginTop: "10%" }}>{item.category}</Text>
                                     </CardItem>
                                 </Card>
                             </View>
@@ -94,8 +109,9 @@ class Services extends Component {
                         keyExtractor={item => item.id}
                     />
                 </Content>
-                <CustomFooter navigation={this.props.navigation}/>
+                <CustomFooter navigation={this.props.navigation} />
             </Container>
+                </Drawer>
         )
 
     }
@@ -107,13 +123,15 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         marginTop: "3%",
+        marginBottom:0,
+        paddingBottom:0
         // justifyContent: "flex-end",
     },
     listCard: {
         width: width * 0.5,
         height: height * 0.25,
         elevation: 0,
-        justifyContent:"center"
+        justifyContent: "center"
 
     },
     img: {
@@ -121,7 +139,7 @@ const styles = StyleSheet.create({
         height: 60,
     }
 })
-const mapStataToProps = ({categories}) => (categories)
+const mapStataToProps = ({ categories }) => (categories)
 const mapDispatchToProps = dispatch => ({
     getCatagories: data => dispatch(catagoriesMiddleware(data))
 })

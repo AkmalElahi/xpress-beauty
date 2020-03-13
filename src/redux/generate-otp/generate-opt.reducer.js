@@ -11,6 +11,8 @@ const generateOtpReducer = (state = INITIAL_STATE, action) => {
         case GenerateOtpActionType.REQUEST_GENERATE_OTP:
             return {
                 ...state,
+                success:false,
+                error:false,
                 phone: action.payload
             }
         case GenerateOtpActionType.GENERATE_OTP_SUCCESS:

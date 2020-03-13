@@ -15,6 +15,7 @@ export default class Path {
     static GET_COUNTRIES = `${this.BASE_URL}/get_country`
 
     static UPDATE_PROFILE = `${this.BASE_URL}/UserProfile`
-
+    
+    static CHECKOUT = `${this.BASE_URL}/set_job`
 
 }
