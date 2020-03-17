@@ -18,4 +18,7 @@ export default class Path {
     
     static CHECKOUT = `${this.BASE_URL}/set_job`
 
+    static GET_BOOKINGS = `${this.BASE_URL}/get_jobs`
+    
+    static GET_BEAUTICIANS = `${this.BASE_URL}/get_beauticians`
 }

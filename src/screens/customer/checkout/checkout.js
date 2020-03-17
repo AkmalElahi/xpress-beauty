@@ -23,10 +23,11 @@ class Checkout extends Component {
             count: 1,
             date: null,
             time: null,
-            header:"Services",
+            header: "Services",
             payment_method: "COS",
-            beautician_id:0,
-            job_status:101
+            beautician_id: 0,
+            job_status: 101,
+            isSelect:false
         }
     }
     goBack = () => {
@@ -43,45 +44,45 @@ class Checkout extends Component {
     continue = () => {
         const { count } = this.state
         console.log()
-        if(count ===1 && this.props.cart){
+        if (count === 1 && this.props.cart) {
             if (count <= 3) {
                 this.setState((ps) => {
                     console.log(count)
-                    return { count: ++ps.count, header:"Time" }
+                    return { count: ++ps.count, header: "Time" }
                 })
-    
+
             }
         }
-        else if(count ===2 && this.state.date && this.state.time){
+        else if (count === 2 && this.state.date && this.state.time) {
             if (count <= 3) {
                 this.setState((ps) => {
                     console.log(count)
-                    return { count: ++ps.count, header:"Address" }
+                    return { count: ++ps.count, header: "Address" }
                 })
-    
+
             }
         }
-        else if(count ===3 && this.props.navigation.getParam("address")){
+        else if (count === 3 && this.props.navigation.getParam("address")) {
             if (count <= 3) {
                 this.setState((ps) => {
                     console.log(count)
-                    return { count: ++ps.count, header:"Order Summary" }
+                    return { count: ++ps.count, header: "Order Summary" }
                 })
-    
+
             }
         }
-        if(count === 4){
-            const { appointmentDate, payment_method, job_status,beautician_id } = this.state
-            const { navigation, cart, user} = this.props
+        if (count === 4) {
+            const { appointmentDate, payment_method, job_status, beautician_id } = this.state
+            const { navigation, cart, user } = this.props
             console.log("FROM SUMMARY")
             const order = {
-                address : navigation.getParam("address"),
-                services : cart.services.map(service => ({service_id: service.id, quantity:service.quantity })),
+                address: navigation.getParam("address"),
+                services: cart.services.map(service => ({ service_id: service.id, quantity: service.quantity })),
                 job_status,
                 appointment_datetime: appointmentDate,
                 alt_appointment_datetime: appointmentDate,
                 payment_method,
-                beautician_id,
+                beautician_id:navigation.getParam("beautician")? navigation.getParam("beautician").appuid :0,
                 user
             }
             console.log("ORDER", order)
@@ -99,11 +100,11 @@ class Checkout extends Component {
     // }
     onDateTimeChange = (event, selectedDate) => {
         console.log("DATE", selectedDate)
-        const date = moment(selectedDate).format('LLLL')
+        const date = moment(selectedDate).format('llll')
         const time = moment(selectedDate).format('LT')
         const appointmentDate = moment(selectedDate).format("YYYY-MM-DD HH.mm")
         console.log("INSIDE CHENCKOUT DATE CHANGE", appointmentDate)
-        if(Platform.OS === 'ios'){
+        if (Platform.OS === 'ios') {
             this.setState({
                 selectedDate,
                 appointmentDate,
@@ -112,7 +113,7 @@ class Checkout extends Component {
                 time
             })
         }
-        else{
+        else {
             if (this.state.mode === "time") {
                 this.setState({
                     show: false,
@@ -135,20 +136,20 @@ class Checkout extends Component {
         }
 
     }
-    componentDidUpdate(prevProps){
-        if(this.props.cart.success !== prevProps.cart.success){
+    componentDidUpdate(prevProps) {
+        if (this.props.cart.success !== prevProps.cart.success) {
             this.props.navigation.navigate("Services")
         }
     }
     render() {
-        const { count, date, show, selectedDate, mode } = this.state
+        const { count, date, show, selectedDate, mode, isSelect } = this.state
         return (
             <Container style={styles.container}>
-                <CustomHeader androidStatusBarColor={colors.greybg} 
-                leftButton = {this.goBack}
-                iosBarStyle="light-content" 
-                icon={"arrow-back"} 
-                header={this.state.header}/>
+                <CustomHeader androidStatusBarColor={colors.greybg}
+                    leftButton={this.goBack}
+                    iosBarStyle="light-content"
+                    icon={"arrow-back"}
+                    header={this.state.header} />
                 <List style={styles.list}>
                     <ListItem style={styles.listItem} >
                         <Image source={checked} />
@@ -167,7 +168,7 @@ class Checkout extends Component {
                         <Text style={styles.listText}>SUMMARY</Text>
                     </ListItem>
                 </List>
-                {count === 1 &&  <Review navigation={this.props.navigation} />}
+                {count === 1 && <Review navigation={this.props.navigation} />}
                 {count === 2 && <Time navigation={this.props.navigation}
                     date={date}
                     mode={mode}
@@ -176,8 +177,11 @@ class Checkout extends Component {
                     setShow={() => this.setState((ps) => ({ show: !ps.show, mode: "date" }))}
                     setMode={() => this.setState({ mode: "time" })}
                     onChange={this.onDateTimeChange} />}
-                {count === 3 &&  <Address navigation={this.props.navigation} 
-                address={this.props.navigation.getParam("address")}/>}
+                {count === 3 && <Address navigation={this.props.navigation}
+                    enableSelect={(value) =>this.setState({isSelect:value})}
+                    isSelect={isSelect}
+                    address={this.props.navigation.getParam("address")}
+                    beautician={this.props.navigation.getParam("beautician")} />}
                 {count === 4 && <Summary navigation={this.props.navigation}
                     cart={this.props.cart}
                     total={this.props.total}
@@ -229,7 +233,7 @@ const mapStateToProps = ({ cart, user }) => ({
     totalDuration: cart.services.reduce((accumulatedValue, cartItem) => accumulatedValue + parseInt(cartItem.duration), 0)
 
 })
-const mapDisptchToProps = dispatch =>({
-    checkoutOrder : data => dispatch(cartMiddleWare(data))
+const mapDisptchToProps = dispatch => ({
+    checkoutOrder: data => dispatch(cartMiddleWare(data))
 })
 export default connect(mapStateToProps, mapDisptchToProps)(Checkout)

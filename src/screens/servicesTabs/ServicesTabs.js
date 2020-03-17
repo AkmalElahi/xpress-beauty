@@ -23,18 +23,18 @@ class ServicesTabs extends Component {
         const currentTab = this.props.navigation.getParam("currentTab")
 
         {
-        Platform.OS === 'android' ?
-            setTimeout(() => this.setState({
-                currentTab,
-                initialPage: currentTab,
-                // services
-            }), 0)
-            :
-            this.setState({
-                currentTab,
-                initialPage: currentTab,
-                // services
-            })
+            Platform.OS === 'android' ?
+                setTimeout(() => this.setState({
+                    currentTab,
+                    initialPage: currentTab,
+                    // services
+                }), 0)
+                :
+                this.setState({
+                    currentTab,
+                    initialPage: currentTab,
+                    // services
+                })
         }
 
     }
@@ -62,29 +62,9 @@ class ServicesTabs extends Component {
         const { currentTab, serviceId, initialPage, } = this.state
         return (
             <Container style={styles.container}>
-                <CustomHeader header="Services" icon="menu"/>
+                <CustomHeader header="Services" icon="arrow-back" leftButton={() => this.props.navigation.navigate('Services')}/>
                 {this.props.categories && <Tabs initialPage={initialPage} page={currentTab} tabContainerStyle={{ elevation: 0 }} renderTabBar={() => <ScrollableTab />} tabBarUnderlineStyle={{ backgroundColor: colors.primaryBtn }}
-                    onChangeTab={(i) => this.setTab(i)}
-                // onScroll={(i) => this.setTab(i)} 
-                >
-                    {/* <Tab heading="Facial" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white', elevation:0 }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }} >
-                        <Facial /> 
-                    </Tab>
-                    <Tab heading="Makeup" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <Facial /> 
-                    </Tab>
-                    <Tab heading="Hair Care" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <Facial /> 
-                    </Tab>
-                    <Tab heading="Manicure" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <Facial /> 
-                    </Tab>
-                    <Tab heading="Pedicure" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <Facial /> 
-                    </Tab>
-                    <Tab heading="Wax" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize:12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <Facial /> 
-                    </Tab> */}
+                    onChangeTab={(i) => this.setTab(i)}>
                     {this.props.categories.map(service =>
                         <Tab serviceId={service.id} heading={service.category} tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
                             <CustomTab serviceId={service.id} services={service.services} onPress={this.addItem} />

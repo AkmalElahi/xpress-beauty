@@ -13,6 +13,8 @@ import AuthCustomer from '../screens/customer/authCustomer/AuthCustomer'
 import UserLoading from '../screens/userLoading/userLoading'
 import Map from '../screens/map/map'
 import CustomDrawer from '../components/Drawer/Drawer';
+import Bookings from '../screens/customer/Bookings/Bookings';
+import SelectBeautician from '../components/SelectBeautician/SelectBeauticiant';
 
 
 const registerCustomer = createStackNavigator({
@@ -73,12 +75,19 @@ const customerApp = createStackNavigator({
             headerShown: false,
         }
     },
-    // CustomDrawer:{
-    //     screen: CustomDrawer,
-    //     navigationOptions: {
-    //         headerShown: false,
-    //     }
-    // }
+    Bookings:{
+        screen: Bookings,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    SelectBeautician:{
+        screen: SelectBeautician,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
+
 })
 const CustomerStack = createSwitchNavigator({
     AuthCustomer,

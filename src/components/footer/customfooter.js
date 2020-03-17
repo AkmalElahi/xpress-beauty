@@ -25,7 +25,7 @@ class CustomFooter extends Component {
         return (
             <Footer style={{ elevation: 0, marginTop: 10, backgroundColor:"white" }} >
                 <FooterTab style={styles.footer}>
-                    <Button>
+                    <Button onPress={() => this.props.navigation.navigate("Bookings")}> 
                         <Image style={{ width: 35, height: 35 }} source={bookings} />
                         <Text style={{ color: "black" }}>Bookings</Text>
                     </Button>

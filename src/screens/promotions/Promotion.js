@@ -3,6 +3,7 @@ import { Image, Dimensions } from 'react-native';
 import { Container, Content, Card, CardItem, Text, View } from 'native-base';
 import { CustomButton } from '../../components/buttons/Buttons';
 import { colors } from '../../configs/colors'
+import promotion1 from '../../assets/promotion1.png'
 
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width;
@@ -21,7 +22,7 @@ const Promotion = ({ img, heading, onPress, description }) => (
             }}
             >
                 <CardItem cardBody style={{ justifyContent: "flex-start", alignItems: "center", flexDirection: "column" }} >
-                    <Image source={{uri:img}} style={{ height: height * 0.485, width: width * 0.9, marginTop: "3%" }} />
+                    <Image source={img?{uri:img}:`${promotion1}`} style={{ height: height * 0.485, width: width * 0.9, marginTop: "3%" }} />
                     <View style={{ justifyContent: "center", width: width * 0.9, marginTop: 5 }} >
                         <Text style={{ fontWeight: "bold", fontSize: 25 }}>{heading} </Text>
                         {/* <Text style={{ fontSize: 15, paddingTop: 6 }}>

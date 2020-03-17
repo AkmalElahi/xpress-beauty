@@ -14,7 +14,7 @@ const Tab = ({ services, serviceId, onPress }) => (
         {console.log("FACIAL COMPONENT", services)}
         <Content>
             <View style={styles.imageContainer}>
-                <Image source={facialBanner} style={styles.img} />
+                <Image source={{uri:services[0].image}} style={styles.img} />
             </View>
             <FlatList
                 // contentContainerStyle={{

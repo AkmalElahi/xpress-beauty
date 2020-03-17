@@ -37,9 +37,9 @@ class MobileVerify extends Component {
     verifyNumber = () => {
         // text = text.replace(/[^0-9]/g, '')
         Keyboard.dismiss()
-        const { phone, country  } = this.state
+        const { phone, country } = this.state
         if (phone.length >= 12) {
-            const endphone = country.dialCode+phone.replace(/[^0-9]/g, '')
+            const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
             console.log("END PHONE", endphone)
             // this.props.verifyMobile(phone)
             // console.log("VERIFICATION")
@@ -49,21 +49,21 @@ class MobileVerify extends Component {
         const unsubscribe = NetInfo.addEventListener(state => {
             console.log("Connection type", state.type);
             // console.log("Is connected?", state.isConnected);
-            
-            if(state.isConnected){
+
+            if (state.isConnected) {
                 if (phone.length >= 12) {
-                    const endphone = country.dialCode+phone.replace(/[^0-9]/g, '')
+                    const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
                     console.log("END PHONE", endphone)
                     this.props.verifyMobile(endphone)
                     // console.log("VERIFICATION")
                     // this.props.navigation.navigate("MapView")
-        
+
                 }
             }
-            else{
+            else {
                 alert("Internet in not available")
             }
-          });
+        });
     }
     // UNSAFE_componentWillReceiveProps(nextProps) {
     //     console.log("NEXT PROPS", nextProps)
@@ -112,12 +112,12 @@ class MobileVerify extends Component {
     }
     render() {
         const { modalVisible, phone, openPicker, flags } = this.state
-        console.log("COUNTRIES", this.state.country)
+        // console.log("COUNTRIES", this.state.country)
         return (
             <View style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
                     <Left >
-                        <Button transparent>
+                        <Button transparent onPress={()=> this.props.navigation.goBack()}>
                             <Icon name='arrow-back' style={{ color: "black" }} />
                         </Button>
                     </Left>
@@ -132,8 +132,10 @@ class MobileVerify extends Component {
                     </Text>
                 </View>
                 <View style={styles.body}>
-                    <View style={{ width: "80%",borderBottomWidth: 1,
-                        borderBottomColor: "grey" }}>
+                    <View style={{
+                        width: "80%", borderBottomWidth: 1,
+                        borderBottomColor: "grey"
+                    }}>
                         {/* <TextInput
                         style={styles.input}
                         keyboardType="phone-pad" maxLength={15}
@@ -148,12 +150,12 @@ class MobileVerify extends Component {
                                 maskType: 'BRL',
                                 // withDDD: true,
                                 dddMask: '999 999 9999'
-                              }}
-                              maxLength={13}
+                            }}
+                            maxLength={13}
                             value={phone}
                             onChangeText={text => {
-                                console.log("TEXT",text)
-                                text.indexOf(0) === 0 && (text = text.slice(1) )
+                                console.log("TEXT", text)
+                                text.indexOf(0) === 0 && (text = text.slice(1))
                                 this.setState({
                                     phone: text
                                 })
@@ -167,15 +169,19 @@ class MobileVerify extends Component {
                         {/* </TouchableOpacity> */}
                         <Picker
                             mode='dialog'
-                            selectedValue={this.state.country }
+                            selectedValue={this.state.country}
                             style={styles.flag}
-                            itemTextStyle={{fontSize: 16,
-                                fontWeight: "bold",textAlign:"center"}}
-                                textStyle={{fontSize: 18,
-                                    fontWeight: "bold",textAlign:"center"}}
+                            itemTextStyle={{
+                                fontSize: 16,
+                                fontWeight: "bold", textAlign: "center"
+                            }}
+                            textStyle={{
+                                fontSize: 18,
+                                fontWeight: "bold", textAlign: "center"
+                            }}
                             // style={{width:"100%"}}
                             onValueChange={(itemValue, itemIndex) =>
-                                this.setState({ country: itemValue, phone:"" })
+                                this.setState({ country: itemValue, phone: "" })
                             }>
                             {/* <Picker.Item label="Java" value="java" />
                         <Picker.Item label="JavaScript" value="js" /> */}
@@ -234,26 +240,26 @@ const styles = StyleSheet.create(
         },
         input: {
             // width: "80%",
-            
+            paddingTop:Platform.OS === "android" ? 12 : 0,
             paddingLeft: "25%",
-            marginBottom:2,
+            marginBottom: 2,
             fontSize: 18,
             fontWeight: "bold",
-            textAlign:"left"
+            textAlign: "left"
         },
         flag: {
             // width: 90,
             // height: 50,
             width: 115,
-            display:"flex",
-            justifyContent:"center",
-            alignItems:"center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             position: "absolute",
             top: Platform.OS === "android" ? "0.5%" : -35,
-            right: Platform.OS === "android" ?"60%" : "70%",
+            right: Platform.OS === "android" ? "60%" : "70%",
             backgroundColor: "transparent",
             // zIndex:-1,
-            fontSize:18,
+            fontSize: 18,
             fontWeight: "bold",
             // backgroundColor:"green"
         },

@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     order:null
 }
 
-export default cartReducer = (state = INITIAL_STATE, action) => {
+const cartReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case cartActionTypes.ADD_SERVICE_CART:
             return {
@@ -47,3 +47,5 @@ export default cartReducer = (state = INITIAL_STATE, action) => {
             return state
     }
 }
+
+export default cartReducer

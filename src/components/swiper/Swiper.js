@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { View } from 'react-native'
 import Swiper from 'react-native-swiper';
 import Promotion from '../../screens/promotions/Promotion';
-// import promotion1 from '../../assets/promotion1.png';
-// import promotion2 from '../../assets/promotion2.png';
-// import promotion3 from '../../assets/promotion3.png';
+import NetInfo from "@react-native-community/netinfo";
 import Loader from '../loader/Loader'
+import promotion1 from '../../assets/promotion1.png'
 import { colors } from '../../configs/colors';
 import { connect } from 'react-redux';
 import { promotionsMiddleware } from '../../redux/promotions/promotions.middleware';
@@ -16,8 +15,19 @@ class CustomSwiper extends Component {
         super(props)
     }
     componentDidMount() {
-        this.props.getPromotions()
+        const unsubscribe = NetInfo.addEventListener(state =>{
+            console.log("Connection type", state.isConnected);
+            if(state.isConnected){
+                this.props.getPromotions()
+            }
+            else{
+                alert("internet is not available")
+            }
+        })
     }
+    // componentWillUnmount(){
+    //     this.unsubscribe()
+    // }
     render() {
         // const { promotions } = this.props
         console.log("INSIDE PROMOTIONS", this.props.promotions)
@@ -41,7 +51,9 @@ class CustomSwiper extends Component {
                             heading={promo.title}
                             description={promo.description}
                             onPress={() => { this.props.navigation.navigate("MobileVerification") }} />))}
-                </Swiper> : <Loader/>}
+                </Swiper> 
+                : <Promotion
+                    onPress={() => { this.props.navigation.navigate("MobileVerification") }}/>}
             </View >
         )
     }

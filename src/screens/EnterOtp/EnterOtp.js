@@ -105,6 +105,7 @@ class EnterOtp extends Component {
                 <View style={styles.otp}>
                     <TextInput keyboardType="number-pad"
                         onFocus={() => this.setState({ focused: true })}
+                        ref="otp1"
                         maxLength={1}
                         style={{ ...styles.input }}
                         onChangeText={value => {
@@ -135,6 +136,7 @@ class EnterOtp extends Component {
                             let { otp } = this.state
                             var toNull = otp.slice(1, 2)
                             otp = otp.replace(toNull, '')
+                            this.refs.otp1.focus();
                             this.setState({ otp })
                         }}
                         onChangeText={value => {
@@ -158,6 +160,7 @@ class EnterOtp extends Component {
                             let { otp } = this.state
                             var toNull = otp.slice(2, 3)
                             otp = otp.replace(toNull, '')
+                            this.refs.otp2.focus();
                             this.setState({ otp })
                         }}
                         onChangeText={value => {
@@ -181,6 +184,7 @@ class EnterOtp extends Component {
                             let { otp } = this.state
                             var toNull = otp.slice(3, 4)
                             otp = otp.replace(toNull, '')
+                            this.refs.otp3.focus();
                             this.setState({ otp })
                         }}
                         onChangeText={value => {
@@ -199,7 +203,9 @@ class EnterOtp extends Component {
                     {!focused && <Text style={styles.shortText}>
                         Didn't you recieve any code?
                     </Text>}
-                    {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code" />}
+                    {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"  
+                    // onPress={() =>this.props.navigation.navigate("customerApp")}
+                    />}
                     <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
                         // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
                         onPress={this.verify}

@@ -8,6 +8,8 @@ import promotionsReducer from "./promotions/promotions.reducer";
 import countriesReducer from "./countries/countries.reducer";
 import verifyOtpReducer from './verify-otp/verify-otp.reducer'
 import cartReducer from "./cart/cart.reducer";
+import bookingsReducer from "./bookings/bookings.reducers";
+import beauticianReducer from "./beautician/beautician.reducer";
 
 const persistConfig = {
     // Root
@@ -20,13 +22,15 @@ const persistConfig = {
     ],
   };
 const rootReducer = combineReducers({
+    cart: cartReducer,
     categories: servicesReducer,
     generateOtp: generateOtpReducer,
     user: userReducer,
     promotions: promotionsReducer,
     countries: countriesReducer,
-    cart: cartReducer,
     verifyOtp: verifyOtpReducer,
+    bookings: bookingsReducer,
+    beauticians: beauticianReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default persistedReducer

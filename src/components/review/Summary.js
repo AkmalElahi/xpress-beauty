@@ -43,10 +43,10 @@ const Summary = ({ total, totalDuration, cart, navigation, time, date, address }
                 <Text style={styles.heading}>Address</Text>
                     <Text>{`${address.house} ${address.building}, ${address.street} ${address.area}, ${address.city}`}</Text>
             </View>
-            <View style={styles.divider}>
+            {/* <View style={styles.divider}>
                 <Text style={styles.heading}>Name</Text>
                 <Text>Public Order</Text>
-            </View>
+            </View> */}
             <View style={{...styles.divider, marginBottom:"5%"}}>
                 <Text style={styles.heading}>Payment Method</Text>
                 <Text>Cash On Services</Text>

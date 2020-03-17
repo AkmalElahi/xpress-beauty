@@ -8,7 +8,7 @@ import { colors } from '../../configs/colors'
 import { connect } from 'react-redux';
 import { removeServiceFromCart } from '../../redux/cart/cart.actions';
 
-const Address = ({ navigation, address }) => {
+const Address = ({ navigation, address, beautician , enableSelect, isSelect}) => {
     return (
         <Content contentContainerStyle={{ marginTop: "5%", justifyContent: "space-between" }}>
             <View style={styles.divider}>
@@ -26,16 +26,29 @@ const Address = ({ navigation, address }) => {
             <View style={styles.divider}>
                 <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                     <Text>Select Beautician</Text>
-                    <Switch ios_backgroundColor="white" trackColor={{ false: "lightgrey", true: 'lightgrey' }} value={false} />
+                    <Switch 
+                    onValueChange={(value)=>enableSelect(value)}
+                    ios_backgroundColor="white" 
+                    trackColor={{ false: "lightgrey", true: colors.primaryBtn }} 
+                    value={isSelect} />
                 </View>
                 <View style={{ width: "45%" }}>
-                    <CustomButton disabled={true} value="Select" backgroundColor={colors.primaryBtn} height={35} color="white" fontSize={25} />
+                    <CustomButton 
+                    onPress={() => {
+                        navigation.navigate("SelectBeautician")
+                    }}
+                    disabled={!isSelect} 
+                    value="Select" 
+                    backgroundColor={colors.primaryBtn} 
+                    height={35} color="white" 
+                    fontSize={25}  />
+                <Text style={{fontSize:15}}>{beautician && `${beautician.username}`}</Text>
                 </View>
             </View>
             <View style={styles.divider}>
                 <Text>Select Payment Type</Text>
                 <View style={{ width: "45%" }}>
-                    <CustomButton value="Add Card +" backgroundColor={colors.primaryBtn} height={35} color="white" fontSize={25} />
+                    <CustomButton value="Select" backgroundColor={colors.primaryBtn} height={35} color="white" fontSize={25} />
                 </View>
             </View>
         </Content>

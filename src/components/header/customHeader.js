@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: "transparent",
         elevation: 0,
+        borderBottomWidth:0
         // width: "95%",
         // alignSelf: "center",
     }

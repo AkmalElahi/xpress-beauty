@@ -4,22 +4,24 @@ import { StyleSheet,Image, Text, Dimensions, TouchableOpacity } from 'react-nati
 import { colors } from '../../configs/colors';
 import profile from '../../assets/promotion1.png'
 import notification from '../../assets/notification.png'
+import { connect } from 'react-redux';
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 const radius = width*0.5
 class DrawerContent extends Component {
-  closeDrawer = () => {
-    this.drawer._root.close()
-  }
-  openDrawer = () => {
-    this.drawer._root.open()
-  };
+  // closeDrawer = () => {
+  //   this.drawer._root.close()
+  // }
+  // openDrawer = () => {
+  //   this.drawer._root.open()
+  // };
   render() {
+    const { username } = this.props
     return (
       <Content style={styles.content}>
         <View style={styles.imageViewer}>
           <Image source={profile} style={styles.image}/>
-          <Text style={styles.username}>Xpress Beauty</Text>
+    <Text style={styles.username}>{username}</Text>
         </View>
         <View style={styles.mainContent}>
           <TouchableOpacity style={styles.option}>
@@ -98,4 +100,5 @@ const styles = StyleSheet.create({
     height:20
   }
 })
-export default DrawerContent
+const mapStateToProps = ({user}) => (user)
+export default connect(mapStateToProps)(DrawerContent)
