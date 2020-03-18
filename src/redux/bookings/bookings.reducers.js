@@ -13,7 +13,7 @@ const bookingsReducer = (state = INITIAL_STATE, action) => {
                 success: false,
                 error: false,
                 bookings: [],
-                message: ""
+                message: "bookings request"
             }
         case bookingsActionTypes.GET_BOOKINGS_SUCCESS:
             return {

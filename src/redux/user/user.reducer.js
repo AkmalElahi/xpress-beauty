@@ -50,14 +50,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 area: action.payload.area,
                 city: action.payload.city,
                 house: action.payload.house,
-                address_note: action.payload.address_note
+                address_note: action.payload.address_note,
+                message:"set user request"
+
             }
         case userActionTypes.CREATE_USER_PROFILE_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: false,
-                message: action.payload,
+                message:"user profile created successfully",
                 isProfileComplete:true
             }
         case userActionTypes.CREATE_USER_PROFILE_FAIL:
@@ -65,7 +67,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: false,
                 error: true,
-                message: action.payload,
+                message:"error in creating user profile",
                 isProfileComplete:false
             }
         case userActionTypes.GET_CURRENT_USER:

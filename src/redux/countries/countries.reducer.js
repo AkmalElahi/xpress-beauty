@@ -3,7 +3,8 @@ import { CountriesActionTypes } from './countries.types'
 const INITIAL_STATE = {
     success: false,
     countries: [],
-    error: false
+    error: false,
+    message:""
 }
 
 const countriesReducer = (state = INITIAL_STATE, action) => {
@@ -12,21 +13,23 @@ const countriesReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 success:false,
-                error:false
+                error:false,
+                message:"get countries request"
             }
         case CountriesActionTypes.GET_COUNTRIES_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: false,
-                countries: action.payload
+                countries: action.payload,
+                message:"countries found successfully"
             }
         case CountriesActionTypes.GET_COUNTRIES_FAIL:
             return {
                 ...state,
                 success: false,
                 error: true,
-                message: action.payload
+                message:"error in getiing countries"
             }
         default:
             return state

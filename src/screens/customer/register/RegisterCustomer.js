@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform, Keyboard,  } from 'react-native';
 import moment from "moment";
 import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker} from 'native-base'
-// import { Input } from '../../../components/inputs/inputs'
+import { getUniqueId, getManufacturer, getModel, getDevice } from 'react-native-device-info';
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
 import profile from '../../../assets/profile.png';
@@ -20,7 +20,12 @@ class Register extends Component {
             showHide: false,
             username:"",
             email:"",
-            dob:""
+            dob:"",
+            model:"",
+            device_id:"",
+            os:"",
+            device:"",
+            platform:""
         }
     }
     componentDidMount(){
@@ -30,6 +35,18 @@ class Register extends Component {
             email:this.props.user.email,
             dob:this.props.user.dob
         })
+        // const device_id = getUniqueId()
+        // const model = getModel()
+        // const os = Platform.Version
+        // const platform = Platform.OS
+        // const device = getDevice()
+        // this.setState({
+        //     device_id,
+        //     model,
+        //     os,
+        //     platform,
+        //     device
+        // })
         
     }
     setDate= (date) => {

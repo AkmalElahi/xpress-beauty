@@ -3,7 +3,8 @@ import { catagoriesActionType } from './catagories.types'
 const INITIAL_STATE = {
     categories:  [],
     success:false,
-    error:false
+    error:false,
+    message:""
 }
 
 const servicesReducer = (state = INITIAL_STATE, action) => {
@@ -12,21 +13,23 @@ const servicesReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 success:false,
-                error:false
+                error:false,
+                message:"get categories request"
             }
         case catagoriesActionType.GET_CATAGORIES_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: false,
-                categories: action.payload
+                categories: action.payload,
+                message:"categories found"
             }
         case catagoriesActionType.GET_CATAGORIES_FAIL:
             return {
                 ...state,
                 success: false,
                 error: true,
-                message: action.payload
+                message: "error in getting categories"
             }
         default:
             return state

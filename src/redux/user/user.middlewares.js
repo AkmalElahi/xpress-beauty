@@ -1,13 +1,19 @@
 import { createUserProfile, createUserProfileSuccess, createUserProfileFail } from './user.actions'
-import Axios from 'axios'
 import Path from '../../configs/path'
-
+import { Platform } from 'react-native'
+import { getUniqueId, getModel, getDevice } from 'react-native-device-info'
 const formData = new FormData()
 
 export const userMiddleWare = (data) => {
     return async dispatch => {
         dispatch(createUserProfile(data))
         try {
+            const device_id = getUniqueId()
+            const model = getModel()
+            const os = Platform.Version
+            const platform = Platform.OS
+            let device = ""
+            getDevice().then(d => divice = d)
             formData.append("language", "en")
             formData.append("appuid", data.user.appuid)
             formData.append("token", data.user.token)
@@ -22,8 +28,13 @@ export const userMiddleWare = (data) => {
             formData.append("house", data.house)
             formData.append("address_note", data.address_note)
             formData.append("country_id", 166)
+            formData.append("device", device)
+            formData.append("device_id", device_id)
+            formData.append("model", model)
+            formData.append("os", os)
+            formData.append("platform", platform)
             // console.log("FORM DATA",JSON.stringify(formData))
-            console.log("DATE OF BIRTH", data.user.dob)
+            // console.log("DATE OF BIRTH", data.user.dob)
             // console.log("FORM DATA" ,formData)
             let res = await fetch(Path.UPDATE_PROFILE, {
                 method: 'post',

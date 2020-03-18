@@ -3,7 +3,7 @@ import { View, Text, Header, Left, Body, Button, Icon, Picker } from 'native-bas
 import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, Keyboard } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { TextInputMask } from 'react-native-masked-text'
-
+import { getUniqueId, getManufacturer, getModel, getProduct, getVersion, getDevice, getDeviceId } from 'react-native-device-info';
 import { connect } from 'react-redux';
 import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
 import { countriesMiddleware } from '../../redux/countries/countries.middleware'
@@ -33,6 +33,12 @@ class MobileVerify extends Component {
         // console.log("NAVIGATION", this.props.navigation)
 
         this.props.getCountries()
+       
+        console.log(Platform.Version)
+       console.log("Model", getModel())
+       console.log("DEVICE",getDeviceId())
+    //    getDeviceId().then(device => {
+    //   });
     }
     verifyNumber = () => {
         // text = text.replace(/[^0-9]/g, '')
@@ -102,7 +108,7 @@ class MobileVerify extends Component {
     getFlags = ({ countries }) => {
         if (countries.length) {
             const flags = countries.map(country => countriesJson.find(countryJson => countryJson.code === country.code))
-            console.log("FLAGAS", flags)
+            // console.log("FLAGAS", flags)
             this.setState({
                 flags,
                 country: flags[0],

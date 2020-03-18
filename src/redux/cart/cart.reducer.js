@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     services: [],
     success: false,
     error: false,
-    order:null
+    order:null,
+    message:""
 }
 
 const cartReducer = (state = INITIAL_STATE, action) => {
@@ -25,12 +26,13 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         case cartActionTypes.CHECKOUT_ORDER:
             return {
                 ...state,
-                order: action.payload
+                order: action.payload,
+                message:"checkout request"
             }
         case cartActionTypes.CHECKOUT_ORDER_SUCCESS:
             return {
                 ...state,
-                message:action.payload,
+                message:"checkout done successfully",
                 success:true,
                 error:false,
                 order:null,
@@ -39,7 +41,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         case cartActionTypes.CHECKOUT_ORDER_FAIL:
             return {
                 ...state,
-                message:action.payload,
+                message:"error in checkout",
                 success:true,
                 error:false,
             }

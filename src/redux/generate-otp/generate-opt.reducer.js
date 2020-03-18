@@ -3,7 +3,8 @@ import { GenerateOtpActionType } from './generate-otp.types'
 const INITIAL_STATE = {
     success: false,
     phone: null,
-    error: false
+    error: false,
+    message:""
 }
 
 const generateOtpReducer = (state = INITIAL_STATE, action) => {
@@ -13,21 +14,23 @@ const generateOtpReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success:false,
                 error:false,
-                phone: action.payload
+                phone: action.payload,
+                message:"generate otp request"
             }
         case GenerateOtpActionType.GENERATE_OTP_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: false,
-                message: action.payload
+                message:"otp generated successfully"
             }
         case GenerateOtpActionType.GENERATE_OTP_FAIL:
             return {
                 ...state,
                 success: false,
                 error: true,
-                payload
+                payload,
+                message:"error in generating otp"
             }
         default:
             return state

@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     phone: null,
     error: false,
     appuid:"",
-    token:""
+    token:"",
+    message:""
 }
 
 const verifyOtpReducer = (state = INITIAL_STATE, action) => {
@@ -15,14 +16,15 @@ const verifyOtpReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 phone: action.payload,
                 success:false,
-                error:false
+                error:false,
+                message:"verify otp request"
             }
         case verifyOtpActionType.VERIFY_OTP_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: false,
-                message: action.payload.message,
+                message: "otp verified successfully",
                 appuid:action.payload.appuid,
                 token:action.payload.token
             }
@@ -31,7 +33,7 @@ const verifyOtpReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: false,
                 error: true,
-                message:action.payload
+                message:"error in otp verification"
             }
         default:
             return state
