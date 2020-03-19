@@ -35,10 +35,10 @@ const Sheduled = ({bookings}) =>  {
                                     paddingBottom:0,
                                 }}>
                                 {/* Date View */}
-                                <View style={{ backgroundColor: colors.cl2, padding: 8, width:100 }}>
-                                    <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 22, color: "white" }}>{moment(item.appointment_datetime).format('DD')}</Text>
-                                    <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 18, color: "white", }}>{moment(item.appointment_datetime).format('MMMM')}</Text>
-                                    <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 18, color: "white" }}>{moment(item.appointment_datetime).format('dddd')}</Text>
+                                <View style={{ backgroundColor: colors.cl2, padding: 6, width:110 }}>
+                                    <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 20, color: "white" }}>{moment(item.appointment_datetime).format('DD')}</Text>
+                                    <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 16, color: "white", }}>{moment(item.appointment_datetime).format('MMMM')}</Text>
+                                    <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 15, color: "white" }}>{moment(item.appointment_datetime).format('dddd')}</Text>
                                 </View>
                                 {/* service and duration View */}
                                 <View style={{ width: "55%", padding: 5, paddingLeft: 20 }}>

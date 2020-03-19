@@ -14,11 +14,11 @@ class CustomFooter extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.cart !== prevProps.cart) {
             console.log("SERVICES", this.props.cart)
-            const count = this.props.cart.services.length && this.props.cart.services.reduce((accumulatedValue, cartItem) => accumulatedValue + cartItem.quantity, 0)
-            console.log(count)
-            this.setState({
-                items: count
-            })
+            // const count = this.props.cart.services.length && this.props.cart.services.reduce((accumulatedValue, cartItem) => accumulatedValue + cartItem.quantity, 0)
+            // console.log(count)
+            // this.setState({
+            //     items: count
+            // })
         }
     }
     render() {
@@ -36,7 +36,7 @@ class CustomFooter extends Component {
                     <Button onPress={ () =>  this.props.count ? this.props.navigation.navigate("Checkout"):""} >
                         <Image style={{ height: 40, width: 35 }} source={checkout} />
                         <Text style={{ color: "black" }}>checkout</Text>
-                        <View onPress={ () =>  this.props.count ? this.props.navigation.navigate("Checkout") :""} style={styles.items}><Text style={{ textAlign: "center" }}>{this.props.count}</Text></View>
+                        <View  style={styles.items}><Text style={{ textAlign: "center" }}>{this.props.count}</Text></View>
                     </Button>
                 </FooterTab>
                 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     }
 })
 const mapStateToProps = ({ cart }) => ({
-        cart: cart,
+        // cart: cart,
         count: cart.services.reduce((accumulatedValue, cartItem) => accumulatedValue + cartItem.quantity, 0)
     })
 export default connect(mapStateToProps)(CustomFooter);

@@ -64,8 +64,10 @@ class EnterOtp extends Component {
         // }
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.verifyOtp.success !== this.props.verifyOtp.success) {
-            console.log("ENTER OT NEXT PROPS", this.props.verifyOtp)
+        if (prevProps.verifyOtp !== this.props.verifyOtp) {
+            const { verifyOtp } = this.props
+            if(verifyOtp.message === "otp verified successfully"){
+                console.log("ENTER OT NEXT PROPS", this.props.verifyOtp)
             this.props.setUserMobile({
                 token: this.props.verifyOtp.token,
                 mobile: this.props.verifyOtp.phone,
@@ -83,9 +85,10 @@ class EnterOtp extends Component {
                     this.props.navigation.navigate("createCustomerProfile")
             }, 3000)
 
-        }
-        else if (prevProps.verifyOtp.error !== this.props.verifyOtp.error) {
-            this.setState({ modalText: "Please Enter Valid OTP", error: true })
+            }
+            else if (verifyOtp.message === "error in otp verification") {
+                this.setState({ modalText: "Please Enter Valid OTP", error: true })
+            }
         }
     }
     render() {
@@ -118,11 +121,14 @@ class EnterOtp extends Component {
                             }
 
                         }}
-                        onKeyPress={() => {
-                            let { otp } = this.state
-                            var toNull = otp.slice(0, 1)
-                            otp = otp.replace(toNull, '')
-                            this.setState({ otp })
+                        onKeyPress={(ev) => {
+                            console.log("EVENT", ev.nativeEvent.key)
+                            if (ev.nativeEvent.key === "Backspace") {
+                                let { otp } = this.state
+                                var toNull = otp.slice(0, 1)
+                                otp = otp.replace(toNull, '')
+                                this.setState({ otp })
+                            }
                         }}
                         value={otp.slice(0, 1)}
                     />
@@ -132,13 +138,6 @@ class EnterOtp extends Component {
                         style={{ ...styles.input }}
                         ref="otp2"
                         value={otp.slice(1, 2)}
-                        onKeyPress={() => {
-                            let { otp } = this.state
-                            var toNull = otp.slice(1, 2)
-                            otp = otp.replace(toNull, '')
-                            this.refs.otp1.focus();
-                            this.setState({ otp })
-                        }}
                         onChangeText={value => {
                             const num = value.replace(/[^0-9]/g, '')
                             if (num) {
@@ -149,6 +148,15 @@ class EnterOtp extends Component {
                             }
 
                         }}
+                        onKeyPress={(ev) => {
+                            if (ev.nativeEvent.key === "Backspace") {
+                                let { otp } = this.state
+                                var toNull = otp.slice(1, 2)
+                                otp = otp.replace(toNull, '')
+                                this.refs.otp1.focus();
+                                this.setState({ otp })
+                            }
+                        }}
                     />
                     <TextInput keyboardType="numeric"
                         onFocus={() => this.setState({ focused: true })}
@@ -156,13 +164,6 @@ class EnterOtp extends Component {
                         style={{ ...styles.input }}
                         ref="otp3"
                         value={otp.slice(2, 3)}
-                        onKeyPress={() => {
-                            let { otp } = this.state
-                            var toNull = otp.slice(2, 3)
-                            otp = otp.replace(toNull, '')
-                            this.refs.otp2.focus();
-                            this.setState({ otp })
-                        }}
                         onChangeText={value => {
                             const num = value.replace(/[^0-9]/g, '')
                             if (num) {
@@ -173,6 +174,15 @@ class EnterOtp extends Component {
                             }
 
                         }}
+                        onKeyPress={(ev) => {
+                            if (ev.nativeEvent.key === "BackSpace") {
+                                let { otp } = this.state
+                                var toNull = otp.slice(2, 3)
+                                otp = otp.replace(toNull, '')
+                                this.refs.otp2.focus();
+                                this.setState({ otp })
+                            }
+                        }}
                     />
                     <TextInput keyboardType="numeric"
                         onFocus={() => this.setState({ focused: true })}
@@ -180,13 +190,6 @@ class EnterOtp extends Component {
                         style={{ ...styles.input }}
                         ref="otp4"
                         value={otp.slice(3, 4)}
-                        onKeyPress={() => {
-                            let { otp } = this.state
-                            var toNull = otp.slice(3, 4)
-                            otp = otp.replace(toNull, '')
-                            this.refs.otp3.focus();
-                            this.setState({ otp })
-                        }}
                         onChangeText={value => {
                             const num = value.replace(/[^0-9]/g, '')
                             if (num) {
@@ -196,16 +199,29 @@ class EnterOtp extends Component {
                             }
 
                         }}
+                        onKeyPress={(ev) => {
+                            if (ev.nativeEvent.key === "Backspace") {
+                                let { otp } = this.state
+                                var toNull = otp.slice(3, 4)
+                                otp = otp.replace(toNull, '')
+                                this.refs.otp3.focus();
+                                this.setState({ otp })
+                            }
+                        }}
                     />
                 </View>
                 {error && <Text style={{ marginTop: 5, color: "red" }}>{modalText}</Text>}
                 <View style={{ justifyContent: "space-between", width: "70%", height: 200, alignSelf: "center", marginTop: "8%" }}>
-                    {!focused && <Text style={styles.shortText}>
+                    {/* {!focused && <Text style={styles.shortText}>
                         Didn't you recieve any code?
-                    </Text>}
-                    {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"  
+                    </Text>} */}
+                    {/* {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"
                     // onPress={() =>this.props.navigation.navigate("customerApp")}
-                    />}
+                    />} */}
+                    <Text style={styles.shortText}>
+                        Didn't you recieve any code?
+                    </Text>
+                    <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code" />
                     <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
                         // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
                         onPress={this.verify}

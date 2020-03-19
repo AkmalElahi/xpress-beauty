@@ -40,7 +40,7 @@ class Bookings extends Component {
            >
                 <Container style={styles.container}>
                 <CustomHeader header="Bookings" icon="menu" leftButton={() => this.openDrawer()}/>
-                <Tabs  renderTabBar={() => <ScrollableTab style={{backgroundColor:"white", borderWidth:0}} />} tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
+                <Tabs   tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
                     <Tab heading="Sheduled" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
                         <Sheduled bookings = {this.props.bookings.filter(booking=>booking.job_status === "101")}/>
                     </Tab>

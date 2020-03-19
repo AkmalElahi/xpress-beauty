@@ -4,8 +4,8 @@ import { StatusBar, ActivityIndicator } from 'react-native'
 import {  View } from 'native-base'
 
 const Loader = () => (
-    <View style={{flex:1, justifyContent:"center", backgroundColor:"white", opacity:0.5}}>
-        <ActivityIndicator />
+    <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+        <ActivityIndicator size='large' color={colors.primaryBtn}/>
         <StatusBar barStyle="default" />
     </View>
 );

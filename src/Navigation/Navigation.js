@@ -15,6 +15,8 @@ import Map from '../screens/map/map'
 import CustomDrawer from '../components/Drawer/Drawer';
 import Bookings from '../screens/customer/Bookings/Bookings';
 import SelectBeautician from '../components/SelectBeautician/SelectBeauticiant';
+import Notification from '../screens/notifications/notifications';
+import NotificationDetail from '../screens/notifications/notification.details';
 
 
 const registerCustomer = createStackNavigator({
@@ -83,6 +85,18 @@ const customerApp = createStackNavigator({
     },
     SelectBeautician:{
         screen: SelectBeautician,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Notification:{
+        screen: Notification,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    NotificationDetail:{
+        screen: NotificationDetail,
         navigationOptions: {
             headerShown: false,
         }

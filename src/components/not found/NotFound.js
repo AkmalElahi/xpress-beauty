@@ -1,8 +1,8 @@
 import React from 'react'
 import { Container, Content, View, Text, Card, CardItem } from 'native-base';
 import { Image, StyleSheet, FlatList } from 'react-native';
-import clock from '../../assets/clock.png'
-import facial from '../../assets/facial.png'
+import booking from '../../assets/Booking.png'
+import history from '../../assets/History.png'
 import { colors } from '../../configs/colors';
 
 const NotFound = ({from}) => (
@@ -15,9 +15,9 @@ const NotFound = ({from}) => (
                 justifyContent:"center",
                 alignItems:"center"
             }}>
-                <Image source={from === 'schedule' ? `${clock}` : `${facial}`} style={{
-                    height:200,
-                    width:200
+                <Image source={from === 'schedule' ? `${booking}` : `${history}`} style={{
+                    height:150,
+                    width:150
                 }}/>
             </View>
             {/* Text View */}

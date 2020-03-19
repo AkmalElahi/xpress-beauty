@@ -94,12 +94,18 @@ class MobileVerify extends Component {
     // }
     componentDidUpdate(prevProps) {
         // console.log("NEXT PROPS", prevProps.countries)
-        if (this.props.generateOtp.success !== prevProps.generateOtp.success) {
-            this.setState({ modalVisible: true })
-            this.props.navigation.navigate("EnterOtp")
-            setTimeout(() => {
-                this.setState({ modalVisible: false })
-            }, 3000)
+        if (this.props.generateOtp !== prevProps.generateOtp) {
+            const { generateOtp } = this.props
+            if(generateOtp.message === "otp generated successfully"){
+                this.setState({ modalVisible: true })
+                this.props.navigation.navigate("EnterOtp")
+                setTimeout(() => {
+                    this.setState({ modalVisible: false })
+                }, 3000)
+            }
+            else if (generateOtp.message === "error in generating otp"){
+                this.setState({modalVisible:false, error:generateOtp.message})
+            }
         }
         if (this.props.countries !== prevProps.countries) {
             this.getFlags(this.props.countries)

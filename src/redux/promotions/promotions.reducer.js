@@ -22,7 +22,7 @@ const promotionsReducer = (state = INITIAL_STATE, action) => {
                 success: true,
                 error: false,
                 promotions: action.payload,
-                message:"promotions fount successfully"
+                message:"promotions found successfully"
             }
         case PromotionsActionTypes.GET_PROMOTIONS_FAIL:
             return {
