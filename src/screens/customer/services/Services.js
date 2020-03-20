@@ -16,6 +16,7 @@ import { catagoriesMiddleware } from '../../../redux/catagories/catagories.middl
 import { timing } from 'react-native-reanimated';
 import DrawerContent from '../../../components/Drawer/Drawer';
 import Loader from '../../../components/loader/Loader';
+import { notificationsMiddleware } from '../../../redux/notifications/notifications.middleware';
 
 
 class Services extends Component {
@@ -57,6 +58,8 @@ class Services extends Component {
     componentDidMount() {
         const { user } = this.props
         this.props.getCatagories({ appuid: user.appuid, token: user.token })
+        this.props.getNotifications({ appuid: user.appuid, token: user.token })
+
     }
     openDrawer = () => {
         this.drawer._root.open()
@@ -145,6 +148,7 @@ const styles = StyleSheet.create({
 })
 const mapStataToProps = ({ user, categories }) => ({ user, categories })
 const mapDispatchToProps = dispatch => ({
-    getCatagories: data => dispatch(catagoriesMiddleware(data))
+    getCatagories: data => dispatch(catagoriesMiddleware(data)),
+    getNotifications: data => dispatch(notificationsMiddleware(data))
 })
 export default connect(mapStataToProps, mapDispatchToProps)(Services);

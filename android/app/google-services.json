@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "396428696545",
+    "firebase_url": "https://root-gist-269907.firebaseio.com",
+    "project_id": "root-gist-269907",
+    "storage_bucket": "root-gist-269907.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396428696545:android:7dba70fa648d91273550a0",
+        "android_client_info": {
+          "package_name": "com.xpressbeauty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396428696545-vc1c2acf8ds9hje55rgplm32nhvvj80i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaQ9tUl8SQq1q6f9oNIcJiiaZ2DkWZjWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396428696545-vc1c2acf8ds9hje55rgplm32nhvvj80i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

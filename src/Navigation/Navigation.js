@@ -51,6 +51,9 @@ const registerCustomer = createStackNavigator({
             headerShown: false,
         }
     }
+},
+{
+    initialRouteName: 'Swiper'
 })
 const customerApp = createStackNavigator({
     Services: {
@@ -77,32 +80,35 @@ const customerApp = createStackNavigator({
             headerShown: false,
         }
     },
-    Bookings:{
+    Bookings: {
         screen: Bookings,
         navigationOptions: {
             headerShown: false,
         }
     },
-    SelectBeautician:{
+    SelectBeautician: {
         screen: SelectBeautician,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Notification:{
+    Notification: {
         screen: Notification,
         navigationOptions: {
             headerShown: false,
         }
     },
-    NotificationDetail:{
+    NotificationDetail: {
         screen: NotificationDetail,
         navigationOptions: {
             headerShown: false,
         }
     }
 
-})
+},
+    {
+        initialRouteName: 'Services'
+    })
 const CustomerStack = createSwitchNavigator({
     AuthCustomer,
     registerCustomer,
@@ -128,7 +134,7 @@ const FreelancerStack = createStackNavigator({
 
 })
 const AppNavigator = createSwitchNavigator({
-    UserLoading:UserLoading,
+    UserLoading: UserLoading,
     Home: Home,
     CustomerStack: CustomerStack,
     FreelancerStack: FreelancerStack

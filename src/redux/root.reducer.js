@@ -10,6 +10,7 @@ import verifyOtpReducer from './verify-otp/verify-otp.reducer'
 import cartReducer from "./cart/cart.reducer";
 import bookingsReducer from "./bookings/bookings.reducers";
 import beauticianReducer from "./beautician/beautician.reducer";
+import notificationsReducer from "./notifications/notifications.reducer";
 
 const persistConfig = {
     // Root
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
     countries: countriesReducer,
     verifyOtp: verifyOtpReducer,
     bookings: bookingsReducer,
-    beauticians: beauticianReducer
+    beauticians: beauticianReducer,
+    notifications: notificationsReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default persistedReducer
