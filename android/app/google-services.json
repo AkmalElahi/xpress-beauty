@@ -30,6 +30,13 @@
             {
               "client_id": "396428696545-vc1c2acf8ds9hje55rgplm32nhvvj80i.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "396428696545-n8plmic2fdsm7p5qv9ec3op21o6lbba0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.xpressbeauty"
+              }
             }
           ]
         }

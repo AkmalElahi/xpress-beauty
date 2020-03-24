@@ -28,6 +28,8 @@
 		80EAB0B3E7A81B70B7F21D1A /* libPods-xpressbeauty.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BA8B74477FBD2AEC53AFEC /* libPods-xpressbeauty.a */; };
 		8A0F3FF40DF64CEEA0EFCF14 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0889B6C5CA24E57AC846F3D /* FontAwesome5_Regular.ttf */; };
 		95281E19D8164674A61823F1 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB04302BD1FE473AA236C404 /* FontAwesome.ttf */; };
+		96516CD2242A17F80062B00D /* GoogleService-Info(1).plist in Resources */ = {isa = PBXBuildFile; fileRef = 96516CD1242A17F80062B00D /* GoogleService-Info(1).plist */; };
+		96516CD4242A186E0062B00D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96516CD3242A186E0062B00D /* GoogleService-Info.plist */; };
 		A8D88FF56EB40BBDECAB1333 /* libPods-xpressbeautyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E955CD0C7D0599395A66449 /* libPods-xpressbeautyTests.a */; };
 		B2F0DD5B3E584BF18BACE3D3 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D02FA5AF51E4969A53474FF /* Roboto_medium.ttf */; };
 		B3F9D3AEDFAE48A28BB1EBC6 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2ADA725B883A420C973CBE4E /* Fontisto.ttf */; };
@@ -94,6 +96,9 @@
 		89AD13DB88774A6083614CC0 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		9209C2BEDADBA9669ECD6C2C /* Pods-xpressbeautyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xpressbeautyTests.debug.xcconfig"; path = "Target Support Files/Pods-xpressbeautyTests/Pods-xpressbeautyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		948D97749AB04925A8047855 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		96516CD1242A17F80062B00D /* GoogleService-Info(1).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info(1).plist"; path = "../../../../Downloads/GoogleService-Info(1).plist"; sourceTree = "<group>"; };
+		96516CD3242A186E0062B00D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9686A99A242508610079E1EB /* xpressbeauty.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = xpressbeauty.entitlements; path = xpressbeauty/xpressbeauty.entitlements; sourceTree = "<group>"; };
 		A1BA8B74477FBD2AEC53AFEC /* libPods-xpressbeauty.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-xpressbeauty.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC34AE0CFBE8428C9C42FFC3 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		BD14A9718D8C82734DD8EFF8 /* Pods-xpressbeautyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xpressbeautyTests.release.xcconfig"; path = "Target Support Files/Pods-xpressbeautyTests/Pods-xpressbeautyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -163,6 +168,8 @@
 		13B07FAE1A68108700A75B9A /* xpressbeauty */ = {
 			isa = PBXGroup;
 			children = (
+				96516CD3242A186E0062B00D /* GoogleService-Info.plist */,
+				9686A99A242508610079E1EB /* xpressbeauty.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -212,6 +219,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				96516CD1242A17F80062B00D /* GoogleService-Info(1).plist */,
 				13B07FAE1A68108700A75B9A /* xpressbeauty */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* xpressbeautyTests */,
@@ -359,6 +367,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = TZ66KKE5SS;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -423,8 +439,10 @@
 				B2F0DD5B3E584BF18BACE3D3 /* Roboto_medium.ttf in Resources */,
 				55E24309DDD14125B58221A3 /* Roboto.ttf in Resources */,
 				DC77F046203F44E7B7F86B91 /* rubicon-icon-font.ttf in Resources */,
+				96516CD4242A186E0062B00D /* GoogleService-Info.plist in Resources */,
 				0A50CE7502C54E22B0CD45EC /* SimpleLineIcons.ttf in Resources */,
 				252D4B5520D048BC90EBB337 /* Zocial.ttf in Resources */,
+				96516CD2242A17F80062B00D /* GoogleService-Info(1).plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,6 +785,7 @@
 			baseConfigurationReference = 5941AE32884092C795085EF5 /* Pods-xpressbeauty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = xpressbeauty/xpressbeauty.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = TZ66KKE5SS;
@@ -789,6 +808,7 @@
 			baseConfigurationReference = 7399BE9005D6C31CD1A80296 /* Pods-xpressbeauty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = xpressbeauty/xpressbeauty.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TZ66KKE5SS;
 				INFOPLIST_FILE = xpressbeauty/Info.plist;
