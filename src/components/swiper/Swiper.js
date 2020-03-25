@@ -13,6 +13,9 @@ import { promotionsMiddleware } from '../../redux/promotions/promotions.middlewa
 class CustomSwiper extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            noInternet:false
+        }
     }
     componentDidMount() {
         const unsubscribe = NetInfo.addEventListener(state =>{
@@ -22,18 +25,24 @@ class CustomSwiper extends Component {
             }
             else{
                 alert("internet is not available")
+                this.setState({
+                    noInternet:true
+                })
             }
         })
     }
     // componentWillUnmount(){
     //     this.unsubscribe()
     // }
+
     render() {
         // const { promotions } = this.props
+        const { noInternet } = this.state
         console.log("INSIDE PROMOTIONS", this.props.promotions)
         return (
             <View style={{ flex: 1 }}>
-                {this.props.success ? <Swiper
+                {this.props.message ==="get promotions request" && <Loader/>}
+                {this.props.success && <Swiper
                     containerStyle={{ flex: 1, borderWidth: 0 }}
                     autoplayTimeout={3}
                     paginationStyle={{ marginBottom: 42 }}
@@ -51,8 +60,8 @@ class CustomSwiper extends Component {
                             heading={promo.title}
                             description={promo.description}
                             onPress={() => { this.props.navigation.navigate("MobileVerification") }} />))}
-                </Swiper> 
-                : <Promotion
+                </Swiper> }
+                {noInternet && <Promotion
                     onPress={() => { this.props.navigation.navigate("MobileVerification") }}/>}
             </View >
         )

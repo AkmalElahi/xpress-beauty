@@ -33,6 +33,9 @@ class Checkout extends Component {
     goBack = () => {
         const { count } = this.state
         console.log("GO BACK", count)
+        if(count === 1) {
+            this.props.navigation.goBack()
+        }
         if (count > 1) {
             this.setState((ps) => {
                 console.log(count)
@@ -195,7 +198,7 @@ class Checkout extends Component {
 
                 <CustomButton
                     value="Continue" backgroundColor={colors.primaryBtn} height={60} color="white" fontSize={25} onPress={this.continue} />
-                <CustomFooter navigation={this.props.navigation} />
+                <CustomFooter navigation={this.props.navigation} isActive = 'checkout'/>
             </Container>
         );
     }

@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     success: false,
     phone: null,
     error: false,
-    message:""
+    message:"",
+    isloading:false
 }
 
 const generateOtpReducer = (state = INITIAL_STATE, action) => {
@@ -15,14 +16,16 @@ const generateOtpReducer = (state = INITIAL_STATE, action) => {
                 success:false,
                 error:false,
                 phone: action.payload,
-                message:"generate otp request"
+                message:"generate otp request",
+                isloading:true,
             }
         case GenerateOtpActionType.GENERATE_OTP_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: false,
-                message:"otp generated successfully"
+                message:"otp generated successfully",
+                isloading:false
             }
         case GenerateOtpActionType.GENERATE_OTP_FAIL:
             return {
@@ -30,7 +33,8 @@ const generateOtpReducer = (state = INITIAL_STATE, action) => {
                 success: false,
                 error: true,
                 payload,
-                message:"error in generating otp"
+                message:"error in generating otp",
+                isloading:false
             }
         default:
             return state

@@ -1,6 +1,7 @@
 import { userActionTypes } from './user.actionTypes'
 
 const INITIAL_STATE = {
+    isloading:false,
     user_type: "",
     mobile: "",
     appuid: "",
@@ -16,7 +17,7 @@ const INITIAL_STATE = {
     address_note:"",
     isProfileComplete:false,
     success:false,
-    error:false
+    error:false,
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -26,14 +27,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 user_type: action.payload,
                 success:false,
-                error:false
+                error:false,
+                isloading:false,
             }
         case userActionTypes.SET_USER_MOBILE:
             return {
                 ...state,
                 mobile: action.payload.mobile,
                 appuid: action.payload.appuid,
-                token: action.payload.token
+                token: action.payload.token,
+                isloading:false,
             }
         case userActionTypes.SET_USER_PROFILE:
             return {
@@ -41,6 +44,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 username: action.payload.username,
                 dob: action.payload.dob,
                 email: action.payload.email,
+                isloading:false,
+                message:""
             }
         case userActionTypes.CREATE_USER_PROFILE:
             return {
@@ -51,8 +56,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 city: action.payload.city,
                 house: action.payload.house,
                 address_note: action.payload.address_note,
-                message:"set user request"
-
+                message:"set user request",
+                isloading:true,
             }
         case userActionTypes.CREATE_USER_PROFILE_SUCCESS:
             return {
@@ -60,7 +65,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 success: true,
                 error: false,
                 message:"user profile created successfully",
-                isProfileComplete:true
+                isProfileComplete:true,
+                isloading:false,                
             }
         case userActionTypes.CREATE_USER_PROFILE_FAIL:
             return {
@@ -68,11 +74,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 success: false,
                 error: true,
                 message:"error in creating user profile",
-                isProfileComplete:false
+                isProfileComplete:false,
+                isloading:false,
             }
         case userActionTypes.GET_CURRENT_USER:
             return {
-                ...state
+                ...state,
             }
         default:
             return state

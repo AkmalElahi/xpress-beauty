@@ -72,9 +72,10 @@ class Services extends Component {
 
         return (
             <Drawer
+                
                 tapToClose={true}
                 ref={(ref) => { this.drawer = ref; }}
-                content={<DrawerContent />}
+                content={<DrawerContent navigation={this.props.navigation} close={this.closeDrawer} />}
                 onClose={() => this.closeDrawer()} >
                 <Container style={styles.container} >
                     <CustomHeader icon={"menu"} leftButton={() => this.openDrawer()} header="Services" rightButton={() => this.props.navigation.navigate("Notification")} />
@@ -116,7 +117,7 @@ class Services extends Component {
                             />}
                         {this.props.categories.message === "get categories request" && <Loader />}
                     </Content>
-                    <CustomFooter navigation={this.props.navigation} />
+                    <CustomFooter navigation={this.props.navigation} isActive='treatment'/>
                 </Container>
             </Drawer>
         )

@@ -1,14 +1,20 @@
-import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform, Keyboard,  } from 'react-native';
+import React, { Component, useState } from 'react';
+import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform, Keyboard, } from 'react-native';
 import moment from "moment";
-import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker} from 'native-base'
+import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker, Label, CheckBox } from 'native-base'
 import { getUniqueId, getManufacturer, getModel, getDevice } from 'react-native-device-info';
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
+import location from '../../../assets/location.png';
 import profile from '../../../assets/profile.png';
 import { RoundButton } from '../../../components/buttons/Buttons';
 import { connect } from 'react-redux';
-import {setUserProfile, getCurrentUser} from '../../../redux/user/user.actions'
+import { setUserProfile, getCurrentUser } from '../../../redux/user/user.actions'
+import { userMiddleWare } from '../../../redux/user/user.middlewares'
+import Loader from '../../../components/loader/Loader';
+import CustomModal from '../../../components/Modal/Modal';
+import success from '../../../assets/success.png'
+
 
 const width = Dimensions.get('window').width;
 
@@ -18,22 +24,30 @@ class Register extends Component {
         super(props);
         this.state = {
             showHide: false,
-            username:"",
-            email:"",
-            dob:"",
-            model:"",
-            device_id:"",
-            os:"",
-            device:"",
-            platform:""
+            username: "",
+            email: "",
+            dob: "",
+            model: "",
+            device_id: "",
+            os: "",
+            device: "",
+            platform: "",
+            house: "",
+            building: "",
+            street: "",
+            area: "",
+            city: "",
+            submitted: true,
+            modalVisible: false,
+            checked:false
         }
     }
-    componentDidMount(){
-        console.log("USER IN REGISTER",this.props.user)
+    componentDidMount() {
+        console.log("USER IN REGISTER", this.props.user)
         this.setState({
-            username:this.props.user.username,
-            email:this.props.user.email,
-            dob:this.props.user.dob
+            username: this.props.user.username,
+            email: this.props.user.email,
+            dob: this.props.user.dob
         })
         // const device_id = getUniqueId()
         // const model = getModel()
@@ -47,30 +61,53 @@ class Register extends Component {
         //     platform,
         //     device
         // })
-        
+
     }
-    setDate= (date) => {
+    setDate = (date) => {
         Keyboard.dismiss()
         console.log("DATE", moment(date).format('YYYY-MM-DD'))
         // if(Platform.OS==="android"){date = date.toString()}
         // alert(date)
         date = moment(date).format('YYYY-MM-DD')
-        this.setState({dob:date})
+        this.setState({ dob: date })
     }
-    continue = () =>{
-        const { username, email,dob} = this.state
+    continue = () => {
+        const { username, email, dob, checked } = this.state
+        this.setState({ submitted: true })
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         // console.log(reg.test(email))
-        if(username && username.length && email && email.length && dob) {
-            if(reg.test(email)){
+        if (username && username.length && email && email.length && dob && checked) {
+            if (reg.test(email)) {
                 console.log("every field exists")
-                this.props.setProfile({username, email, dob})
-                this.props.navigation.navigate("MapView")
+                this.props.createProfile({ user: { username, email, dob, ...this.props.user } })
+                // this.props.navigation.navigate("MapView")
             }
-        }   
+            else {
+                this.setState({
+                    email: ""
+                })
+            }
+        }
+    }
+    componentDidUpdate(prevProps) {
+        const { user } = this.props
+        if (user !== prevProps.user) {
+            if (user.message === "user profile created successfully") {
+                this.props.setProfile({ username: user.username, email: user.email, dob: user.dob })
+                this.setState({
+                    modalVisible: true,
+                })
+                setTimeout(() => {
+                    this.setState({
+                        modalVisible: false
+                    }),
+                        this.props.navigation.navigate("Services")
+                }, 3000)
+            }
+        }
     }
     render() {
-        const { username, email, dob} = this.state
+        const { username, email, dob, building, street, house, area, city, submitted, modalVisible, checked } = this.state
         return (
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
@@ -88,26 +125,37 @@ class Register extends Component {
                             <Image source={profile} style={styles.img} />
                         </View>
                         <Form style={styles.form}>
-                            <Item regular style={styles.input}>
-                                <Input value={username} placeholder="Username" keyboardType="default" style={styles.field} onChangeText={text=>this.setState({username:text})}/>
+                            <Item fixedLabel style={styles.input}>
+                                <Label style={styles.label}>Username</Label>
+                                <View style={styles.inputView}>
+                                    <Input value={username} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ username: text })} />
+                                    {/* <Image source={location} style={styles.icon} /> */}
+                                </View>
+                                {!!(submitted && !username) && <Text style={styles.error}> username is required</Text>}
                             </Item>
-                            <Item regular style={styles.input}>
-                                <Input value={email} placeholder="Email" keyboardType="email-address" style={styles.field} onChangeText={text=>this.setState({email:text})}/>
+                            <Item fixedLabel style={styles.input}>
+                                <Label style={styles.label}>Email</Label>
+                                <View style={styles.inputView}>
+                                    <Input value={email} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ email: text })} />
+                                    {/* <Image source={location} style={styles.icon} /> */}
+                                </View>
+                                {!!(submitted && !email) && <Text style={styles.error}>valid email is required</Text>}
                             </Item>
                             {/* <Item regular style={styles.input} onPress={()=>this.props.navigation.navigate("MapView")}>
                                 <Input placeholder="Address" style={styles.field} />
                             </Item> */}
-                            <Item regular style={{
+                            <Item style={{
                                 ...styles.input,
                                 paddingTop: Platform.OS === 'ios' ? 2.5 : 6,
-                                paddingLeft: Platform.OS === 'ios' ? 20 : 25,
-                                height:50
+                                paddingLeft: Platform.OS === 'ios' ? 10 : 10,
+                                // height: 50
                             }}
                             // onPress={()=>{this.setState((ps)=>({showHide:!ps.showHide}))}}
                             >
+                                <Label style={styles.label}>Date Of Birth</Label>
                                 <DatePicker
                                     // showDatePicker={this.state.showHide}  {...this.props}
-                                    defaultDate={new Date(1980,1,1)}
+                                    defaultDate={new Date(1980, 1, 1)}
                                     minimumDate={new Date(1950, 1, 1)}
                                     // maximumDate={new Date(2018, 12, 31)}
                                     // formatChosenDate={format("YYYY do, MM")}
@@ -117,20 +165,77 @@ class Register extends Component {
                                     modalTransparent={false}
                                     animationType={"fade"}
                                     androidMode={"default"}
-                                    placeHolderText={dob ? dob :"Date of birth"}
-                                    textStyle={{ width: width * 0.75 }}
-                                    placeHolderTextStyle={{ width: width * 0.75, color: "black"}}
+                                    // placeHolderText={dob ? dob : "Date of birth"}
+                                    textStyle={{ width: width * 0.75, color: "white" }}
+                                    // placeHolderTextStyle={{ width: width * 0.75, color: "black" }}
                                     onDateChange={this.setDate}
                                     disabled={false}
                                     icon={true}
                                     animationType="slide"
                                 />
                                 {/* <Icon name='calendar' style={styles.calenderIcon} /> */}
+                                {!!(submitted && !dob) && <Text style={styles.error}>date is required</Text>}
                             </Item>
+                            {/* <Item fixedLabel style={styles.input}>
+                                <Label style={styles.label}>Flat/Unit</Label>
+                                <View style={styles.inputView}><Input value={house} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ house: text })} />
+                                    <Image source={location} style={styles.icon} /></View>
+                            </Item>
+                            <Item fixedLabel style={styles.input}>
+                                <Label style={styles.label}>Building</Label>
+                                <View style={styles.inputView}>
+                                    <Input value={building} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ building: text })} />
+                                    <Image source={location} style={styles.icon} />
+                                </View>
+                            </Item>
+                            <Item fixedLabel style={styles.input}>
+                                <Label style={styles.label}>Street</Label>
+                                <View style={styles.inputView}>
+                                    <Input value={street} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ street: text })} />
+                                    <Image source={location} style={styles.icon} />
+
+                                </View>
+                            </Item>
+                            <Item fixedLabel style={styles.input}>
+                                <Label style={styles.label}>Area</Label>
+                                <View style={styles.inputView}>
+                                    <Input value={area} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ area: text })} />
+                                    <Image source={location} style={styles.icon} />
+                                </View>
+                            </Item>
+                            <Item fixedLabel style={styles.input}>
+                                <Label style={styles.label}>City</Label>
+                                <View style={styles.inputView}>
+                                    <Input value={city} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ city: text })} />
+                                    <Image source={location} style={styles.icon} />
+                                </View>
+                            </Item> */}
+                            <View style={{
+                                marginTop:"10%",
+                                // backgroundColor: "blue",
+                                width: "80%",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent:'center',
+                                height:30
+                            }}>
+                                <Text style={{ color: 'white' }}>I accept terms and condition</Text>
+                                <CheckBox checked={checked} 
+                                    onPress={()=> this.setState((ps)=>({checked: !ps.checked}))}
+                                 color = {colors.primaryBtn} />
+                            </View>
                             <Item style={styles.continue} last>
-                                <RoundButton height={50} backgroundColor={colors.primaryBtn} value="Continue" color="white" onPress={this.continue} />
+                                {this.props.user.isloading ? <Loader />
+                                    : <RoundButton height={50} backgroundColor={colors.primaryBtn}
+                                        value="Continue" color="white" onPress={this.continue} />}
                             </Item>
                         </Form>
+                        <CustomModal
+                            modalVisible={modalVisible}
+                            img={success}
+                            height={60}
+                            width={60}
+                            text={"You have successfully registered"} />
                     </Content>
                 </ImageBackground>
             </Container>
@@ -145,7 +250,7 @@ const styles = StyleSheet.create(
         container: {
             width: "100%",
             height: "100%",
-            marginTop:0,
+            marginTop: 0,
             backgroundColor: "transparent"
         },
         content: {
@@ -181,16 +286,19 @@ const styles = StyleSheet.create(
             marginTop: 20,
         },
         input: {
-            backgroundColor: "#ffffff",
-            borderRadius: 50,
+            // backgroundColor: "#ffffff",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            // borderRadius: 50,
             paddingTop: 0,
-            // paddingLeft: 25,
+            paddingLeft: 10,
             marginLeft: 0,
             marginRight: 0,
             marginBottom: "1%",
             marginTop: "1%",
             width: "85%",
-            alignItems: "center",
+            flexDirection: "column"
+            // alignItems: "center",
 
         },
         picker: {
@@ -200,11 +308,11 @@ const styles = StyleSheet.create(
         },
         calenderIcon: {
             position: 'absolute',
-            left: "85%",
-            top: 10,
+            left: "95%",
+            top: 30,
             zIndex: -1,
             fontSize: 30,
-            color: 'black'
+            color: 'white'
         },
         continue: {
             backgroundColor: "transparent",
@@ -215,24 +323,44 @@ const styles = StyleSheet.create(
             paddingBottom: 0,
             marginLeft: 0,
             marginRight: 0,
-            marginTop: "20%",
+            marginTop: "5%",
             marginBottom: 0,
             width: "85%",
             borderBottomWidth: 0
         },
+        inputView: {
+            flex: 1,
+            flexDirection: "row",
+            // backgroundColor: "blue",
+            alignItems: 'center'
+        },
         field: {
-            paddingLeft: 25,
-            paddingRight: 25,
-            marginLeft: 10,
-            marginRight: 10,
-            marginTop: 0,
+            // paddingLeft: 25,
+            // paddingRight: 25,
+            // marginLeft: 10,
+            // marginRight: 10,
+            // marginTop: 0,
+            color: "white",
+            width: "100%",
             paddingTop: Platform.OS === "android" ? 15 : 0,
+        },
+        label: {
+            color: "white",
+            fontWeight: 'bold',
+        },
+        icon: {
+            width: 25,
+            height: 25
+        },
+        error: {
+            color: 'rgba(207, 0, 15, 1)'
         }
     }
 )
-const mapStateToProps = ({user}) => ({user:user})
-const maDispatchToProps = dispatch => ({
-    setProfile : data => dispatch(setUserProfile(data)),
-    getCurrentUser: () => dispatch(getCurrentUser())
+const mapStateToProps = ({ user }) => ({ user: user })
+const mapDispatchToProps = dispatch => ({
+    setProfile: data => dispatch(setUserProfile(data)),
+    getCurrentUser: () => dispatch(getCurrentUser()),
+    createProfile: data => dispatch(userMiddleWare(data))
 })
-export default connect(mapStateToProps, maDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

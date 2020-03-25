@@ -1,5 +1,5 @@
 import React from 'react';
-import { Content, ListItem, Text, View, Icon } from 'native-base';
+import { Content, ListItem, Text, View, Icon, Toast } from 'native-base';
 import { FlatList } from 'react-native-gesture-handler';
 import { StyleSheet, Image } from 'react-native';
 import { CustomButton } from '../buttons/Buttons'
@@ -56,7 +56,17 @@ const Review = ({cart, total, totalDuration, deleteItemFromCart, navigation}) =>
                             <Text style={{width:"20%" , textAlign:"center"}}>{item.duration} mins</Text>
                             <View style={{width:"30%", flexDirection:"row",alignItems:"center", justifyContent:"space-around"}}>
                                 <Text style={{textAlign:"right", width:"70%"}}>Rs.{item.price}</Text>
-                                <Icon  name="close-circle-outline" style={{alignSelf:"flex-end",fontSize:18}} onPress={()=>deleteItemFromCart(item)}/>
+                                <Icon  name="close-circle-outline" style={{alignSelf:"flex-end",fontSize:18}} onPress={()=>{
+                                    deleteItemFromCart(item)
+                                    Toast.show({
+                                        text: "Item Removed to Cart",
+                                        style:{width:"90%", alignSelf:"center", borderRadius:10},
+                                        textStyle:{textAlign:"center"},
+                                        position: "top",
+                                        type:'warning',
+                                        duration:1500
+                                      })
+                                    }}/>
                             </View>
                         </ListItem>
                     )}

@@ -35,11 +35,12 @@ class Bookings extends Component {
            <Drawer
            tapToClose={true}
             ref={(ref) => { this.drawer = ref; }}
-            content={<DrawerContent/>}
+            content={<DrawerContent navigation={this.props.navigation} close={this.closeDrawer}/>}
             onClose={() => this.closeDrawer()} 
            >
                 <Container style={styles.container}>
-                <CustomHeader header="Bookings" icon="menu" leftButton={() => this.openDrawer()}/>
+                <CustomHeader header="Bookings" icon="menu" leftButton={() => this.openDrawer()} 
+                rightButton={()=> this.props.navigation.navigate('Notification')}/>
                 <Tabs   tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
                     <Tab heading="Sheduled" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
                         <Sheduled bookings = {this.props.bookings.filter(booking=>booking.job_status === "101")}/>
@@ -48,7 +49,7 @@ class Bookings extends Component {
                         <History />
                     </Tab>
                 </Tabs>
-                <CustomFooter navigation={this.props.navigation} />
+                <CustomFooter navigation={this.props.navigation} isActive = 'bookings'/>
             </Container>
            </Drawer>
         )

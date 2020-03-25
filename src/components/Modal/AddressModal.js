@@ -68,17 +68,17 @@ class AddressModal extends Component {
                 address: { building, street, area, city, house, address_note }
             })
         }
-        else {
-            this.props.createProfile({
-                building,
-                street,
-                area,
-                city,
-                house,
-                address_note,
-                user
-            })
-        }
+        // else {
+        //     this.props.createProfile({
+        //         building,
+        //         street,
+        //         area,
+        //         city,
+        //         house,
+        //         address_note,
+        //         user
+        //     })
+        // }
         // const address = `${building} ${street} ${area} ${city}`
         // const address = {
         //     building,

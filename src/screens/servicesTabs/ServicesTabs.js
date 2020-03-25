@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
+import { Container, Tab, Tabs, ScrollableTab, Toast } from 'native-base';
 import { StyleSheet } from 'react-native'
 import CustomHeader from '../../components/header/customHeader';
 import { colors } from '../../configs/colors';
@@ -53,6 +53,14 @@ class ServicesTabs extends Component {
         // this.setState()
         if (item) {
             this.props.addItemToCart(item)
+            Toast.show({
+                text: "Item Added to Cart",
+                textStyle:{textAlign:"center"},
+                style:{width:"90%", alignSelf:"center", borderRadius:10},
+                position: "top",
+                type:'success',
+                duration:2000
+              })
         }
 
 

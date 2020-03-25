@@ -5,6 +5,7 @@ import bookings from '../../assets/bookings.png';
 import treatment from '../../assets/treatment.png';
 import checkout from '../../assets/checkout.png';
 import { connect } from 'react-redux';
+import { colors } from '../../configs/colors';
 const height = Dimensions.get('window').height
 // console.log(height)
 class CustomFooter extends Component {
@@ -22,20 +23,22 @@ class CustomFooter extends Component {
         }
     }
     render() {
+        const { isActive } = this.props
+        console.log('ISACTIVE', isActive)
         return (
             <Footer style={{ elevation: 0, marginTop: 10, backgroundColor:"white" }} >
                 <FooterTab style={styles.footer}>
                     <Button onPress={() => this.props.navigation.navigate("Bookings")}> 
                         <Image style={{ width: 35, height: 35 }} source={bookings} />
-                        <Text style={{ color: "black" }}>Bookings</Text>
+                        <Text style={{ color: `${isActive === 'bookings' ? colors.primaryBtn : 'black'}` }}>Bookings</Text>
                     </Button>
                     <Button onPress={() => this.props.navigation.navigate("Services")}>
                         <Image style={{ height: 35, width: 40 }} source={treatment} />
-                        <Text style={{ color: "black" }}>Treatments</Text>
+                        <Text style={{ color: `${isActive === 'treatment' ? colors.primaryBtn : 'black'}` }}>Treatments</Text>
                     </Button>
                     <Button onPress={ () =>  this.props.count ? this.props.navigation.navigate("Checkout"):""} >
                         <Image style={{ height: 40, width: 35 }} source={checkout} />
-                        <Text style={{ color: "black" }}>checkout</Text>
+                        <Text style={{ color: `${isActive === 'checkout' ? colors.primaryBtn : 'black'}` }}>checkout</Text>
                         <View  style={styles.items}><Text style={{ textAlign: "center" }}>{this.props.count}</Text></View>
                     </Button>
                 </FooterTab>

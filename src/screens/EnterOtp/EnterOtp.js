@@ -9,8 +9,7 @@ import success from '../../assets/success.png'
 import { connect } from 'react-redux';
 import { VerifyOtpMiddleWare } from '../../redux/verify-otp/verify-otp.middleware';
 import { setUserMobile } from '../../redux/user/user.actions'
-
-
+import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
 // onChanged (text) {
 //     this.setState({
 //         mobile: text.replace(/[^0-9]/g, ''),
@@ -27,7 +26,8 @@ class EnterOtp extends Component {
             freelancer: false,
             error: false,
             modalText: "",
-            user_type: ""
+            user_type: "",
+            enable:true
         }
     }
     componentDidMount() {
@@ -38,9 +38,19 @@ class EnterOtp extends Component {
             mobile: phone,
             user_type
         })
+        // var eventTime = 1366549200; // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
+        // var currentTime = 1366547400; // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
+        // var diffTime = eventTime - currentTime;
+        // var duration = moment.duration(diffTime * 1000, 'milliseconds');
+        // var interval = 1000;
+
+        // setInterval(function () {
+        //     duration = moment.duration(duration - interval, 'milliseconds');
+        //     // $('.countdown').text(duration.hours() + ":" + duration.minutes() + ":" + duration.seconds())
+        //     console.log("DURATION ", duration)
+        // }, interval);
     }
     verify = () => {
-        Keyboard.dismiss()
         const unsubscribe = NetInfo.addEventListener(state => {
             console.log("Connection type", state.type);
             // console.log("Is connected?", state.isConnected);
@@ -48,12 +58,13 @@ class EnterOtp extends Component {
             if (state.isConnected) {
                 const { otp, mobile, user_type } = this.state
                 if (otp.length && mobile) {
+                    Keyboard.dismiss()
                     console.log("VERIFY WORKS", otp, mobile)
                     this.props.verifyNumberOtp({ otp, mobile, user_type })
                 }
             }
             else {
-                alert("You are Offline")
+                alert("Internet is not available")
             }
         });
         // else{
@@ -63,27 +74,38 @@ class EnterOtp extends Component {
         //     })
         // }
     }
+    resendOtp = () => {
+        const { enable, mobile } = this.state
+        if(enable){
+            alert("ENABLE")
+            this.props.resendOtp(mobile)
+        }
+        this.setState({enable:false})
+        setTimeout(() => {
+            this.setState({enable:true})
+        }, 60000);
+    }
     componentDidUpdate(prevProps) {
         if (prevProps.verifyOtp !== this.props.verifyOtp) {
             const { verifyOtp } = this.props
-            if(verifyOtp.message === "otp verified successfully"){
+            if (verifyOtp.message === "otp verified successfully") {
                 console.log("ENTER OT NEXT PROPS", this.props.verifyOtp)
-            this.props.setUserMobile({
-                token: this.props.verifyOtp.token,
-                mobile: this.props.verifyOtp.phone,
-                appuid: this.props.verifyOtp.appuid
-            })
-            this.setState({
-                modalVisible: true,
-                modalText: "Your OTP has successfully verified ",
-                error: false
-            })
-            setTimeout(() => {
+                this.props.setUserMobile({
+                    token: this.props.verifyOtp.token,
+                    mobile: this.props.verifyOtp.phone,
+                    appuid: this.props.verifyOtp.appuid
+                })
                 this.setState({
-                    modalVisible: false
-                }),
-                    this.props.navigation.navigate("createCustomerProfile")
-            }, 3000)
+                    modalVisible: true,
+                    modalText: "Your OTP has successfully verified ",
+                    error: false
+                })
+                setTimeout(() => {
+                    this.setState({
+                        modalVisible: false
+                    }),
+                        this.props.navigation.navigate("createCustomerProfile")
+                }, 3000)
 
             }
             else if (verifyOtp.message === "error in otp verification") {
@@ -92,7 +114,7 @@ class EnterOtp extends Component {
         }
     }
     render() {
-        const { modalVisible, focused, otp, modalText, error } = this.state
+        const { modalVisible, focused, otp, modalText, error, enable } = this.state
         // console.log("OTP", otp)
         return (
             <View style={styles.container}>
@@ -221,7 +243,10 @@ class EnterOtp extends Component {
                     <Text style={styles.shortText}>
                         Didn't you recieve any code?
                     </Text>
-                    <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code" />
+                    <RoundButton
+                     disabled = {!enable}
+                     color="black" backgroundColor="white" height={60} value="Resend a new code"
+                    onPress={this.resendOtp} />
                     <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
                         // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
                         onPress={this.verify}
@@ -283,7 +308,7 @@ const mapStateToProps = ({ generateOtp, verifyOtp, user }) => ({
     generateOtp, verifyOtp, user
 })
 const mapDispatchToProps = dispatch => (
-    {
+    {   resendOtp: phone => dispatch(generateOtpMiddleWare(phone)),
         verifyNumberOtp: data => dispatch(VerifyOtpMiddleWare(data)),
         setUserMobile: data => dispatch(setUserMobile(data))
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Content, View, Thumbnail, Icon, } from 'native-base';
-import { StyleSheet, Image, Text, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, Image, Text, Dimensions, TouchableOpacity, Platform } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import { colors } from '../../configs/colors';
 import profile from '../../assets/promotion1.png'
@@ -40,16 +40,27 @@ class DrawerContent extends Component {
     const { photo } = this.state
     return (
       <Content style={styles.content}>
-        <TouchableOpacity style={styles.imageViewer} onPress={this.handleChoosePhoto}>
-          <Thumbnail source={photo ? photo : avatar} style={styles.image} />
+        <TouchableOpacity style={styles.imageViewer} 
+        // onPress={this.handleChoosePhoto}
+        >
+          {/* <Thumbnail source={photo ? photo : avatar} style={styles.image} />
+           */}
+          <Thumbnail source={profile} style={styles.image} />
+
           <Text style={styles.username}>{username}</Text>
         </TouchableOpacity>
         <View style={styles.mainContent}>
-          <TouchableOpacity style={styles.option} >
+          <TouchableOpacity style={styles.option} onPress={()=> {
+            this.props.navigation.navigate("Bookings")
+            this.props.close
+        }} >
             <Icon name="calendar" style={styles.optionImage} />
             <Text style={styles.optionText}>Bookings</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity style={styles.option} onPress={()=> 
+            {this.props.navigation.navigate("Notification")
+            this.props.close()
+            }}>
             <Icon name="ios-chatboxes" style={styles.optionImage} />
             <Text style={styles.optionText}>Notifications</Text>
           </TouchableOpacity>
@@ -98,15 +109,18 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     marginTop:"5%",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     width: "90%",
     alignSelf: "center",
-    height: "60%"
+    height: height*0.6,
+    // backgroundColor:"blue"
   },
   option: {
     flexDirection: "row",
     width: "60%",
-    // backgroundColor:"blue"
+    paddingVertical:Platform.OS === 'android' ? "5%" : '2%',
+    // marginVertical:"5%",
+    // backgroundColor:"blue",
     alignItems: "center",
     alignSelf: "center",
   },

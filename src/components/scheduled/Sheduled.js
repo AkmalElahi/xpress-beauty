@@ -84,6 +84,8 @@ const Sheduled = ({bookings}) =>  {
                                             textAlign:"left",
                                             color: colors.greybg
                                         }}>Price {item.services.reduce((price, service) => (price += parseInt(service.price)), 0)}</Text>
+                                        <Text style={{color:colors.greybg
+                                        }}>{item.job_status === '101' ? "Pending" : "Scheduled"}</Text>
                                 </View>
                             </CardItem>
                         </Card>

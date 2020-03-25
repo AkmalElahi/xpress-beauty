@@ -14,6 +14,7 @@ import CustomModal from '../../components/Modal/Modal';
 import { CustomButton } from '../../components/buttons/Buttons';
 const countriesJson = require('../../configs/countries.json')
 import { colors } from '../../configs/colors'
+import Loader from '../../components/loader/Loader';
 // onChanged (text) {
 //     this.setState({
 //         mobile: text.replace(/[^0-9]/g, ''),
@@ -33,31 +34,31 @@ class MobileVerify extends Component {
         // console.log("NAVIGATION", this.props.navigation)
 
         this.props.getCountries()
-       
-        console.log(Platform.Version)
-       console.log("Model", getModel())
-       console.log("DEVICE",getDeviceId())
+    //    
+    //     console.log(Platform.Version)
+    //    console.log("Model", getModel())
+    //    console.log("DEVICE",getDeviceId())
     //    getDeviceId().then(device => {
     //   });
     }
     verifyNumber = () => {
         // text = text.replace(/[^0-9]/g, '')
-        Keyboard.dismiss()
         const { phone, country } = this.state
-        if (phone.length >= 12) {
-            const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
-            console.log("END PHONE", endphone)
-            // this.props.verifyMobile(phone)
-            // console.log("VERIFICATION")
-            // this.props.navigation.navigate("MapView")
-
-        }
+        // if (phone.length >= 12) {
+        //     const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
+        //     console.log("END PHONE", endphone)
+        //     // this.props.verifyMobile(phone)
+        //     // console.log("VERIFICATION")
+        //     // this.props.navigation.navigate("MapView")
+            
+        // }
         const unsubscribe = NetInfo.addEventListener(state => {
             console.log("Connection type", state.type);
             // console.log("Is connected?", state.isConnected);
-
+            
             if (state.isConnected) {
                 if (phone.length >= 12) {
+                    Keyboard.dismiss()
                     const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
                     console.log("END PHONE", endphone)
                     this.props.verifyMobile(endphone)
@@ -125,6 +126,7 @@ class MobileVerify extends Component {
     render() {
         const { modalVisible, phone, openPicker, flags } = this.state
         // console.log("COUNTRIES", this.state.country)
+        const {isloading} = this.props.generateOtp
         return (
             <View style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
@@ -199,9 +201,10 @@ class MobileVerify extends Component {
                         <Picker.Item label="JavaScript" value="js" /> */}
                             {flags && flags.map(flag => <Picker.Item label={`${flag.emoji} ${flag.dialCode}`} value={flag} />)}
                         </Picker>
-                        <Icon name="send" style={styles.send} onPress={this.verifyNumber} />
+                        {!isloading && <Icon name="send" style={styles.send} onPress={this.verifyNumber} />}
                     </View>
                     {/* <View style={{width:"70%"}}><CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Submit"  /></View> */}
+                {isloading && <Loader/>}
                 </View>
                 <CustomModal modalVisible={modalVisible}
                     width={60}

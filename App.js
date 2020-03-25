@@ -26,16 +26,16 @@ import { PersistGate } from 'redux-persist/integration/react';
 const AppContainer = createAppContainer(AppNavigator);
 import firebase from 'react-native-firebase'
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { Root } from "native-base";
 class App extends Component {
 
-  async componentDidMount() {
-    this.checkPermission();
-  }
-  componentWillUnmount() {
-    this.notificationListener();
-    this.notificationOpenedListener();
-  }
+  // async componentDidMount() {
+  //   this.checkPermission();
+  // }
+  // componentWillUnmount() {
+  //   this.notificationListener();
+  //   this.notificationOpenedListener();
+  // }
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
     console.log("ENABLED", enabled)
@@ -118,7 +118,8 @@ class App extends Component {
   render() {
     // console.log("IN APP")
     return (
-      <Provider store={store}>
+      <Root>
+        <Provider store={store}>
         <>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
           {/* <Home/> */}
@@ -136,6 +137,7 @@ class App extends Component {
 
         </>
       </Provider>
+      </Root>
     );
   }
 };
