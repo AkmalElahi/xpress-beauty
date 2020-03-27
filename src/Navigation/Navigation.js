@@ -17,7 +17,9 @@ import Bookings from '../screens/customer/Bookings/Bookings';
 import SelectBeautician from '../components/SelectBeautician/SelectBeauticiant';
 import Notification from '../screens/notifications/notifications';
 import NotificationDetail from '../screens/notifications/notification.details';
-
+import AuthFreelancer from '../screens/freelancer/authFreelancer/AuthFreelancer';
+import FreelancerNotification from '../screens/freelancer/notifications/Notifications'
+import SkillsAndTools from '../screens/freelancer/Register/SkillsAndTools';
 
 const registerCustomer = createStackNavigator({
     Swiper: {
@@ -52,9 +54,9 @@ const registerCustomer = createStackNavigator({
         }
     }
 },
-{
-    initialRouteName: 'Swiper'
-})
+    {
+        initialRouteName: 'Swiper'
+    })
 const customerApp = createStackNavigator({
     Services: {
         screen: Services,
@@ -118,20 +120,51 @@ const CustomerStack = createSwitchNavigator({
         initialRouteName: 'AuthCustomer'
     })
 
-const FreelancerStack = createStackNavigator({
-    MobileVerification: {
-        screen: MobileVerify,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
+const registerFreelancer = createStackNavigator({
+
     createFreelancerProfile: {
         screen: RegisterFreelancer,
         navigationOptions: {
             headerShown: false,
         }
     },
+    SkillsAndTools: {
+        screen: SkillsAndTools,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    MobileVerification: {
+        screen: MobileVerify,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    EnterOtp: {
+        screen: EnterOtp,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+},
+    {
+        initialRouteName: 'MobileVerification'
+    })
 
+const FreelancerApp = createStackNavigator({
+    Notification: {
+        screen: FreelancerNotification,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+})
+const FreelancerStack = createSwitchNavigator({
+    AuthFreelancer: AuthFreelancer,
+    FreelancerApp: FreelancerApp,
+    RegisterFreelancer: registerFreelancer
+}, {
+    initialRouteName: 'AuthFreelancer'
 })
 const AppNavigator = createSwitchNavigator({
     UserLoading: UserLoading,

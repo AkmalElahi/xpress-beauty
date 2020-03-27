@@ -11,6 +11,8 @@ import cartReducer from "./cart/cart.reducer";
 import bookingsReducer from "./bookings/bookings.reducers";
 import beauticianReducer from "./beautician/beautician.reducer";
 import notificationsReducer from "./notifications/notifications.reducer";
+import skillsReducer from "./skills/skills.reducer";
+import toolsReducer from "./tools/tools.reducer";
 
 const persistConfig = {
     // Root
@@ -32,7 +34,9 @@ const rootReducer = combineReducers({
     verifyOtp: verifyOtpReducer,
     bookings: bookingsReducer,
     beauticians: beauticianReducer,
-    notifications: notificationsReducer
+    notifications: notificationsReducer,
+    skills: skillsReducer,
+    tools: toolsReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default persistedReducer

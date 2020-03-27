@@ -22,7 +22,7 @@ const Home = ({navigation, setType}) => {
                 <View style={{justifyContent:"space-between",width:"70%", height:"25%", alignSelf:"center"}}>
                     <RoundButton color="black" backgroundColor="white" height={60} value="Customer" onPress={()=>setUser(navigation, setType, "customer")}/>
                     <RoundButton color="white" backgroundColor={colors.primaryBtn}  height={60} value="Freelancer" 
-                    // onPress={()=>setUser(navigation ,setType, "freelancer")}
+                    onPress={()=>setUser(navigation ,setType, "freelancer")}
                     />
                 </View>
             </Container>

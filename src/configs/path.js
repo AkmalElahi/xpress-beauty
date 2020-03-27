@@ -23,5 +23,10 @@ export default class Path {
     static GET_BEAUTICIANS = `${this.BASE_URL}/get_beauticians`
 
     static GET_NOTIFICATIONS = `${this.BASE_URL}/get_notifications`
+    
+    static GET_TOOLS = `${this.BASE_URL}/get_tools`
+
+    static GET_SKILLS = `${this.BASE_URL}/get_skills`
+
 
 }

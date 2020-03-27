@@ -1,0 +1,5 @@
+export const skillsActionTypes = {
+    GET_SKILLS:"GET_SKILLS",
+    GET_SKILLS_SUCCESS:"GET_SKILLS_SUCCESS",
+    GET_SKILLS_FAIL:"GET_SKILLS_FAIL"
+}

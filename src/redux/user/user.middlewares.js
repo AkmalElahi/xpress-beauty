@@ -26,7 +26,7 @@ export const userMiddleWare = (data) => {
             formData.append("device_id", device_id)
             formData.append("model", model)
             formData.append("os", os)
-            formData.append("platform", "address")
+            formData.append("platform", platform)
             formData.append("building", "address")
             formData.append("street", "address")
             formData.append("area", "address")

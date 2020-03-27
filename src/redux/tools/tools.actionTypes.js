@@ -1,0 +1,5 @@
+export const toolsActionTypes = {
+    GET_TOOLS:"GET_TOOLS",
+    GET_TOOLS_SUCCESS:"GET_TOOLS_SUCCESS",
+    GET_TOOLS_FAIL:"GET_TOOLS_FAIL"
+}

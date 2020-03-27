@@ -27,7 +27,7 @@ class EnterOtp extends Component {
             error: false,
             modalText: "",
             user_type: "",
-            enable:true
+            enable: true
         }
     }
     componentDidMount() {
@@ -76,14 +76,28 @@ class EnterOtp extends Component {
     }
     resendOtp = () => {
         const { enable, mobile } = this.state
-        if(enable){
-            alert("ENABLE")
+        if (enable) {
+            // alert("ENABLE")
             this.props.resendOtp(mobile)
         }
-        this.setState({enable:false})
+        this.setState({ enable: false })
         setTimeout(() => {
-            this.setState({enable:true})
+            this.setState({ enable: true })
         }, 60000);
+    }
+    navigator = () => {
+        const { user } = this.props
+        switch (user.user_type) {
+            case "customer":
+                this.props.navigation.navigate("createCustomerProfile")
+                return
+            case "freelancer":
+                this.props.navigation.navigate("createFreelancerProfile")
+                return
+            default:
+                this.props.navigation.navigate("UserLoading")
+                return
+        }
     }
     componentDidUpdate(prevProps) {
         if (prevProps.verifyOtp !== this.props.verifyOtp) {
@@ -104,7 +118,7 @@ class EnterOtp extends Component {
                     this.setState({
                         modalVisible: false
                     }),
-                        this.props.navigation.navigate("createCustomerProfile")
+                        this.navigator()
                 }, 3000)
 
             }
@@ -244,9 +258,9 @@ class EnterOtp extends Component {
                         Didn't you recieve any code?
                     </Text>
                     <RoundButton
-                     disabled = {!enable}
-                     color="black" backgroundColor="white" height={60} value="Resend a new code"
-                    onPress={this.resendOtp} />
+                        disabled={!enable}
+                        color="black" backgroundColor="white" height={60} value="Resend a new code"
+                        onPress={this.resendOtp} />
                     <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
                         // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
                         onPress={this.verify}
@@ -308,7 +322,8 @@ const mapStateToProps = ({ generateOtp, verifyOtp, user }) => ({
     generateOtp, verifyOtp, user
 })
 const mapDispatchToProps = dispatch => (
-    {   resendOtp: phone => dispatch(generateOtpMiddleWare(phone)),
+    {
+        resendOtp: phone => dispatch(generateOtpMiddleWare(phone)),
         verifyNumberOtp: data => dispatch(VerifyOtpMiddleWare(data)),
         setUserMobile: data => dispatch(setUserMobile(data))
     }
