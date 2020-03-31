@@ -296,7 +296,7 @@ class Map extends Component {
                         // predefinedPlaces={[this.state.userLocation]}
                         />
                     </View>
-                    <AddressModal from={this.state.from} navigation={this.props.navigation} modalVisible={this.state.modalVisible} addressComponents={this.state.addressComponents} addressType={this.state.addressType} />
+                    <AddressModal from={this.state.from} navigation={this.props.navigation} modalVisible={this.state.modalVisible} addressComponents={this.state.addressComponents} addressType={this.state.addressType} region={this.state.region}/>
                 </View>
             );
         }

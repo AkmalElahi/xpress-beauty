@@ -55,7 +55,9 @@ target 'xpressbeauty' do
 
 
 
-  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+
+  pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
 
   target 'xpressbeautyTests' do
     inherit! :search_paths

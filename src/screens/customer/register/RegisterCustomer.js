@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import { ImageBackground, StyleSheet, Image, Dimensions, StatusBar, Platform, Keyboard, } from 'react-native';
 import moment from "moment";
 import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker, Label, CheckBox } from 'native-base'
-import { getUniqueId, getManufacturer, getModel, getDevice } from 'react-native-device-info';
+import { getUniqueId, getManufacturer, getModel, getDeviceId } from 'react-native-device-info';
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
 import location from '../../../assets/location.png';
@@ -39,15 +39,25 @@ class Register extends Component {
             city: "",
             submitted: true,
             modalVisible: false,
-            checked:false
+            checked: false
         }
     }
     componentDidMount() {
         console.log("USER IN REGISTER", this.props.user)
+        const device_id = getUniqueId()
+        const model = getModel()
+        const os = Platform.Version
+        const platform = Platform.OS
+        const device = getDeviceId()
         this.setState({
             username: this.props.user.username,
             email: this.props.user.email,
-            dob: this.props.user.dob
+            dob: this.props.user.dob,
+            device_id,
+            model,
+            os,
+            platform,
+            device
         })
         // const device_id = getUniqueId()
         // const model = getModel()
@@ -72,14 +82,14 @@ class Register extends Component {
         this.setState({ dob: date })
     }
     continue = () => {
-        const { username, email, dob, checked } = this.state
+        const { username, email, dob, checked, device_id, model, os, platform, device } = this.state
         this.setState({ submitted: true })
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         // console.log(reg.test(email))
         if (username && username.length && email && email.length && dob && checked) {
             if (reg.test(email)) {
                 console.log("every field exists")
-                this.props.createProfile({ user: { username, email, dob, ...this.props.user } })
+                this.props.createProfile({device, device_id, platform, model, os, user: { username, email, dob, ...this.props.user } })
                 // this.props.navigation.navigate("MapView")
             }
             else {
@@ -211,18 +221,18 @@ class Register extends Component {
                                 </View>
                             </Item> */}
                             <View style={{
-                                marginTop:"10%",
+                                marginTop: "10%",
                                 // backgroundColor: "blue",
                                 width: "80%",
                                 flexDirection: "row",
                                 alignItems: "center",
-                                justifyContent:'center',
-                                height:30
+                                justifyContent: 'center',
+                                height: 30
                             }}>
                                 <Text style={{ color: 'white' }}>I accept terms and condition</Text>
-                                <CheckBox checked={checked} 
-                                    onPress={()=> this.setState((ps)=>({checked: !ps.checked}))}
-                                 color = {colors.primaryBtn} />
+                                <CheckBox checked={checked}
+                                    onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
+                                    color={colors.primaryBtn} />
                             </View>
                             <Item style={styles.continue} last>
                                 {this.props.user.isloading ? <Loader />

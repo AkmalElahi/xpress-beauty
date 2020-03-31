@@ -19,7 +19,10 @@ export const setUserProfile = payload => ({
     type: userActionTypes.SET_USER_PROFILE,
     payload
 })
-
+export const setFreelancerProfile = payload => ({
+    type: userActionTypes.SET_FREELANCER_PROFILE,
+    payload
+})
 export const createUserProfile = payload => ({
     type: userActionTypes.CREATE_USER_PROFILE,
     payload

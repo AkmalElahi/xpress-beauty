@@ -20,12 +20,13 @@ class AddressModal extends Component {
             city: "",
             modalVisible: false,
             house: "",
-            address_note: ""
+            address_note: "",
+            region:null
 
         }
     }
     componentDidMount() {
-        const { addressComponents, modalVisible } = this.props
+        const { addressComponents, modalVisible, region } = this.props
         if (addressComponents) {
             console.log("ADDRESS COMPONENTS", addressComponents)
             this.setState({
@@ -33,7 +34,8 @@ class AddressModal extends Component {
                 street: addressComponents[1].long_name,
                 area: addressComponents[2].long_name,
                 city: addressComponents[3].long_name,
-                modalVisible
+                modalVisible,
+                region
                 // :addressComponents[2].long_name,
             })
         }
@@ -60,12 +62,12 @@ class AddressModal extends Component {
         }
     }
     confirm = () => {
-        const { user, building, street, area, city, house, address_note } = this.state
+        const { user, building, street, area, city, house, address_note , region} = this.state
         console.log("UPDATED PROFILE", user, building, street, area, city)
         if (this.props.from === "checkout") {
             console.log("FROOOOOOOM", this.props.from)
             this.props.navigation.navigate('Checkout', {
-                address: { building, street, area, city, house, address_note }
+                address: { building, street, area, city, house, address_note , region}
             })
         }
         // else {

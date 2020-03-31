@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native'
-
+import ApprovalScreen from '../approvalScreen/approvalScreen'
+import { Content } from 'native-base';
 
 class Notification extends Component {
     constructor(props) {
@@ -9,11 +10,7 @@ class Notification extends Component {
     }
     render() {
         return (
-            <View>
-                <Text>
-                    This is landing screen
-            </Text>
-            </View>
+                <ApprovalScreen/>
         )
     }
 }

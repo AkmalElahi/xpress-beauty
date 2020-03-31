@@ -30,7 +30,19 @@ class RegisterCustomer extends Component {
             checked: false
         }
     }
-
+    componentDidMount() {
+        this.setState({
+            username: this.props.user.username,
+            email: this.props.user.email,
+            dob: this.props.user.dob,
+            house: this.props.user.house,
+            building: this.props.user.building,
+            street: this.props.user.street,
+            area: this.props.user.area,
+            city: this.props.user.city,
+            cnic: this.props.user.cnic
+        })
+    }
     setDate = (date) => {
         // Keyboard.dismiss()
         console.log("DATE", moment(date).format('YYYY-MM-DD'))
@@ -41,13 +53,36 @@ class RegisterCustomer extends Component {
     }
     continue = () => {
         const { username, email, dob, cnic, house, building, area, street, city, checked } = this.state
-        // this.setState({ submitted: true })
-        // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        // console.log(reg.test(email))
-        this.props.navigation.navigate('SkillsAndTools')
-        // if (username && username && email && dob && checked && cnic && house && area && street && city) {
-        //     if (reg.test(email)) {
-        //         console.log("every field exists")
+        this.setState({ submitted: true })
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        console.log(reg.test(email))
+        if (username && username && email && dob && checked && cnic && house && building && area && street && city) {
+            if (reg.test(email)) {
+                console.log("every field exists")
+                const userFromRedux = this.props.user
+                this.props.navigation.navigate('SkillsAndTools', {
+                    user: {
+                        username,
+                        email,
+                        dob,
+                        cnic,
+                        house,
+                        building,
+                        area,
+                        street,
+                        city,
+                        token: userFromRedux.token,
+                        appuid: userFromRedux.appuid,
+                        user_type: userFromRedux.user_type
+                    }
+                })
+            }
+            else {
+                this.setState({
+                    email: ""
+                })
+            }
+        }
         //         const { user } = this.props
         //         // this.props.createProfile({ user: { username, email, dob, ...this.props.user } }
         //         formData.append("language", "en")
@@ -71,13 +106,6 @@ class RegisterCustomer extends Component {
         //         formData.append("address_note", "")
         //         console.log("FORM DATA IN FREELANCER", formData)
         //         this,props.navigation.navigate('SkillsAndTools')
-        //     }
-        //     else {
-        //         this.setState({
-        //             email: ""
-        //         })
-        //     }
-        // }
     }
     render() {
         const { username, submitted, email, cnic, dob, house, building, street, area, city, checked } = this.state
@@ -88,7 +116,7 @@ class RegisterCustomer extends Component {
                         <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content">
                             <Left >
                                 <Button transparent>
-                                    <Icon name='arrow-back' style={{ color: "black" }} />
+                                    <Icon name='arrow-back' style={{ color: "white" }} />
                                 </Button>
                             </Left>
                             <Body />
@@ -109,7 +137,7 @@ class RegisterCustomer extends Component {
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Email</Label>
                                 <View style={styles.inputView}>
-                                    <Input value={email} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ email: text })} />
+                                    <Input value={email} keyboardType='email-address' style={styles.field} onChangeText={text => this.setState({ email: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
                                 {!!(submitted && !email) && <Text style={styles.error}>valid email is required</Text>}
@@ -117,7 +145,7 @@ class RegisterCustomer extends Component {
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>CNIC</Label>
                                 <View style={styles.inputView}>
-                                    <Input value={cnic} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ cnic: text })} />
+                                    <Input value={cnic} keyboardType='number-pad' maxLength={14} style={styles.field} onChangeText={text => this.setState({ cnic: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
                                 {!!(submitted && !cnic) && <Text style={styles.error}> cnic is required</Text>}
@@ -135,7 +163,7 @@ class RegisterCustomer extends Component {
                                         modalTransparent={false}
                                         animationType={"fade"}
                                         androidMode={"default"}
-                                        placeHolderText=""
+                                        placeHolderText="Tap to select date"
                                         textStyle={{ width: width * 0.75, color: 'white' }}
                                         placeHolderTextStyle={{ width: width * 0.75, color: "white" }}
                                         onDateChange={this.setDate}
@@ -161,7 +189,7 @@ class RegisterCustomer extends Component {
                                     <Input value={building} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ building: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !username) && <Text style={styles.error}> username is required</Text>}
+                                {!!(submitted && !building) && <Text style={styles.error}> building is required</Text>}
                             </Item>
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Street</Label>
@@ -187,24 +215,24 @@ class RegisterCustomer extends Component {
                                 </View>
                                 {!!(submitted && !city) && <Text style={styles.error}> city is required</Text>}
                             </Item>
-                           <Item style={{borderBottomWidth:0}}>
-                           <View style={{
-                                marginTop: "10%",
-                                width: "80%",
-                                display:'flex',
-                                // height:100,
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: 'center',
-                            }}>
-                                <Text style={{ color: 'white'}}>I accept terms and Policy</Text>
-                                <CheckBox checked={checked}
-                                    onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
-                                    color={colors.primaryBtn} />
-                            </View>
-                           </Item>
+                            <Item style={{ borderBottomWidth: 0 }}>
+                                <View style={{
+                                    marginTop: "10%",
+                                    width: "80%",
+                                    display: 'flex',
+                                    // height:100,
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: 'center',
+                                }}>
+                                    <Text style={{ color: 'white' }}>I accept terms and Policy</Text>
+                                    <CheckBox checked={checked}
+                                        onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
+                                        color={colors.primaryBtn} />
+                                </View>
+                            </Item>
                             <Item style={styles.continue} last>
-                                {this.props.user.isloading? <Loader />
+                                {this.props.user.isloading ? <Loader />
                                     : <RoundButton height={50} backgroundColor={colors.primaryBtn}
                                         value="Continue" color="white" onPress={this.continue} />}
                             </Item>
@@ -336,10 +364,14 @@ const styles = StyleSheet.create(
             width: "100%",
             paddingTop: Platform.OS === "android" ? 15 : 0,
 
+        },
+        error: {
+            color: "red",
+            fontSize: 12
         }
     }
 )
-const mapStateToProps = ({user}) => ({
-    user:user
+const mapStateToProps = ({ user }) => ({
+    user: user
 })
 export default connect(mapStateToProps)(RegisterCustomer);

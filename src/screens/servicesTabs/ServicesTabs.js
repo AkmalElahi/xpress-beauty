@@ -53,14 +53,14 @@ class ServicesTabs extends Component {
         // this.setState()
         if (item) {
             this.props.addItemToCart(item)
-            Toast.show({
-                text: "Item Added to Cart",
-                textStyle:{textAlign:"center"},
-                style:{width:"90%", alignSelf:"center", borderRadius:10},
-                position: "top",
-                type:'success',
-                duration:2000
-              })
+            // Toast.show({
+            //     text: "Item Added to Cart",
+            //     textStyle:{textAlign:"center"},
+            //     style:{width:"90%", alignSelf:"center", borderRadius:10},
+            //     position: "top",
+            //     type:'success',
+            //     duration:2000
+            //   })
         }
 
 

@@ -22,6 +22,8 @@ export const cartMiddleWare = (data) => {
             formData.append("city", data.address.city)
             formData.append("house", data.address.house)
             formData.append("address_note", data.address.address_note)
+            formData.append("latitude", data.address.region.latitude)
+            formData.append("longitude", data.address.region.longitude)
             console.log("FORM DATA IN CHECKOUT" ,formData)
             let res = await fetch(Path.CHECKOUT, {
                 method: 'post',
