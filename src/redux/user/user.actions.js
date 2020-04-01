@@ -37,3 +37,18 @@ export const createUserProfileFail = payload => ({
     type: userActionTypes.CREATE_USER_PROFILE_FAIL,
     payload
 })
+
+export const checkStatus = payload => ({
+    type: userActionTypes.CHECK_STATUS,
+    payload
+})
+
+export const checkStatusSuccess = payload => ({
+    type: userActionTypes.CHECK_STATUS_SUCCESS,
+    payload
+})
+
+export const checkStatusFail = payload => ({
+    type: userActionTypes.CHECK_STATUS_FAIL,
+    payload
+})

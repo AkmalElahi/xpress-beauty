@@ -1,4 +1,4 @@
-import { createUserProfile, createUserProfileSuccess, createUserProfileFail } from './user.actions'
+import { createUserProfile, createUserProfileSuccess, createUserProfileFail, checkStatus, checkStatusSuccess, checkStatusFail } from './user.actions'
 import Path from '../../configs/path'
 import { Platform } from 'react-native'
 import { getUniqueId, getModel, getDevice } from 'react-native-device-info'
@@ -73,5 +73,33 @@ export const userMiddleWare = (data) => {
             console.log("ERROR IN USER PROFILE", error)
             dispatch(createUserProfileFail(error))
         }
+    }
+}
+
+export const checkFreelancerStatus = (data) => {
+    return  async dispatch=>{
+        dispatch(checkStatus())
+           try {
+            //    console.log("DATA IN CHECK",data)
+               formData.append("appuid", data.appuid )
+               formData.append("language", "en")
+               formData.append("token", data.token)
+             let res = await fetch(Path.CHECK_STATUS, {
+                method: 'post',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                body: formData
+            })
+            res = await res.json()
+            // console.log("PROMOTIONS MIDDLEWARE", res)
+            if(res.message === "success"){
+                console.log("RESPONSE OF CHECK", res)
+                dispatch(checkStatusSuccess(res.data))
+            }
+            // .then(res => res.json())
+            // .then(res => console.log("Responce", res))
+           } catch (error) {
+               console.log("ERROR", error)
+               dispatch(checkStatusFail(error))
+           }
     }
 }

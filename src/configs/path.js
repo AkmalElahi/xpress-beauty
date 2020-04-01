@@ -28,5 +28,8 @@ export default class Path {
 
     static GET_SKILLS = `${this.BASE_URL}/get_skills`
 
+    static CHECK_STATUS = `${this.BASE_URL}/check_status`
+
+    static GET_JOBS_FREELANCER = `${this.BASE_URL}/get_jobs_freelancer`
 
 }

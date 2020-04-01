@@ -13,6 +13,7 @@ import beauticianReducer from "./beautician/beautician.reducer";
 import notificationsReducer from "./notifications/notifications.reducer";
 import skillsReducer from "./skills/skills.reducer";
 import toolsReducer from "./tools/tools.reducer";
+import jobsReducer from "./jobs/jobs.reducer";
 
 const persistConfig = {
     // Root
@@ -36,7 +37,8 @@ const rootReducer = combineReducers({
     beauticians: beauticianReducer,
     notifications: notificationsReducer,
     skills: skillsReducer,
-    tools: toolsReducer
+    tools: toolsReducer,
+    jobs: jobsReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default persistedReducer

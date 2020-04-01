@@ -18,6 +18,8 @@ const INITIAL_STATE = {
     isProfileComplete: false,
     success: false,
     error: false,
+    status: "",
+    is_approved:""
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -91,6 +93,28 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 isProfileComplete: false,
                 isloading: false,
             }
+
+        case userActionTypes.CHECK_STATUS:
+            return {
+                ...state,
+                message: "check freelancer status request",
+                isloading: true
+            }
+        case userActionTypes.CHECK_STATUS_SUCCESS:
+            return {
+                ...state,
+                message: "check freelancer status success",
+                isloading: false,
+                status:action.payload.status,
+                is_approved:action.payload.is_approved
+            }
+        case userActionTypes.CHECK_STATUS_FAIL:
+            return {
+                ...state,
+                message: "check freelancer status false",
+                isloading: false
+            }
+
         case userActionTypes.GET_CURRENT_USER:
             return {
                 ...state,
