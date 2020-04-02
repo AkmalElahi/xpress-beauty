@@ -152,7 +152,7 @@ const registerFreelancer = createStackNavigator({
     })
 
 const FreelancerApp = createStackNavigator({
-    Notification: {
+    FreelancerNotification: {
         screen: FreelancerNotification,
         navigationOptions: {
             headerShown: false,

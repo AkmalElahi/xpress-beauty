@@ -19,7 +19,8 @@ const INITIAL_STATE = {
     success: false,
     error: false,
     status: "",
-    is_approved:""
+    is_approved: "",
+    isActive:true,
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -105,8 +106,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 message: "check freelancer status success",
                 isloading: false,
-                status:action.payload.status,
-                is_approved:action.payload.is_approved
+                status: action.payload.status,
+                is_approved: action.payload.is_approved
             }
         case userActionTypes.CHECK_STATUS_FAIL:
             return {
@@ -114,7 +115,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 message: "check freelancer status false",
                 isloading: false
             }
-
+        case userActionTypes.FRELLANCER_ACTIVE:
+            return {
+                ...state,
+                isActive: action.payload
+            }
         case userActionTypes.GET_CURRENT_USER:
             return {
                 ...state,

@@ -29,6 +29,7 @@ const Address = ({ navigation, address, beautician , enableSelect, isSelect}) =>
                     <Switch 
                     onValueChange={(value)=>enableSelect(value)}
                     ios_backgroundColor="white" 
+                    thumbTintColor={colors.freelancerButton}
                     trackColor={{ false: "lightgrey", true: colors.primaryBtn }} 
                     value={isSelect} />
                 </View>

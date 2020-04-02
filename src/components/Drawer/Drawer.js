@@ -77,6 +77,9 @@ class DrawerContent extends Component {
             <Text style={styles.optionText}>Help</Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.version}>
+          <Text style={{textAlign:"center", fontSize:16, color:"white"}}>1.0.0.0</Text>
+        </View>
       </Content>
     );
   }
@@ -86,6 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.clr1,
     // marginTop:"5%",
     marginBottom: 0,
+    flexDirection:"column",
     paddingBottom: 0
   },
   imageViewer: {
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     marginTop: "15%",
     width: "90%",
     alignSelf: "center",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
   },
@@ -103,36 +107,48 @@ const styles = StyleSheet.create({
     borderRadius: radius
   },
   username: {
-    paddingLeft: "10%",
+    // paddingLeft: "10%",
+    marginTop:"5%",
     fontSize: 20,
-    color: "white"
+    color: "white",
+    textAlign:"center"
   },
   mainContent: {
-    marginTop:"5%",
-    // justifyContent: "space-between",
+    marginTop:"10%",
+    justifyContent: "space-between",
     width: "90%",
     alignSelf: "center",
-    height: height*0.6,
+    // height: height*0.6,
     // backgroundColor:"blue"
   },
   option: {
     flexDirection: "row",
-    width: "60%",
+    width: "100%",
     paddingVertical:Platform.OS === 'android' ? "5%" : '2%',
     // marginVertical:"5%",
-    // backgroundColor:"blue",
+    // backgroundColor:"green",
     alignItems: "center",
     alignSelf: "center",
   },
   optionText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight:"bold",
     color: "white",
-    paddingLeft: "2%"
+    paddingLeft: "5%"
   },
   optionImage: {
-    // width: 20,
+    textAlign:"center",
+    width: 40,
     // height: 20,
+    // backgroundColor:'blue',
     color:"white"
+  },
+  version:{
+    // backgroundColor:"blue",
+    marginTop:200,
+    justifyContent:"center",
+    height:40,
+    alignItems:"center"
   }
 })
 const mapStateToProps = ({ user }) => (user)

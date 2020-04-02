@@ -52,3 +52,8 @@ export const checkStatusFail = payload => ({
     type: userActionTypes.CHECK_STATUS_FAIL,
     payload
 })
+
+export const setActive = payload => ({
+    type: userActionTypes.FRELLANCER_ACTIVE,
+    payload
+})

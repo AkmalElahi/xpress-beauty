@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     success: false,
     jobs: null,
     error: false,
-    message:""
+    message: "",
+    loading: false
 }
 
 const jobsReducer = (state = INITIAL_STATE, action) => {
@@ -12,9 +13,10 @@ const jobsReducer = (state = INITIAL_STATE, action) => {
         case jobsActionTypes.GET_JOBS:
             return {
                 ...state,
-                success:false,
-                error:false,
-                message:"get jobs request"
+                success: false,
+                error: false,
+                message: "get jobs request",
+                loading: true
             }
         case jobsActionTypes.GET_JOBS_SUCCESS:
             return {
@@ -22,14 +24,16 @@ const jobsReducer = (state = INITIAL_STATE, action) => {
                 success: true,
                 error: false,
                 jobs: action.payload,
-                message:"jobs found successfully"
+                message: "jobs found successfully",
+                loading: false
             }
         case jobsActionTypes.GET_JOBS_FAIL:
             return {
                 ...state,
                 success: false,
                 error: true,
-                message: "error in getting jobs"
+                message: "error in getting jobs",
+                loading: false
             }
         default:
             return state

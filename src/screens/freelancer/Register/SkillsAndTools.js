@@ -138,6 +138,7 @@ class SkillsAndTools extends Component {
                     city: this.state.user.city,
                     house: this.state.user.house,
                 })
+                this.props.navigation.navigate("FreelancerNotification")
                 // this.setState({
                 //     modalVisible: true,
                 // })

@@ -5,15 +5,20 @@ import { Content, Container, Header, Left, Body, Icon, Button, Title, Right, Swi
 import Geolocation from '@react-native-community/geolocation';
 import { connect } from 'react-redux';
 import { checkFreelancerStatus } from '../../../redux/user/user.middlewares';
-import colors from '../../../configs/colors'
+// import colors from '../../../configs/colors'
 import bell from '../../../assets/bell.png'
 import NotificationsList from './NotificationsList';
 import { jobssMiddleware } from '../../../redux/jobs/jobs.middleware';
+import InActive from '../approvalScreen/InActive';
+import { colors } from '../../../configs/colors';
+import { setActive } from '../../../redux/user/user.actions';
 class Notification extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            region:{}
+            region:{},
+            active:true, 
+            refreshing:false
         }
     }
     getPosition = async () => {
@@ -64,13 +69,27 @@ class Notification extends Component {
         }
 
     }
+    handleRefresh = () => {
+        // this.setState({
+        //     refreshing:true
+        // })
+        const { user } = this.props
+        const { region } = this.state
+        this.props.getJobs({
+            appuid: user.appuid,
+            token: user.token,
+            latitute: region.latitude,
+            longitude: region.longitude
+        })
+    }
     render() {
+        const { region, active } = this.state
         const { user } = this.props
         return (
             <Container>
                 <Header style={styles.header} androidStatusBarColor={"white"} iosBarStyle="dark-content">
                     <Left style={{ flex: 1 }}>
-                        {user && user.is_approved === "1" && <Button transparent>
+                        {user.isActive && user && user.is_approved === "1" && <Button transparent>
                             <Icon name='menu' style={{ color: "black" }} />
                         </Button>}
                     </Left>
@@ -84,18 +103,26 @@ class Notification extends Component {
                             flexDirection: "column",
                             width: 60
                         }}>
-                            <Switch onValueChange={(value) => alert(value)} />
+                            <Switch value={user.isActive} 
+                            ios_backgroundColor="white" 
+                            thumbColor={colors.freelancerButton}
+                            trackColor={{ false: "lightgrey", true:"lightgrey" }} 
+                            onValueChange={(value) => this.props.setActive(value) }/>
                             <Text style={{ fontSize: 10, textAlign: "center" }}>Active</Text>
                         </Button>
-                        {user && user.is_approved === "1" && <Button transparent onPress={() => alert("BELL")}>
+                        {user.isActive && user && user.is_approved === "1" && <Button transparent onPress={() => alert("BELL")}>
                             <Image source={bell} style={{ width: 20, height: 25 }} />
                         </Button>}
                     </Right>
                 </Header>
-                {user && user.is_approved === "0" && <ApprovalScreen />}
-                {user && user.is_approved === "1" && <NotificationsList region={this.state.region} 
+                {user.isActive && user && user.is_approved === "0" && <ApprovalScreen />}
+                {user.isActive && user && user.is_approved === "1" && <NotificationsList 
+                refreshing={this.props.jobs.loading}
+                handleRefresh={this.handleRefresh}
+                region={region} 
                 jobs = {this.props.jobs && this.props.jobs.jobs}
                 />}
+                {!user.isActive && <InActive/>}
             </Container>
 
         )
@@ -112,6 +139,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ user, jobs }) => ({ user, jobs })
 const mapDispatchToProps = (dispatch) => ({
     checkStatus: data => dispatch(checkFreelancerStatus(data)),
-    getJobs: data => dispatch(jobssMiddleware(data))
+    getJobs: data => dispatch(jobssMiddleware(data)),
+    setActive: data => dispatch(setActive(data))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

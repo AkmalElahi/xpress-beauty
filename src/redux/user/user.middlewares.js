@@ -32,6 +32,7 @@ export const userMiddleWare = (data) => {
                 formData.append("email", data.user.email)
                 formData.append("dob", data.user.dob)
                 formData.append("user_type", data.user.user_type)
+                formData.append("cnic_no", data.user.cnic)
                 formData.append("country_id", 166)
                 formData.append("device", data.device)
                 formData.append("device_id", data.device_id)

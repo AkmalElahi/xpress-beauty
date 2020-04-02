@@ -1,5 +1,6 @@
 export const colors = {
    primaryBtn: "#FD89BF",
+   freelancerButton:"#5b4e95",
    bg1: "#FD89BF",
    bg2: "#7D5C81",
    bg3: "#5F3F4E",
