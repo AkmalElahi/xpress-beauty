@@ -59,7 +59,7 @@ const Review = ({cart, total, totalDuration, deleteItemFromCart, navigation}) =>
                                 <Icon  name="close-circle-outline" style={{alignSelf:"flex-end",fontSize:18}} onPress={()=>{
                                     deleteItemFromCart(item)
                                     Toast.show({
-                                        text: "Service Removed to Cart",
+                                        text: "Service Removed from Cart",
                                         style:{width:"90%", alignSelf:"center", borderRadius:10,},
                                         textStyle:{textAlign:"center"},
                                         position: "bottom",

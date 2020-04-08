@@ -27,6 +27,16 @@ class CustomFooter extends Component {
                     style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
+                    duration: 1500
+                })   
+            }
+            if(this.props.count === prevProps.count){
+                Toast.show({
+                    text: "Service Already added",
+                    textStyle: { textAlign: "center" },
+                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    position: "bottom",
+                    type: 'warning',
                     duration: 2000
                 })
             }

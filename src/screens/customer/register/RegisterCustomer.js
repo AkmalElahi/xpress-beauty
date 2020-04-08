@@ -103,7 +103,7 @@ class Register extends Component {
         const { user } = this.props
         if (user !== prevProps.user) {
             if (user.message === "user profile created successfully") {
-                this.props.setProfile({ username: user.username, email: user.email, dob: user.dob })
+                // this.props.setProfile({ username: user.username, email: user.email, dob: user.dob })
                 this.setState({
                     modalVisible: true,
                 })

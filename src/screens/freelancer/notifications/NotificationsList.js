@@ -3,9 +3,10 @@ import { View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
 import { Container, Card, CardItem, Thumbnail, Item, Button } from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
 import user from '../../../assets/user.png'
+import chat from '../../../assets/chat.png'
 import location from '../../../assets/location.png'
 
-const NotificationsList = ({ jobs, handleRefresh, refreshing }) => {
+const NotificationsList = ({ jobs, handleRefresh, refreshing, navigation }) => {
     console.log("JOBS IN LIST", jobs)
     return (
         <Container>
@@ -50,13 +51,21 @@ const NotificationsList = ({ jobs, handleRefresh, refreshing }) => {
                                     alignItems: "center",
                                     width: '40%'
                                 }}>
-                                    <Text>Chat</Text>
-                                    <TouchableOpacity style={{
-                                        borderRadius: 25,
-                                        borderWidth: 1,
-                                        backgroundColor: "#5b4e95",
-                                        width: 60
-                                    }}><Text style={{ color: "white", textAlign: "center" }}>Details</Text></TouchableOpacity>
+                                    <Image source={chat}
+                                        style={{
+                                            width: 25,
+                                            height: 25
+                                        }} />
+                                    <TouchableOpacity
+                                        onPress={()=>navigation.navigate("jobDetail", {
+                                            job:item
+                                        })}
+                                        style={{
+                                            borderRadius: 25,
+                                            borderWidth: 1,
+                                            backgroundColor: "#5b4e95",
+                                            width: 60
+                                        }}><Text style={{ color: "white", textAlign: "center" }}>Details</Text></TouchableOpacity>
                                 </View>
                             </CardItem>
                         </View>

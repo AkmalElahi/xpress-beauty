@@ -1,4 +1,5 @@
-import { createUserProfile, createUserProfileSuccess, createUserProfileFail, checkStatus, checkStatusSuccess, checkStatusFail } from './user.actions'
+import { createUserProfile, createUserProfileSuccess, createUserProfileFail, checkStatus, 
+    checkStatusSuccess, checkStatusFail, setFreelancerProfile, setUserProfile } from './user.actions'
 import Path from '../../configs/path'
 import { Platform } from 'react-native'
 import { getUniqueId, getModel, getDevice } from 'react-native-device-info'
@@ -32,7 +33,7 @@ export const userMiddleWare = (data) => {
                 formData.append("email", data.user.email)
                 formData.append("dob", data.user.dob)
                 formData.append("user_type", data.user.user_type)
-                formData.append("cnic_no", data.user.cnic)
+                formData.append("cnic", data.user.cnic)
                 formData.append("country_id", 166)
                 formData.append("device", data.device)
                 formData.append("device_id", data.device_id)
@@ -65,6 +66,35 @@ export const userMiddleWare = (data) => {
             console.log("UPDATE PROFILE RESPONSE", res)
             if (res.message === "success") {
                 console.log("RESPONSE", res)
+                if (data.user.user_type === "customer") {
+                    console.log("SETTING CUSTOMER PROFILE IN MIDDLEWARE", res.data)
+                    dispatch(setUserProfile({
+                        username: data.user.username,
+                        email: data.user.email,
+                        dob: data.user.date_of_birth,
+                        token: data.user.token,
+                        appuid: data.user.appuid,
+                    }))
+                }
+                if (data.user.user_type === 'freelancer') {
+                    console.log("SETTING FREELANCER PROFILE IN MIDDLEWARE", res.data)
+                    dispatch(setFreelancerProfile({
+                        username: data.user.username,
+                        email: data.user.email,
+                        dob: data.user.date_of_birth,
+                        token: data.user.token,
+                        appuid: data.user.appuid,
+                        building: data.user.building,
+                        house: data.user.house,
+                        city: data.user.city,
+                        area: data.user.area,
+                        street: data.user.street,
+                        tools: data.tools,
+                        skills: data.skills,
+                        training: data.training,
+                        cnic:data.user.cnic
+                    }))
+                }
                 dispatch(createUserProfileSuccess(res.message))
             }
             else {
@@ -91,7 +121,7 @@ export const checkFreelancerStatus = (data) => {
                 body: formData
             })
             res = await res.json()
-            // console.log("PROMOTIONS MIDDLEWARE", res)
+            console.log("PROMOTIONS MIDDLEWARE", res)
             if(res.message === "success"){
                 console.log("RESPONSE OF CHECK", res)
                 dispatch(checkStatusSuccess(res.data))

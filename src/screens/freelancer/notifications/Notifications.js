@@ -12,13 +12,14 @@ import { jobssMiddleware } from '../../../redux/jobs/jobs.middleware';
 import InActive from '../approvalScreen/InActive';
 import { colors } from '../../../configs/colors';
 import { setActive } from '../../../redux/user/user.actions';
+import FreelancerFooter from '../../../components/footer/freelancerFooter';
 class Notification extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            region:{},
-            active:true, 
-            refreshing:false
+            region: {},
+            active: true,
+            refreshing: false
         }
     }
     getPosition = async () => {
@@ -103,11 +104,11 @@ class Notification extends Component {
                             flexDirection: "column",
                             width: 60
                         }}>
-                            <Switch value={user.isActive} 
-                            ios_backgroundColor="white" 
-                            thumbColor={colors.freelancerButton}
-                            trackColor={{ false: "lightgrey", true:"lightgrey" }} 
-                            onValueChange={(value) => this.props.setActive(value) }/>
+                            <Switch value={user.isActive}
+                                ios_backgroundColor="white"
+                                thumbColor={colors.freelancerButton}
+                                trackColor={{ false: "lightgrey", true: "lightgrey" }}
+                                onValueChange={(value) => this.props.setActive(value)} />
                             <Text style={{ fontSize: 10, textAlign: "center" }}>Active</Text>
                         </Button>
                         {user.isActive && user && user.is_approved === "1" && <Button transparent onPress={() => alert("BELL")}>
@@ -116,13 +117,17 @@ class Notification extends Component {
                     </Right>
                 </Header>
                 {user.isActive && user && user.is_approved === "0" && <ApprovalScreen />}
-                {user.isActive && user && user.is_approved === "1" && <NotificationsList 
-                refreshing={this.props.jobs.loading}
-                handleRefresh={this.handleRefresh}
-                region={region} 
-                jobs = {this.props.jobs && this.props.jobs.jobs}
+                {user.isActive && user && user.is_approved === "1" && <NotificationsList
+                    refreshing={this.props.jobs.loading}
+                    handleRefresh={this.handleRefresh}
+                    region={region}
+                    jobs={this.props.jobs && this.props.jobs.jobs}
+                    navigation={this.props.navigation}
                 />}
-                {!user.isActive && <InActive/>}
+                {!user.isActive && <InActive />}
+                {user.isActive && <FreelancerFooter
+                    navigation={this.props.navigation}
+                />}
             </Container>
 
         )

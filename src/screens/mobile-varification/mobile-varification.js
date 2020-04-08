@@ -286,7 +286,7 @@ const styles = StyleSheet.create(
     }
 )
 const mapStateToProps = ({ generateOtp, countries }) => {
-    console.log("STATE", generateOtp)
+    console.log("STATE IN GENERATE OTP", generateOtp)
     return { generateOtp, countries }
 }
 const mapDispatchToProps = (dispatch) => ({

@@ -50,7 +50,7 @@ class AuthFreelancer extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log("STATE", state.user)
+    console.log("STATE IN AUTH FREELANCER", state.user)
     return { user: state.user }
 }
 

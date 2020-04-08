@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ImageBackground, StyleSheet, Image, Dimensions } from 'react-native';
 import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker, Label, CheckBox } from 'native-base'
-// import { Input } from '../../../components/inputs/inputs'
+import { TextInputMask } from 'react-native-masked-text'
 const width = Dimensions.get('window').width;
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
@@ -31,6 +31,7 @@ class RegisterCustomer extends Component {
         }
     }
     componentDidMount() {
+        console.log("USER IN REGISTER", this.props.user)
         this.setState({
             username: this.props.user.username,
             email: this.props.user.email,
@@ -73,7 +74,10 @@ class RegisterCustomer extends Component {
                         city,
                         token: userFromRedux.token,
                         appuid: userFromRedux.appuid,
-                        user_type: userFromRedux.user_type
+                        user_type: userFromRedux.user_type,
+                        skills: userFromRedux.freelancerSkills,
+                        tools:userFromRedux.freelancerTools,
+                        training:userFromRedux.freelancerTraining
                     }
                 })
             }
@@ -145,7 +149,20 @@ class RegisterCustomer extends Component {
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>CNIC</Label>
                                 <View style={styles.inputView}>
-                                    <Input value={cnic} keyboardType='number-pad' maxLength={14} style={styles.field} onChangeText={text => this.setState({ cnic: text })} />
+                                    <TextInputMask
+                                        type={'custom'}
+                                        options={{
+                                            mask: '99999-9999999-9'
+                                        }}
+                                        value={cnic}
+                                        onChangeText={text => {
+                                            console.log("PHONE", text)
+                                            this.setState({
+                                                cnic: text
+                                            })
+                                        }}
+                                        style={styles.field}
+                                    />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
                                 {!!(submitted && !cnic) && <Text style={styles.error}> cnic is required</Text>}
@@ -163,7 +180,7 @@ class RegisterCustomer extends Component {
                                         modalTransparent={false}
                                         animationType={"fade"}
                                         androidMode={"default"}
-                                        placeHolderText="Tap to select date"
+                                        placeHolderText={dob ? dob : "Tap here to select date"}
                                         textStyle={{ width: width * 0.75, color: 'white' }}
                                         placeHolderTextStyle={{ width: width * 0.75, color: "white" }}
                                         onDateChange={this.setDate}

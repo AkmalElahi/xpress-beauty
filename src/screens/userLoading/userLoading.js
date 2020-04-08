@@ -64,7 +64,7 @@ class UserLoading extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log("STATE", state.user)
+    console.log("STATE IN USER LOADING", state.user)
     return { user: state.user }
 }
 

@@ -50,7 +50,7 @@ class AuthCustomer extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log("STATE", state.user)
+    console.log("STATE IN AUTH CUSTOMER", state.user)
     return { user: state.user }
 }
 

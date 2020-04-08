@@ -27,7 +27,8 @@ class EnterOtp extends Component {
             error: false,
             modalText: "",
             user_type: "",
-            enable: true
+            enable: true,
+            time: 60
         }
     }
     componentDidMount() {
@@ -81,7 +82,15 @@ class EnterOtp extends Component {
             this.props.resendOtp(mobile)
         }
         this.setState({ enable: false })
+        let time = 60
+        setInterval(() => {
+            time = time - 1
+            this.setState({
+                time
+            })
+        }, 1000)
         setTimeout(() => {
+            clearInterval()
             this.setState({ enable: true })
         }, 60000);
     }
@@ -128,7 +137,7 @@ class EnterOtp extends Component {
         }
     }
     render() {
-        const { modalVisible, focused, otp, modalText, error, enable } = this.state
+        const { modalVisible, focused, otp, modalText, error, enable, time } = this.state
         // console.log("OTP", otp)
         return (
             <View style={styles.container}>
@@ -257,6 +266,7 @@ class EnterOtp extends Component {
                     <Text style={styles.shortText}>
                         Didn't you recieve any code?
                     </Text>
+                    {!enable && <Text style={{fontSize:12, color:"white", textAlign:"center"}}>{time}</Text>}
                     <RoundButton
                         disabled={!enable}
                         color="black" backgroundColor="white" height={60} value="Resend a new code"

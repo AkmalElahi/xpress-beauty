@@ -32,4 +32,7 @@ export default class Path {
 
     static GET_JOBS_FREELANCER = `${this.BASE_URL}/get_jobs_freelancer`
 
+    static GET_JOBS_FREELANCER_HISTORY = `${this.BASE_URL}/get_jobs_freelancer_history`
+
+
 }

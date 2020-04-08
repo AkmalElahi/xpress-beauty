@@ -17,13 +17,15 @@ export const jobssMiddleware =  (data) => {
                 body: formData
             })
             res = await res.json()
-            // console.log("PROMOTIONS MIDDLEWARE", res)
+            console.log("GET JOBS MIDDLEWARE", res)
             if(res.message === "success"){
                 console.log("JOBS RESPONSE", res)
                 dispatch(getJobsSuccess(res.data))
+                return
             }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
+            dispatch(getJobsFail("error in getting jobs"))
            } catch (error) {
                console.log("ERROR", error)
                dispatch(getJobsFail(error))

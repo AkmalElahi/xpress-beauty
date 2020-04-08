@@ -21,6 +21,9 @@ const INITIAL_STATE = {
     status: "",
     is_approved: "",
     isActive:true,
+    freelancerSkills:{},
+    freelancerTools:{},
+    freelancerTraining:""
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -51,6 +54,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 message: ""
             }
         case userActionTypes.SET_FREELANCER_PROFILE:
+            console.log("USER IN REDUCER",action.payload)
             return {
                 ...state,
                 building: action.payload.building,
@@ -61,6 +65,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 username: action.payload.username,
                 dob: action.payload.dob,
                 email: action.payload.email,
+                freelancerSkills:action.payload.skills,
+                freelancerTools:action.payload.tools,
+                freelancerTraining:action.payload.training,
                 isloading: false,
                 message: "set freelancer profile"
             }

@@ -20,7 +20,10 @@ import NotificationDetail from '../screens/notifications/notification.details';
 import AuthFreelancer from '../screens/freelancer/authFreelancer/AuthFreelancer';
 import FreelancerNotification from '../screens/freelancer/notifications/Notifications'
 import SkillsAndTools from '../screens/freelancer/Register/SkillsAndTools';
-
+import JobDetail from '../screens/freelancer/JobDetail/JobDetail';
+import FreelancerBookings from '../screens/freelancer/FreelancerBookings/FreelancerBookings';
+import FreelancerEditProfile from '../screens/freelancer/editProfile/editProfile'
+import Gallery from '../screens/freelancer/gallery/gallery';
 const registerCustomer = createStackNavigator({
     Swiper: {
         screen: CustomSwiper,
@@ -158,6 +161,30 @@ const FreelancerApp = createStackNavigator({
             headerShown: false,
         }
     },
+    jobDetail: {
+        screen: JobDetail,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    FreelancerBookings: {
+        screen: FreelancerBookings,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    EditProfile: {
+        screen: FreelancerEditProfile,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Gallery: {
+        screen: Gallery,
+        navigationOptions: {
+            headerShown: false,
+        }
+    }
 })
 const FreelancerStack = createSwitchNavigator({
     AuthFreelancer: AuthFreelancer,

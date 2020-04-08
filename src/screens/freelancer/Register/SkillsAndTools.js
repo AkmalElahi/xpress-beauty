@@ -55,7 +55,10 @@ class SkillsAndTools extends Component {
         console.log("USEER FROM PARAMS", this.props.navigation.getParam("user"))
         const user = this.props.navigation.getParam("user")
         this.setState({
-            user
+            user,
+            skills:user.skills.map(skill=> skill.id),
+            tools:user.tools.map(tool => tool.id),
+            training:user.training
         })
     }
     addSkill = (id) => {
@@ -128,16 +131,16 @@ class SkillsAndTools extends Component {
         if (user !== prevProps.user) {
             console.log("USER IN DID UPDATE", user)
             if (user.message === "user profile created successfully") {
-                this.props.setProfile({
-                    username: this.state.user.username,
-                    email: this.state.user.email,
-                    dob: this.state.user.dob,
-                    building: this.state.user.building,
-                    street: this.state.user.street,
-                    area: this.state.user.area,
-                    city: this.state.user.city,
-                    house: this.state.user.house,
-                })
+                // this.props.setProfile({
+                //     username: this.state.user.username,
+                //     email: this.state.user.email,
+                //     dob: this.state.user.dob,
+                //     building: this.state.user.building,
+                //     street: this.state.user.street,
+                //     area: this.state.user.area,
+                //     city: this.state.user.city,
+                //     house: this.state.user.house,
+                // })
                 this.props.navigation.navigate("FreelancerNotification")
                 // this.setState({
                 //     modalVisible: true,
