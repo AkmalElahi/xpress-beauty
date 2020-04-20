@@ -19,10 +19,13 @@ export const generateOtpMiddleWare =  (phone) => {
                 console.log("RESPONSE", res)
                 dispatch(generateOtpSuccess(res.message))
             }
+            else{
+               dispatch(generateOtpFail("error in generating otp"))
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {
-               console.log("ERROR", error)
+               console.log("OTP ERROR", error)
                dispatch(generateOtpFail(error))
            }
     }

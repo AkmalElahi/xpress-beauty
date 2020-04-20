@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Platform } from 'react-native'
 import ApprovalScreen from '../approvalScreen/approvalScreen'
 import { Content, Container, Header, Left, Body, Icon, Button, Title, Right, Switch } from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
 import { connect } from 'react-redux';
-import { checkFreelancerStatus } from '../../../redux/user/user.middlewares';
+import { checkFreelancerStatus, setFreelancerStatusMiddleware } from '../../../redux/user/user.middlewares';
 // import colors from '../../../configs/colors'
 import bell from '../../../assets/bell.png'
 import NotificationsList from './NotificationsList';
@@ -13,6 +13,7 @@ import InActive from '../approvalScreen/InActive';
 import { colors } from '../../../configs/colors';
 import { setActive } from '../../../redux/user/user.actions';
 import FreelancerFooter from '../../../components/footer/freelancerFooter';
+import Loader from '../../../components/loader/Loader';
 class Notification extends Component {
     constructor(props) {
         super(props);
@@ -49,14 +50,30 @@ class Notification extends Component {
     }
     componentDidMount() {
         const { user } = this.props
+        const { region } = this.state
         console.log("USER IN NOTIFFFF", user)
         this.props.checkStatus(user)
         this.getPosition()
+        // if (user.is_approved === "1" && user.status === "Approved") {
     }
     componentDidUpdate(prevProps) {
-        const { user } = this.props
+        const { user, jobs } = this.props
         if (prevProps.user !== user) {
             if (user.message === "check freelancer status success" && user.is_approved === "1" && user.status === "Approved") {
+                console.log("SUERRRRRRRRRRRRRRRr", user)
+                const { region } = this.state
+                this.props.getJobs({
+                    appuid: user.appuid,
+                    token: user.token,
+                    latitute: region.latitude,
+                    longitude: region.longitude
+                })
+
+            }
+        }
+        if (prevProps.jobs !== jobs) {
+            if (jobs.message === "update job success") {
+                this.getPosition()
                 console.log("SUERRRRRRRRRRRRRRRr", user)
                 const { region } = this.state
                 this.props.getJobs({
@@ -83,35 +100,42 @@ class Notification extends Component {
             longitude: region.longitude
         })
     }
+    setFreelancerStatus = (value) => {
+        const { user } = this.props
+        this.props.setFreelancerStatus({appuid: user.appuid, token:user.token, is_active:value})
+    }
     render() {
         const { region, active } = this.state
         const { user } = this.props
         return (
             <Container>
+                {/* <Loader/> */}
                 <Header style={styles.header} androidStatusBarColor={"white"} iosBarStyle="dark-content">
                     <Left style={{ flex: 1 }}>
                         {user.isActive && user && user.is_approved === "1" && <Button transparent>
-                            <Icon name='menu' style={{ color: "black" }} />
+                            <Icon name='home' style={{ color: "black" }} />
                         </Button>}
                     </Left>
-                    <Body style={{ flex: 1 }}>
-                        <Title style={{ color: "black", fontWeight: "normal" }} >Notifications</Title>
+                    <Body style={{ flex: 2 }}>
+                        <Title style={{ color: "black", fontWeight: "normal" }} >Jobs Feed</Title>
                     </Body>
-                    <Right style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    <Right style={{ flex: 2, alignItems: "center", justifyContent:"flex-end" }}>
                         <Button transparent style={{
                             alignItems: "center",
-                            justifyContent: "center",
+                            justifyContent: "space-between",
                             flexDirection: "column",
-                            width: 60
+                            width: 70,
                         }}>
                             <Switch value={user.isActive}
+                                // iosBarStyle={{backgroundColor:"blue",}}
+                                style={{ transform:Platform.OS === "android" ? [{ scaleX: 1 }, { scaleY: 1 }] : [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
                                 ios_backgroundColor="white"
                                 thumbColor={colors.freelancerButton}
                                 trackColor={{ false: "lightgrey", true: "lightgrey" }}
-                                onValueChange={(value) => this.props.setActive(value)} />
-                            <Text style={{ fontSize: 10, textAlign: "center" }}>Active</Text>
+                                onValueChange={(value) => this.setFreelancerStatus(value)} />
+                            <Text style={{ fontSize: 12, textAlign: "center" }}>Active</Text>
                         </Button>
-                        {user.isActive && user && user.is_approved === "1" && <Button transparent onPress={() => alert("BELL")}>
+                        {user.isActive && user && user.is_approved === "1" && <Button transparent >
                             <Image source={bell} style={{ width: 20, height: 25 }} />
                         </Button>}
                     </Right>
@@ -125,7 +149,7 @@ class Notification extends Component {
                     navigation={this.props.navigation}
                 />}
                 {!user.isActive && <InActive />}
-                {user.isActive && <FreelancerFooter
+                {user.isActive && user && user.is_approved === "1" && <FreelancerFooter
                     navigation={this.props.navigation}
                 />}
             </Container>
@@ -145,6 +169,6 @@ const mapStateToProps = ({ user, jobs }) => ({ user, jobs })
 const mapDispatchToProps = (dispatch) => ({
     checkStatus: data => dispatch(checkFreelancerStatus(data)),
     getJobs: data => dispatch(jobssMiddleware(data)),
-    setActive: data => dispatch(setActive(data))
+    setFreelancerStatus: data => dispatch(setFreelancerStatusMiddleware(data))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

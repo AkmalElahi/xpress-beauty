@@ -28,7 +28,7 @@ class AddressModal extends Component {
     componentDidMount() {
         const { addressComponents, modalVisible, region } = this.props
         if (addressComponents) {
-            console.log("ADDRESS COMPONENTS", addressComponents)
+            console.log("ADDRESS COMPONENTS", addressComponents, "Region",region)
             this.setState({
                 building: addressComponents[0].long_name,
                 street: addressComponents[1].long_name,
@@ -41,17 +41,18 @@ class AddressModal extends Component {
         }
     }
     componentDidUpdate(prevProps) {
-        const { user, addressComponents, modalVisible, from } = this.props
+        const { user, addressComponents, modalVisible, from, region } = this.props
         console.log("USER IN ADDRESS MODAL", user)
         if (addressComponents !== prevProps.addressComponents) {
-            console.log("ADDRESS COMPONENTS", addressComponents[0].long_name)
+            // console.log("ADDRESS COMPONENTS", addressComponents[0].long_name)
             this.setState({
                 building: addressComponents[0].long_name,
                 street: addressComponents[2].long_name,
                 area: addressComponents[3].long_name,
                 city: addressComponents[4].long_name,
                 user: user,
-                modalVisible
+                modalVisible,
+                region
                 // :addressComponents[2].long_name,
             })
         }

@@ -7,7 +7,7 @@ import { colors } from '../../configs/colors';
 
 const NotFound = ({from}) => (
     <Container >
-        <Content scrollEnabled={false} >
+        <Content scrollEnabled={false} contentContainerStyle={{ height:"100%"}}>
             {/* Image View */}
             <View style={{
                 // height:"50%",
@@ -16,23 +16,31 @@ const NotFound = ({from}) => (
                 alignItems:"center"
             }}>
                 <Image source={from === 'schedule' ? `${booking}` : `${history}`} style={{
-                    height:150,
-                    width:150
+                    height:120,
+                    width:120
                 }}/>
             </View>
             {/* Text View */}
             <View style={{
                 justifyContent:"space-between",
+                // backgroundColor:"blue",
                 alignItems:"center",
-                width:"60%",
+                // width:"60%",
                 marginTop:"5%",
                 alignSelf:"center",
-                height:"50%"
+                height:"25%"
+                // flex:1
             }}>
-            <Text style={{fontSize:25, textAlign:"center"}}>
+            {/* <Text style={{fontSize:25, textAlign:"center"}}>
                 {from === "schedule" ? `You don't have any Bookings `: `You don't have any history `}
-            </Text>
-            <Text style={{color:colors.greybg}}>
+            </Text> */}
+            {from === "schedule" && <Text style={{fontSize:25, textAlign:"center", width:280,}}>
+                You don have any Bookings
+            </Text>}
+            {from === "history" && <Text style={{fontSize:25, textAlign:"center", width:280,}}>
+                You don have any History
+            </Text>}
+            <Text style={{color:colors.greybg, textAlign:"center"}}>
                 Let's do something about that.
             </Text>
             <Text style={{color:colors.cl2}}>

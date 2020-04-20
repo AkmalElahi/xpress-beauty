@@ -14,6 +14,7 @@ import notificationsReducer from "./notifications/notifications.reducer";
 import skillsReducer from "./skills/skills.reducer";
 import toolsReducer from "./tools/tools.reducer";
 import jobsReducer from "./jobs/jobs.reducer";
+import galleryReducer from "./gallery/gallery.reducer";
 
 const persistConfig = {
     // Root
@@ -38,7 +39,8 @@ const rootReducer = combineReducers({
     notifications: notificationsReducer,
     skills: skillsReducer,
     tools: toolsReducer,
-    jobs: jobsReducer
+    jobs: jobsReducer,
+    gallery: galleryReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default persistedReducer

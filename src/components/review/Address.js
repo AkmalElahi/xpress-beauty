@@ -27,6 +27,7 @@ const Address = ({ navigation, address, beautician , enableSelect, isSelect}) =>
                 <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                     <Text>Select Beautician</Text>
                     <Switch 
+                    disabled={true}
                     onValueChange={(value)=>enableSelect(value)}
                     ios_backgroundColor="white" 
                     thumbTintColor={colors.freelancerButton}

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Container, Content, View, Text, } from 'native-base';
 import { Image, } from 'react-native';
-import booking from '../../../assets/Booking.png'
+import alert from '../../../assets/alert.png'
 import history from '../../../assets/History.png'
 import { colors } from '../../../configs/colors';
 
 const InActive = ({ from }) => (
-    <View style={{justifyContent: "center", flex: 1 }}>
+    <View style={{justifyContent: "flex-start", flex: 1, paddingTop:"25%" }}>
         <View style={{
             // height:"50%",
             // marginTop: "5%",
@@ -14,9 +14,9 @@ const InActive = ({ from }) => (
             alignItems: "center",
             // backgroundColor:"green"
         }}>
-            <Image source={booking} style={{
-                height: 150,
-                width: 150
+            <Image source={alert} style={{
+                height: 80,
+                width: 90
             }} />
         </View>
         {/* Text View */}

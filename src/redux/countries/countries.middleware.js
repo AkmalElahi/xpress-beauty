@@ -18,6 +18,9 @@ export const countriesMiddleware =  () => {
                 // console.log("RESPONSE", res)
                 dispatch(getCountriesSuccess(res.data))
             }
+           else{
+            dispatch(getCountriesFail("error in getting countries"))
+           }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {

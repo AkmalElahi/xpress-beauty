@@ -20,6 +20,9 @@ export const skillsMiddleware =  ({token, appuid}) => {
                 // console.log("SKILLS RESPONSE", res)
                 dispatch(getToolsSuccess(res.data))
             }
+            else{
+               dispatch(getToolsFail("error in gettiing skills"))
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {

@@ -20,6 +20,10 @@ export const catagoriesMiddleware =  ({ appuid, token}) => {
                 console.log("CATAGORIES", res)
                 dispatch(getCatagoriesSuccess(res.data))
             }
+            else{
+               dispatch(getCatagoriesFail("error in getting catagories"))
+
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {

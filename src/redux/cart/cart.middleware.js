@@ -5,7 +5,7 @@ const formData = new FormData()
 export const cartMiddleWare = (data) => {
     return async dispatch => {
         dispatch(checkoutCart(data))
-        // console.log("CART MIDDLEWARE", data)
+        console.log("CART MIDDLEWARE", data)
         try {
             formData.append("language", "en")
             formData.append("appuid", data.user.appuid)

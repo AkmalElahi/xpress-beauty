@@ -21,16 +21,25 @@ const FreelancerFooter = ({ isActive, navigation }) => {
                 backgroundColor: "white"
             }}>
                 <Button onPress={() => navigation.navigate("EditProfile")}>
-                    <Image style={{ width: 30, height: 40 }} source={isActive=== 'profile' ? freelancerprofile2 : freelancerprofile1} />
-                    <Text style={{ color: `${isActive === 'profile' ? '#5A5197' : '#9F98D2'}` }}>Profile</Text>
+                    <Image style={{ width: 27, height: 35 }} source={isActive === 'profile' ? freelancerprofile2 : freelancerprofile1} />
+                    <Text style={{
+                        color: `${isActive === 'profile' ? '#5A5197' : '#9F98D2'}`,
+                        fontWeight: `${isActive === 'profile' ? 'bold' : 'normal'}`,
+                    }}>Profile</Text>
                 </Button>
                 <Button onPress={() => navigation.navigate("Gallery")}>
-                    <Image style={{ height: 30, width: 40 }} source={isActive === 'gallery' ?  gallery2 : gallery1} />
-                    <Text style={{ color: `${isActive === 'gallery' ? '#5A5197' : '#9F98D2'}` }}>Gallery</Text>
+                    <Image style={{ height: 30, width: 40 }} source={isActive === 'gallery' ? gallery2 : gallery1} />
+                    <Text style={{
+                        color: `${isActive === 'gallery' ? '#5A5197' : '#9F98D2'}`,
+                        fontWeight: `${isActive === 'gallery' ? 'bold' : 'normal'}`,
+                    }}>Gallery</Text>
                 </Button>
                 <Button onPress={() => navigation.navigate("FreelancerBookings")} >
-                    <Image style={{ height: 35, width: 35 }} source={isActive === 'bookings' ?  freelancerbooking2 : freelancerbooking1} />
-                    <Text style={{ color: `${isActive === 'bookings' ? '#5A5197' : '#9F98D2'}` }}>Bookings</Text>
+                    <Image style={{ height: 35, width: 35 }} source={isActive === 'bookings' ? freelancerbooking2 : freelancerbooking1} />
+                    <Text style={{
+                        color: `${isActive === 'bookings' ? '#5A5197' : '#9F98D2'}`,
+                        fontWeight: `${isActive === 'bookings' ? 'bold' : 'normal'}`,
+                    }}>Bookings</Text>
                 </Button>
             </FooterTab>
 

@@ -30,7 +30,7 @@ class CustomFooter extends Component {
                     duration: 1500
                 })   
             }
-            if(this.props.count === prevProps.count){
+            if(this.props.count === prevProps.count && !this.props.cart.error){
                 Toast.show({
                     text: "Service Already added",
                     textStyle: { textAlign: "center" },

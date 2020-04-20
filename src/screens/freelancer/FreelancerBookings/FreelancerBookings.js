@@ -18,18 +18,18 @@ class FreelancerBookings extends Component {
 
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         const { user } = this.props
         console.log("PROPS IN BOOKINGS", this.props.bookings)
-        this.props.getBookings({appuid:user.appuid, token:user.token})
+        this.props.getBookings({ appuid: user.appuid, token: user.token })
     }
-    
+
     render() {
         return (
-                <Container style={styles.container}>
+            <Container style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor={"white"} iosBarStyle="dark-content">
                     <Left style={{ flex: 1 }}>
-                        <Button transparent onPress={()=>this.props.navigation.goBack()}>
+                        <Button transparent onPress={() => this.props.navigation.goBack()}>
                             <Icon name='arrow-back' style={{ color: "black" }} />
                         </Button>
                     </Left>
@@ -37,20 +37,20 @@ class FreelancerBookings extends Component {
                         <Title style={{ color: "black", fontWeight: "normal" }} >Details</Title>
                     </Body>
                     <Right style={{ flex: 1 }}>
-                        {/* <Button transparent onPress={() => alert("BELL")}>
-                            <Image source={bell} style={{ width: 20, height: 25 }} />
-                        </Button> */}
+                        <Button transparent onPress={() => this.props.navigation.navigate("FreelancerNotification")}>
+                            <Icon name='home' style={{ color: "black" }} />
+                        </Button>
                     </Right>
-                </Header> 
-                <Tabs   tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
-                    <Tab heading="Sheduled" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        {!!this.props.bookings.length && <Sheduled bookings = {this.props.bookings.filter(booking=>booking.job_status === "500" || booking.job_status === "401")}/>}
+                </Header>
+                <Tabs tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
+                    <Tab heading="Scheduled" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
+                        {!!this.props.bookings.length && <Sheduled navigation={this.props.navigation}  bookings={this.props.bookings.filter(booking => booking.job_status === "301" || booking.job_status === "401")} />}
                     </Tab>
                     <Tab heading="History" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        {!!this.props.bookings.length &&  <History />}
+                        {!!this.props.bookings.length && <History navigation={this.props.navigation} bookings={this.props.bookings.filter(booking => booking.job_status === "201" || booking.job_status === "500" || booking.job_status === "202")} />}
                     </Tab>
                 </Tabs>
-                <FreelancerFooter navigation={this.props.navigation} isActive = 'bookings'/>
+                <FreelancerFooter navigation={this.props.navigation} isActive='bookings' />
             </Container>
         )
     }
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
         elevation: 0,
     }
 })
-const mapStateToProps = ({user, bookings :{bookings}}) => ({user, bookings})
-const mapDispatchToProps = dispatch =>  ({
+const mapStateToProps = ({ user, bookings: { bookings } }) => ({ user, bookings })
+const mapDispatchToProps = dispatch => ({
     getBookings: data => dispatch(freelancerBookingsMiddleware(data))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FreelancerBookings);

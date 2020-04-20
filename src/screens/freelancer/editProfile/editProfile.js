@@ -13,43 +13,43 @@ import EditExpertise from './expertise'
 
 
 
-const FreelancerEditProflie =({navigation}) => {
-  
-        return (
-                <View style={styles.container}>
-                <Header style={styles.header} androidStatusBarColor={"white"} iosBarStyle="dark-content">
-                    <Left style={{ flex: 1 }}>
-                        <Button transparent onPress={()=>this.props.navigation.goBack()}>
-                            <Icon name='arrow-back' style={{ color: "black" }} />
-                        </Button>
-                    </Left>
-                    <Body style={{ flex: 0 }}>
-                        <Title style={{ color: "black", fontWeight: "normal" }} >Profile</Title>
-                    </Body>
-                    <Right style={{ flex: 1 }}>
-                        {/* <Button transparent onPress={() => alert("BELL")}>
-                            <Image source={bell} style={{ width: 20, height: 25 }} />
-                        </Button> */}
-                    </Right>
-                </Header> 
-                <Tabs   tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
-                    <Tab heading="Personal" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                        <Personal navigation={navigation}/>
-                    </Tab>
-                    <Tab heading="Experise" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                         <EditExpertise/>
-                    </Tab>
-                </Tabs>
-                <FreelancerFooter navigation={navigation} isActive = 'profile'/>
-            </View>
-        )
-    }
+const FreelancerEditProflie = ({ navigation }) => {
+
+    return (
+        <View style={styles.container}>
+            <Header style={styles.header} androidStatusBarColor={"white"} iosBarStyle="dark-content">
+                <Left style={{ flex: 1 }}>
+                    <Button transparent onPress={() => navigation.goBack()}>
+                        <Icon name='arrow-back' style={{ color: "black" }} />
+                    </Button>
+                </Left>
+                <Body style={{ flex: 0 }}>
+                    <Title style={{ color: "black", fontWeight: "normal" }} >Profile</Title>
+                </Body>
+                <Right style={{ flex: 1 }}>
+                    <Button transparent onPress={() => navigation.navigate("FreelancerNotification")}>
+                        <Icon name='home' style={{ color: "black" }} />
+                    </Button>
+                </Right>
+            </Header>
+            <Tabs tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
+                <Tab heading="Personal" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
+                    <Personal navigation={navigation} />
+                </Tab>
+                <Tab heading="Expertise" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
+                    <EditExpertise navigation={navigation} />
+                </Tab>
+            </Tabs>
+            <FreelancerFooter navigation={navigation} isActive='profile' />
+        </View>
+    )
+}
 
 
 const styles = StyleSheet.create({
     container: {
         // marginTop: "3%",
-        height:"100%",
+        height: "100%",
         backgroundColor: "white"
     },
     header: {

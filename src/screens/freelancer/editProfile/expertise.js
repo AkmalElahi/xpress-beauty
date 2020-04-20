@@ -1,37 +1,70 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text , TouchableOpacity, FlatList, Image} from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, FlatList, Image } from 'react-native'
 import checked from '../../../assets/checked.png'
 import unchecked from '../../../assets/unchecked.png'
-import { Content } from 'native-base';
+import { Content, Toast } from 'native-base';
 import { connect } from 'react-redux';
 import { skillsMiddleware } from '../../../redux/skills/skills.middleware'
 import { toolsMiddleware } from '../../../redux/tools/tools.middleware';
 import { CustomButton } from '../../../components/buttons/Buttons';
 import { colors } from '../../../configs/colors';
-
+import { updateFreelancerProfileMiddleware } from '../../../redux/user/user.middlewares';
+import Loader from '../../../components/loader/Loader';
+import CustomModal from '../../../components/Modal/Modal';
+import loader from '../../../assets/loader.gif'
+import success from '../../../assets/success.png'
 
 class EditExpertise extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            skills:[],
-            tools:[],
-            training:"yes"
+            skills: [],
+            tools: [],
+            training: "yes"
         }
     }
+
     componentDidMount() {
         const { user } = this.props
         console.log("USER IN EXPERTISE", user)
-        this.props.getSkills({ token:user.token, appuid:user.appuid})
-        this.props.getTools({ token:user.token, appuid:user.appuid })
+        this.props.getSkills({ token: user.token, appuid: user.appuid })
+        this.props.getTools({ token: user.token, appuid: user.appuid })
         // console.log("USEER FROM PARAMS", this.props.navigation.getParam("user"))
         // const user = this.props.navigation.getParam("user")
         this.setState({
             user,
-            skills:user.freelancerSkills,
-            tools:user.freelancerTools,
-            training:user.training
+            skills: user.freelancerSkills,
+            tools: user.freelancerTools,
+            training: user.training,
+            token: user.token,
+            appuid: user.appuid
         })
+    }
+    componentDidUpdate(prevProps) {
+        const { user } = this.props
+        if (user !== prevProps) {
+            if (user.message === "update freelancer profile success") {
+                this.props.navigation.navigate("FreelancerNotification")
+                Toast.show({
+                    text: "Profile Updated Successfully",
+                    textStyle: { textAlign: "center" },
+                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    position: "bottom",
+                    type: 'success',
+                    duration: 1500
+                })
+            }
+            if (user.message === "update freelancer profile false") {
+                Toast.show({
+                    text: "Error in Updating profile",
+                    textStyle: { textAlign: "center" },
+                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    position: "bottom",
+                    type: 'warning',
+                    duration: 1500
+                })
+            }
+        }
     }
     addSkill = (id) => {
         const { skills } = this.state
@@ -57,20 +90,26 @@ class EditExpertise extends Component {
             this.setState({ tools: newTools })
         }
     }
+    updateProfile = () => {
+        const { skills, tools } = this.state
+        if (tools && skills) {
+            this.props.updateProfile({ type: "expertise", ...this.state })
+        }
+    }
     render() {
         const { skills, tools, file, uploading, training } = this.state
 
         return (
-            <Content contentContainerStyle={{width:"85%", alignSelf:"center", height:"100%"}}>
+            <Content contentContainerStyle={{ width: "85%", alignSelf: "center", height: "100%" }}>
                 <View style={styles.skillsView}>
-                    <Text style={{  marginVertical: "5%", fontWeight: "bold", fontSize: 16 }}>Select The Skills You have</Text>
+                    <Text style={{ marginVertical: "5%", fontWeight: "bold", fontSize: 16 }}>Select The Skills You have</Text>
                     <FlatList
                         style={{ marginBottom: "5%" }}
                         data={this.props.skills.skills}
                         renderItem={({ item, index }) => (
                             <TouchableOpacity style={styles.skills} onPress={() => this.addSkill(item.id)} >
-                                <Image source={skills.includes(item.id) ? checked : unchecked} style={styles.radio} />
-                                <Text style={{  paddingLeft: 10, fontSize: 16, fontWeight: "bold" }}>{item.skill}</Text>
+                                <Image source={skills && skills.includes(item.id) ? checked : unchecked} style={styles.radio} />
+                                <Text style={{ paddingLeft: 10, fontSize: 16, fontWeight: "bold" }}>{item.skill}</Text>
                             </TouchableOpacity>
                         )
                         }
@@ -78,14 +117,14 @@ class EditExpertise extends Component {
                     />
                 </View>
                 <View style={styles.toolsView}>
-                    <Text style={{  marginVertical: "5%", fontWeight: "bold", fontSize: 16 }}>Tools</Text>
+                    <Text style={{ marginVertical: "5%", fontWeight: "bold", fontSize: 16 }}>Tools</Text>
                     <FlatList
                         style={{ marginBottom: "5%" }}
                         data={this.props.tools.tools}
                         renderItem={({ item, index }) => (
                             <TouchableOpacity style={styles.skills} onPress={() => this.addTools(item.id)} >
-                                <Image source={tools.includes(item.id) ? checked : unchecked} style={styles.radio} />
-                                <Text style={{  paddingLeft: 10, fontSize: 16, fontWeight: "bold" }}>{item.tool}</Text>
+                                <Image source={tools && tools.includes(item.id) ? checked : unchecked} style={styles.radio} />
+                                <Text style={{ paddingLeft: 10, fontSize: 16, fontWeight: "bold" }}>{item.tool}</Text>
                             </TouchableOpacity>
                         )
                         }
@@ -112,11 +151,18 @@ class EditExpertise extends Component {
                     </View>
                 </View> */}
                 <CustomButton
+                    onPress={this.updateProfile}
                     backgroundColor={colors.freelancerButton}
                     color={"white"}
                     value="Save"
                     height={50}
                 />
+                <CustomModal
+                    modalVisible={this.props.user.isloading}
+                    img={loader}
+                    height={60}
+                    width={60}
+                    text={"loading..."} />
             </Content>);
     }
 }
@@ -141,7 +187,7 @@ const styles = StyleSheet.create({
     },
     certificateView: {
         marginTop: 5,
-        marginBottom:5,
+        marginBottom: 5,
         flex: 1
         // height: "40%",
         // backgroundColor: "blue"
@@ -168,7 +214,6 @@ const mapStateToProps = ({ user, skills, tools }) => ({ user, skills, tools })
 const mapDisPatchToProps = (dispatch) => ({
     getSkills: data => dispatch(skillsMiddleware(data)),
     getTools: data => dispatch(toolsMiddleware(data)),
-    createProfile: data => dispatch(userMiddleWare(data)),
-    setProfile: data => dispatch(setFreelancerProfile(data))
+    updateProfile: data => dispatch(updateFreelancerProfileMiddleware(data))
 })
 export default connect(mapStateToProps, mapDisPatchToProps)(EditExpertise);

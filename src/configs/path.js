@@ -34,5 +34,17 @@ export default class Path {
 
     static GET_JOBS_FREELANCER_HISTORY = `${this.BASE_URL}/get_jobs_freelancer_history`
 
+    static UPDATE_JOBS_FREELANCER = `${this.BASE_URL}/update_jobs_freelancer`
 
+    static UPDATE_FREELANCER_PROFILE = `${this.BASE_URL}/updateFreelancerProfile`
+
+    static UPLOAD_GALLERY_IMAGE = `${this.BASE_URL}/upload_gallery_image` 
+
+    static GET_GALLERY_IMAGE = `${this.BASE_URL}/get_gallery_image` 
+
+    static UPDATE_NOTIFICATIONS = `${this.BASE_URL}/update_notifications`
+
+    static SET_FREELANCER_STATUS = `${this.BASE_URL}/set_freelancer_status`
+
+    static GET_JOBS_DETAILS = `${this.BASE_URL}/get_jobs_details`
 }

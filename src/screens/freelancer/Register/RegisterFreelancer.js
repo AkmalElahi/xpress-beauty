@@ -83,7 +83,7 @@ class RegisterCustomer extends Component {
             }
             else {
                 this.setState({
-                    email: ""
+                    emailError: true
                 })
             }
         }
@@ -112,7 +112,8 @@ class RegisterCustomer extends Component {
         //         this,props.navigation.navigate('SkillsAndTools')
     }
     render() {
-        const { username, submitted, email, cnic, dob, house, building, street, area, city, checked } = this.state
+        const { username, submitted, email, cnic, dob, house, building, street, area, city, checked, emailError } = this.state
+        console.log("CNIC", cnic)
         return (
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
@@ -144,7 +145,8 @@ class RegisterCustomer extends Component {
                                     <Input value={email} keyboardType='email-address' style={styles.field} onChangeText={text => this.setState({ email: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !email) && <Text style={styles.error}>valid email is required</Text>}
+                                {!!(submitted && !email && !emailError) && <Text style={styles.error}>valid email is required</Text>}
+                                {!!(submitted && !!emailError) && <Text style={styles.error}>email address is not valid</Text>}
                             </Item>
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>CNIC</Label>
@@ -242,10 +244,10 @@ class RegisterCustomer extends Component {
                                     alignItems: "center",
                                     justifyContent: 'center',
                                 }}>
-                                    <Text style={{ color: 'white' }}>I accept terms and Policy</Text>
                                     <CheckBox checked={checked}
                                         onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
                                         color={colors.primaryBtn} />
+                                    <Text style={{ color: 'white', paddingLeft:20 }}>I accept terms and Policy</Text>
                                 </View>
                             </Item>
                             <Item style={styles.continue} last>
@@ -379,7 +381,11 @@ const styles = StyleSheet.create(
             paddingBottom: 0,
             color: "white",
             width: "100%",
-            paddingTop: Platform.OS === "android" ? 15 : 0,
+            paddingTop: 15,
+            paddingBottom: 10,
+            paddingLeft:10
+            
+
 
         },
         error: {

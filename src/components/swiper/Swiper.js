@@ -17,11 +17,13 @@ class CustomSwiper extends Component {
             noInternet:false
         }
     }
+    unsubscribe = null
     componentDidMount() {
-        const unsubscribe = NetInfo.addEventListener(state =>{
+        unsubscribe = NetInfo.addEventListener(state =>{
             console.log("Connection type", state.isConnected);
             if(state.isConnected){
                 this.props.getPromotions()
+                unsubscribe()
             }
             else{
                 alert("internet is not available")

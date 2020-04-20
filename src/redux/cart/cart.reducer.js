@@ -42,8 +42,8 @@ const cartReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 message:"error in checkout",
-                success:true,
-                error:false,
+                success:false,
+                error:true,
             }
         default:
             return state

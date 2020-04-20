@@ -24,6 +24,7 @@ const codes = [
     "PK", "SA", "US"
 ]
 class MobileVerify extends Component {
+    unsubscribe = null
     state = {
         modalVisible: false,
         phone: "",
@@ -52,7 +53,7 @@ class MobileVerify extends Component {
         //     // this.props.navigation.navigate("MapView")
             
         // }
-        const unsubscribe = NetInfo.addEventListener(state => {
+        unsubscribe = NetInfo.addEventListener(state => {
             console.log("Connection type", state.type);
             // console.log("Is connected?", state.isConnected);
             
@@ -61,6 +62,8 @@ class MobileVerify extends Component {
                     Keyboard.dismiss()
                     const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
                     console.log("END PHONE", endphone)
+                    alert("HIT OTP SERVICE")
+                    unsubscribe()
                     this.props.verifyMobile(endphone)
                     // console.log("VERIFICATION")
                     // this.props.navigation.navigate("MapView")

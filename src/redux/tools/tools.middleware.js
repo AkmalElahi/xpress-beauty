@@ -20,6 +20,9 @@ export const toolsMiddleware =  ({token, appuid}) => {
                 // console.log("TOOLS RESPONSE", res)
                 dispatch(getToolsSuccess(res.data))
             }
+            else{
+               dispatch(getToolsFail("error in getting tools"))
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Content, View, Text, } from 'native-base';
 import { Image, } from 'react-native';
-import booking from '../../../assets/Booking.png'
+import thanks from '../../../assets/thanks.png'
 import history from '../../../assets/History.png'
 import { colors } from '../../../configs/colors';
 
@@ -14,9 +14,9 @@ const ApprovalScreen = ({ from }) => (
             alignItems: "center",
             // backgroundColor:"green"
         }}>
-            <Image source={booking} style={{
-                height: 150,
-                width: 150
+            <Image source={thanks} style={{
+                height: 120,
+                width: 120
             }} />
         </View>
         {/* Text View */}

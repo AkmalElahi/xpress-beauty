@@ -37,7 +37,7 @@ class Register extends Component {
             street: "",
             area: "",
             city: "",
-            submitted: true,
+            submitted: false,
             modalVisible: false,
             checked: false
         }
@@ -89,7 +89,15 @@ class Register extends Component {
         if (username && username.length && email && email.length && dob && checked) {
             if (reg.test(email)) {
                 console.log("every field exists")
-                this.props.createProfile({device, device_id, platform, model, os, user: { username, email, dob, ...this.props.user } })
+                this.props.createProfile({
+                    device, device_id, platform, model, os, user: {
+                        username,
+                        email,
+                        dob, appuid: this.props.user.appuid,
+                        token:this.props.user.token,
+                        user_type:this.props.user.user_type
+                    }
+                })
                 // this.props.navigation.navigate("MapView")
             }
             else {
@@ -229,10 +237,10 @@ class Register extends Component {
                                 justifyContent: 'center',
                                 height: 30
                             }}>
-                                <Text style={{ color: 'white' }}>I accept terms and condition</Text>
                                 <CheckBox checked={checked}
                                     onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
                                     color={colors.primaryBtn} />
+                                <Text style={{ color: 'white', paddingLeft: 20 }}>I accept terms and condition</Text>
                             </View>
                             <Item style={styles.continue} last>
                                 {this.props.user.isloading ? <Loader />
@@ -355,8 +363,7 @@ const styles = StyleSheet.create(
             paddingTop: Platform.OS === "android" ? 15 : 0,
         },
         label: {
-            color: "white",
-            fontWeight: 'bold',
+            color: "white"
         },
         icon: {
             width: 25,

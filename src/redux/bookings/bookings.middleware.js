@@ -23,6 +23,10 @@ export const bookingsMiddleware =  (data) => {
             }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
+            else{
+               dispatch(getBookingsFail("error in grtting bookings"))
+
+            }
            } catch (error) {
                console.log("ERROR", error)
                dispatch(getBookingsFail(error))

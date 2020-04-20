@@ -46,7 +46,7 @@ export const VerifyOtpMiddleWare = ({ otp, mobile, user_type }) => {
                         tools: res.data.tools,
                         skills: res.data.skills,
                         training: res.data.training,
-                        cnic:res.data.cnic_no
+                        cnic:res.data.cnic
                     }))
                 }
                 dispatch(verifyOtpSuccess({

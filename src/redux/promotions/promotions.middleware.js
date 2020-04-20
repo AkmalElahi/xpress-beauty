@@ -20,6 +20,9 @@ export const promotionsMiddleware =  () => {
                 // console.log("RESPONSE", res)
                 dispatch(getPromotionsSuccess(res.data))
             }
+            else{
+               dispatch(getPromotionsFail("error in getiing promotions"))
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {

@@ -1,5 +1,7 @@
-import { createUserProfile, createUserProfileSuccess, createUserProfileFail, checkStatus, 
-    checkStatusSuccess, checkStatusFail, setFreelancerProfile, setUserProfile } from './user.actions'
+import {
+    createUserProfile, createUserProfileSuccess, createUserProfileFail, checkStatus,
+    checkStatusSuccess, checkStatusFail, setFreelancerProfile, setUserProfile, updateFreelancerProfileSuccess, updateFreelancerProfile, setFreelancerStatusSuccess, setFreelancerStatusFail, setFreelancerStatus
+} from './user.actions'
 import Path from '../../configs/path'
 import { Platform } from 'react-native'
 import { getUniqueId, getModel, getDevice } from 'react-native-device-info'
@@ -71,7 +73,7 @@ export const userMiddleWare = (data) => {
                     dispatch(setUserProfile({
                         username: data.user.username,
                         email: data.user.email,
-                        dob: data.user.date_of_birth,
+                        dob: data.user.dob,
                         token: data.user.token,
                         appuid: data.user.appuid,
                     }))
@@ -81,7 +83,7 @@ export const userMiddleWare = (data) => {
                     dispatch(setFreelancerProfile({
                         username: data.user.username,
                         email: data.user.email,
-                        dob: data.user.date_of_birth,
+                        dob: data.user.dob,
                         token: data.user.token,
                         appuid: data.user.appuid,
                         building: data.user.building,
@@ -92,7 +94,7 @@ export const userMiddleWare = (data) => {
                         tools: data.tools,
                         skills: data.skills,
                         training: data.training,
-                        cnic:data.user.cnic
+                        cnic: data.user.cnic
                     }))
                 }
                 dispatch(createUserProfileSuccess(res.message))
@@ -108,29 +110,142 @@ export const userMiddleWare = (data) => {
 }
 
 export const checkFreelancerStatus = (data) => {
-    return  async dispatch=>{
+    return async dispatch => {
         dispatch(checkStatus())
-           try {
+        try {
             //    console.log("DATA IN CHECK",data)
-               formData.append("appuid", data.appuid )
-               formData.append("language", "en")
-               formData.append("token", data.token)
-             let res = await fetch(Path.CHECK_STATUS, {
+            formData.append("appuid", data.appuid)
+            formData.append("language", "en")
+            formData.append("token", data.token)
+            let res = await fetch(Path.CHECK_STATUS, {
                 method: 'post',
                 headers: { 'Content-Type': 'multipart/form-data' },
                 body: formData
             })
             res = await res.json()
-            console.log("PROMOTIONS MIDDLEWARE", res)
-            if(res.message === "success"){
+            console.log("CHECK STATUS  MIDDLEWARE", res)
+            if (res.message === "success") {
                 console.log("RESPONSE OF CHECK", res)
                 dispatch(checkStatusSuccess(res.data))
             }
+            else {
+                dispatch(checkStatusFail("error in checking freelancer status"))
+
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
-           } catch (error) {
-               console.log("ERROR", error)
-               dispatch(checkStatusFail(error))
-           }
+        } catch (error) {
+            console.log("ERROR", error)
+            dispatch(checkStatusFail(error))
+        }
+    }
+}
+
+
+export const updateFreelancerProfileMiddleware = (data) => {
+    return async dispatch => {
+        dispatch(updateFreelancerProfile(data))
+        try {
+            // const device_id = getUniqueId()
+            // const model = getModel()
+            // const os = Platform.Version
+            // const platform = Platform.OS
+            // let device = ""
+            // await getDevice().then(d => divice = d)
+            console.log("DATA IN MILDDLEQARE", data)
+            if (data.type === 'personal') {
+                formData.append("building", data.building)
+                formData.append("street", data.street)
+                formData.append("area", data.area)
+                formData.append("city", data.city)
+                formData.append("house", data.house)
+                formData.append("language", "en")
+                formData.append("appuid", data.appuid)
+                formData.append("token", data.token)
+                formData.append("username", data.username)
+                formData.append("email", data.email)
+                formData.append("dob", data.dob)
+                formData.append("cnic", data.cnic)
+            }
+            if (data.type === "expertise") {
+                formData.append("freelancer_skills", data.skills.toString())
+                formData.append("freelancer_tools", data.tools.toString())
+                formData.append("training", data.training)
+                formData.append("language", "en")
+                formData.append("appuid", data.appuid)
+                formData.append("token", data.token)
+            }
+            console.log("FORM DATA", formData)
+            let res = await fetch(Path.UPDATE_FREELANCER_PROFILE, {
+                method: 'post',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                body: formData
+            })
+            res = await res.json()
+            console.log("UPDATE  FREELANCER PROFILE RESPONSE", res)
+            if (res.message === "success") {
+                console.log("RESPONSE", res)
+                if (data.type === "personal") {
+                    console.log("UPDATING FREELANCER PROFILE IN MIDDLEWARE", res.data)
+                    dispatch(updateFreelancerProfileSuccess({
+                        username: data.username,
+                        email: data.email,
+                        dob: data.dob,
+                        token: data.token,
+                        appuid: data.appuid,
+                        building: data.building,
+                        house: data.house,
+                        city: data.city,
+                        area: data.area,
+                        street: data.street,
+                        cnic: data.cnic
+                    }))
+                }
+                if (data.type === 'expertise') {
+                    console.log("UPDATING FREELANCER PROFILE IN MIDDLEWARE", res.data)
+                    dispatch(updateFreelancerProfileSuccess({
+                        tools: data.tools,
+                        skills: data.skills,
+                    }))
+                }
+                dispatch(createUserProfileSuccess(res.message))
+            }
+            else {
+                dispatch(createUserProfileFail(res.message))
+            }
+        } catch (error) {
+            console.log("ERROR IN USER PROFILE", error)
+            dispatch(createUserProfileFail(error))
+        }
+    }
+}
+
+export const setFreelancerStatusMiddleware = (data) => {
+    return async dispatch => {
+        dispatch(setFreelancerStatus())
+        try {
+            //    console.log("DATA IN CHECK",data)
+            formData.append("appuid", data.appuid)
+            formData.append("language", "en")
+            formData.append("token", data.token)
+            formData.append("is_live", data.is_active)
+            let res = await fetch(Path.SET_FREELANCER_STATUS, {
+                method: 'post',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                body: formData
+            })
+            res = await res.json()
+            console.log("SET FREELANCER STATUS MIDDLEWARE", res)
+            if (res.message === "success") {
+                console.log("RESPONSE OF SET FREELANCER STATUS", res)
+                dispatch(setFreelancerStatusSuccess(data.is_active))
+            }
+            else {
+                dispatch(setFreelancerStatusFail("error in updating freelancer status"))
+            }
+        } catch (error) {
+            console.log("ERROR", error)
+            dispatch(setFreelancerStatusFail(error))
+        }
     }
 }

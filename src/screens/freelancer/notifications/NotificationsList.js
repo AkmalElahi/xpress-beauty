@@ -1,24 +1,46 @@
 import React from 'react';
-import { View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, Image, RefreshControl } from 'react-native';
 import { Container, Card, CardItem, Thumbnail, Item, Button } from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
 import user from '../../../assets/user.png'
 import chat from '../../../assets/chat.png'
-import location from '../../../assets/location.png'
-
+import loader from '../../../assets/loader.gif'
+import distance from '../../../assets/distance.png'
+import Loader from '../../../components/loader/Loader';
+import ApprovalScreen from '../approvalScreen/approvalScreen';
+import CustomModal from '../../../components/Modal/Modal';
+const Refresher = () => {
+    return (
+        <View style={{ width: "100%", height: "100%" }}>
+            <Text>No jobs found</Text>
+        </View>
+    )
+}
 const NotificationsList = ({ jobs, handleRefresh, refreshing, navigation }) => {
     console.log("JOBS IN LIST", jobs)
     return (
         <Container>
             <FlatList
+                // refreshControl={<View></View>}
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
+                showsVerticalScrollIndicator={true}
+                // contentContainerStyle={{backgroundColor:"blue"}}
+                // scrollEnabled={true}
+                // onScrollBeginDrag={()=>alert("scroll")}
                 data={jobs}
+                // ListEmptyComponent={Refresher}
                 renderItem={({ item }) => (
                     <Card style={{ width: "95%", alignSelf: "center" }}>
-                        <CardItem style={{ height: 10, alignSelf: "flex-end", justifyContent: "center" }}>
-                            <Image source={location} style={{ width: 20, height: 20 }} />
-                            <Text style={{ textAlign: "center" }}>{item.distance}</Text>
+                        {/* {refreshing && <CustomModal
+                            modalVisible={refreshing}
+                            img={loader}
+                            height={60}
+                            width={60}
+                            text={"loading..."} />} */}
+                        <CardItem style={{ alignSelf: "flex-end", justifyContent: "space-between" }}>
+                            <Image source={distance} style={{ width: 13, height: 18 }} />
+                            <Text style={{ textAlign: "center", paddingLeft: 5 }}>{item.distance}</Text>
                         </CardItem>
                         <View style={{ flexDirection: "row" }}>
                             <CardItem style={{ width: '20%', paddingTop: 0, paddingBottom: 35 }}>
@@ -36,7 +58,7 @@ const NotificationsList = ({ jobs, handleRefresh, refreshing, navigation }) => {
                                                     margin: 2,
                                                     borderColor: "grey",
                                                     borderWidth: 0.5,
-                                                    borderRadius: 25
+                                                    borderRadius: 5
                                                 }}>
                                                 {service.service}
                                             </Text>
@@ -46,19 +68,20 @@ const NotificationsList = ({ jobs, handleRefresh, refreshing, navigation }) => {
                                 </View>
                                 <View style={{
                                     alignSelf: "flex-end",
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
+                                    // flexDirection: "row",
+                                    // justifyContent: "space-between",
                                     alignItems: "center",
-                                    width: '40%'
+                                    width: '20%',
+                                    marginTop: 5
                                 }}>
-                                    <Image source={chat}
+                                    {/* <Image source={chat}
                                         style={{
                                             width: 25,
                                             height: 25
-                                        }} />
+                                        }} /> */}
                                     <TouchableOpacity
-                                        onPress={()=>navigation.navigate("jobDetail", {
-                                            job:item
+                                        onPress={() => navigation.navigate("jobDetail", {
+                                            job: item
                                         })}
                                         style={{
                                             borderRadius: 25,

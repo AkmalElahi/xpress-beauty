@@ -53,7 +53,32 @@ export const checkStatusFail = payload => ({
     payload
 })
 
-export const setActive = payload => ({
-    type: userActionTypes.FRELLANCER_ACTIVE,
+export const setFreelancerStatus = payload => ({
+    type: userActionTypes.SET_FRELLANCER_STATUS,
+    payload
+})
+
+export const setFreelancerStatusSuccess = payload => ({
+    type: userActionTypes.SET_FRELLANCER_STATUS_SUCCESS,
+    payload
+})
+
+export const setFreelancerStatusFail = payload => ({
+    type: userActionTypes.SET_FRELLANCER_STATUS_FAIL,
+    payload
+})
+
+export const updateFreelancerProfile = payload => ({
+    type: userActionTypes.UPDATE_FREELANCER_PROFILE,
+    payload
+})
+
+export const updateFreelancerProfileSuccess = payload => ({
+    type: userActionTypes.UPDATE_FREELANCER_PROFILE_SUCCESS,
+    payload
+})
+
+export const updateFreelancerProfileFail = payload => ({
+    type: userActionTypes.UPDATE_FREELANCER_PROFILE_FAIL,
     payload
 })

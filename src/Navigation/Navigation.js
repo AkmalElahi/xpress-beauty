@@ -24,6 +24,8 @@ import JobDetail from '../screens/freelancer/JobDetail/JobDetail';
 import FreelancerBookings from '../screens/freelancer/FreelancerBookings/FreelancerBookings';
 import FreelancerEditProfile from '../screens/freelancer/editProfile/editProfile'
 import Gallery from '../screens/freelancer/gallery/gallery';
+import BookingDetails from '../screens/customer/Bookings/BookingsDetails';
+import FreelancerBookingDetails from '../screens/freelancer/FreelancerBookings/FreelancerBookingDetails';
 const registerCustomer = createStackNavigator({
     Swiper: {
         screen: CustomSwiper,
@@ -55,7 +57,8 @@ const registerCustomer = createStackNavigator({
         navigationOptions: {
             headerShown: false,
         }
-    }
+    },
+    
 },
     {
         initialRouteName: 'Swiper'
@@ -105,6 +108,12 @@ const customerApp = createStackNavigator({
     },
     NotificationDetail: {
         screen: NotificationDetail,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    BookingsDetails: {
+        screen: BookingDetails,
         navigationOptions: {
             headerShown: false,
         }
@@ -181,6 +190,12 @@ const FreelancerApp = createStackNavigator({
     },
     Gallery: {
         screen: Gallery,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    BookingsDetails: {
+        screen: FreelancerBookingDetails,
         navigationOptions: {
             headerShown: false,
         }

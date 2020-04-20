@@ -13,6 +13,7 @@ const INITIAL_STATE = {
     street: "",
     area: "",
     city: "",
+    cnic: "",
     house: "",
     address_note: "",
     isProfileComplete: false,
@@ -20,10 +21,10 @@ const INITIAL_STATE = {
     error: false,
     status: "",
     is_approved: "",
-    isActive:true,
-    freelancerSkills:{},
-    freelancerTools:{},
-    freelancerTraining:""
+    isActive: true,
+    freelancerSkills: {},
+    freelancerTools: {},
+    freelancerTraining: ""
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -54,20 +55,21 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 message: ""
             }
         case userActionTypes.SET_FREELANCER_PROFILE:
-            console.log("USER IN REDUCER",action.payload)
+            console.log("USER IN REDUCER", action.payload)
             return {
                 ...state,
                 building: action.payload.building,
                 street: action.payload.street,
                 area: action.payload.area,
                 city: action.payload.city,
+                cnic: action.payload.cnic,
                 house: action.payload.house,
                 username: action.payload.username,
                 dob: action.payload.dob,
                 email: action.payload.email,
-                freelancerSkills:action.payload.skills,
-                freelancerTools:action.payload.tools,
-                freelancerTraining:action.payload.training,
+                freelancerSkills: action.payload.skills,
+                freelancerTools: action.payload.tools,
+                freelancerTraining: action.payload.training,
                 isloading: false,
                 message: "set freelancer profile"
             }
@@ -120,16 +122,51 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 message: "check freelancer status false",
-                isloading: false
+                isloading: false,
+                status: null,
+                is_approved:"0"
             }
-        case userActionTypes.FRELLANCER_ACTIVE:
+        case userActionTypes.SET_FRELLANCER_STATUS:
             return {
                 ...state,
+                message: "set freelnacer status request",
+                isloading: true
+            }
+        case userActionTypes.SET_FRELLANCER_STATUS_SUCCESS:
+            return {
+                ...state,
+                message: "freelancer status updated successfully",
+                isloading: false,
                 isActive: action.payload
+            }
+        case userActionTypes.SET_FRELLANCER_STATUS_SUCCESS:
+            return {
+                ...state,
+                message: "error in updating freelancer status",
+                isloading: false
             }
         case userActionTypes.GET_CURRENT_USER:
             return {
                 ...state,
+            }
+        case userActionTypes.UPDATE_FREELANCER_PROFILE:
+            return {
+                ...state,
+                message: "update freelancer profile request",
+                isloading: true
+            }
+        case userActionTypes.UPDATE_FREELANCER_PROFILE_SUCCESS:
+            return {
+                ...state,
+                ...action.payload,
+                message: "update freelancer profile success",
+                isloading: false,
+            }
+        case userActionTypes.UPDATE_FREELANCER_PROFILE_FAIL:
+            return {
+                ...state,
+                message: "update freelancer profile false",
+                isloading: false
             }
         default:
             return state

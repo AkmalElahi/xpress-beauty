@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Text, ListItem, CheckBox, Body, View, List } from 'native-base';
+import { Container, Content, Text, ListItem, CheckBox, Body, View, List, Toast } from 'native-base';
 import moment from 'moment';
 import { StyleSheet, Image, Platform } from 'react-native'
 import CustomHeader from '../../../components/header/customHeader';
@@ -46,7 +46,7 @@ class Checkout extends Component {
     }
     continue = () => {
         const { count } = this.state
-        console.log()
+        console.log("Count", count)
         if (count === 1 && this.props.cart) {
             if (count <= 3) {
                 this.setState((ps) => {
@@ -140,12 +140,22 @@ class Checkout extends Component {
 
     }
     componentDidUpdate(prevProps) {
-        if (this.props.cart.success !== prevProps.cart.success) {
+        if (this.props.cart !== prevProps.cart) {
+            if(this.props.cart.message === "checkout done successfully")
             this.props.navigation.navigate("Services")
+            Toast.show({
+                text: "Booking has done successfully",
+                textStyle: { textAlign: "center" },
+                style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                position: "bottom",
+                type: 'success',
+                duration: 3000
+            })  
         }
     }
     render() {
         const { count, date, show, selectedDate, mode, isSelect } = this.state
+        console.log("ADDRESS IN CHECKOUT", this.props.navigation.getParam("address"))
         return (
             <Container style={styles.container}>
                 <CustomHeader androidStatusBarColor={colors.greybg}

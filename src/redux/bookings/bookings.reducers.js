@@ -3,7 +3,8 @@ const INITIAL_STATE = {
     success: false,
     error: false,
     bookings: [],
-    message: ""
+    message: "",
+    isloading: false
 }
 const bookingsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -13,6 +14,7 @@ const bookingsReducer = (state = INITIAL_STATE, action) => {
                 success: false,
                 error: false,
                 bookings: [],
+                isloading: true,
                 message: "bookings request"
             }
         case bookingsActionTypes.GET_BOOKINGS_SUCCESS:
@@ -21,7 +23,9 @@ const bookingsReducer = (state = INITIAL_STATE, action) => {
                 success: true,
                 error: false,
                 bookings: action.bookings,
-                message: "bookings found"
+                message: "bookings found",
+                isloading: false
+
             }
         case bookingsActionTypes.GET_BOOKINGS_FAIL:
             return {
@@ -29,7 +33,8 @@ const bookingsReducer = (state = INITIAL_STATE, action) => {
                 success: false,
                 error: true,
                 bookings: [],
-                message: "error in gettings bookings"
+                message: "error in gettings bookings",
+                isloading: false
             }
         default:
             return { ...state }

@@ -27,10 +27,11 @@ class EnterOtp extends Component {
             error: false,
             modalText: "",
             user_type: "",
-            enable: true,
-            time: 60
+            enable: false,
+            time: 0
         }
     }
+    unsubscribe = null
     componentDidMount() {
         console.log("PROPS IN ENTER OTP", this.props.generateOtp, this.props.user.user_type)
         const { phone } = this.props.generateOtp
@@ -39,6 +40,7 @@ class EnterOtp extends Component {
             mobile: phone,
             user_type
         })
+        this.resendOtp()
         // var eventTime = 1366549200; // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
         // var currentTime = 1366547400; // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
         // var diffTime = eventTime - currentTime;
@@ -52,7 +54,7 @@ class EnterOtp extends Component {
         // }, interval);
     }
     verify = () => {
-        const unsubscribe = NetInfo.addEventListener(state => {
+        unsubscribe = NetInfo.addEventListener(state => {
             console.log("Connection type", state.type);
             // console.log("Is connected?", state.isConnected);
 
@@ -62,6 +64,7 @@ class EnterOtp extends Component {
                     Keyboard.dismiss()
                     console.log("VERIFY WORKS", otp, mobile)
                     this.props.verifyNumberOtp({ otp, mobile, user_type })
+                    unsubscribe()
                 }
             }
             else {
@@ -78,20 +81,21 @@ class EnterOtp extends Component {
     resendOtp = () => {
         const { enable, mobile } = this.state
         if (enable) {
-            // alert("ENABLE")
+            alert("ENABLE")
             this.props.resendOtp(mobile)
         }
-        this.setState({ enable: false })
+        this.setState({ enable: false, time:0 })
         let time = 60
-        setInterval(() => {
+        const t = setInterval(() => {
+            // let { time } = this.state
             time = time - 1
             this.setState({
                 time
             })
         }, 1000)
         setTimeout(() => {
-            clearInterval()
-            this.setState({ enable: true })
+            clearInterval(t)
+            this.setState({ enable: true, time:60})
         }, 60000);
     }
     navigator = () => {
