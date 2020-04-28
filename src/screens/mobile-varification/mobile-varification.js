@@ -62,7 +62,7 @@ class MobileVerify extends Component {
                     Keyboard.dismiss()
                     const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
                     console.log("END PHONE", endphone)
-                    alert("HIT OTP SERVICE")
+                    // alert("HIT OTP SERVICE")
                     unsubscribe()
                     this.props.verifyMobile(endphone)
                     // console.log("VERIFICATION")

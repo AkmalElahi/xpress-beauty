@@ -7,7 +7,7 @@ import { colors } from '../../configs/colors';
 
 const NotFound = ({from}) => (
     <Container >
-        <Content scrollEnabled={false} contentContainerStyle={{ height:"100%"}}>
+        <Content scrollEnabled={false} contentContainerStyle={{ height:"80%", justifyContent:"center"}}>
             {/* Image View */}
             <View style={{
                 // height:"50%",
@@ -34,18 +34,21 @@ const NotFound = ({from}) => (
             {/* <Text style={{fontSize:25, textAlign:"center"}}>
                 {from === "schedule" ? `You don't have any Bookings `: `You don't have any history `}
             </Text> */}
-            {from === "schedule" && <Text style={{fontSize:25, textAlign:"center", width:280,}}>
-                You don have any Bookings
+            {from === "schedule" && <Text style={{fontSize:22, textAlign:"center", width:280,}}>
+                You don't have any Bookings
             </Text>}
-            {from === "history" && <Text style={{fontSize:25, textAlign:"center", width:280,}}>
-                You don have any History
+            {from === "history" && <Text style={{fontSize:22, textAlign:"center", width:280,}}>
+                You don't have any History
             </Text>}
-            <Text style={{color:colors.greybg, textAlign:"center"}}>
+            {from === "notifications" && <Text style={{fontSize:20, textAlign:"center", width:280,}}>
+                You don't have any assigned jobs yet!
+            </Text>}
+            {/* <Text style={{color:colors.greybg, textAlign:"center"}}>
                 Let's do something about that.
             </Text>
             <Text style={{color:colors.cl2}}>
                 BOOK NOW
-            </Text>
+            </Text> */}
 
             </View>
         </Content>

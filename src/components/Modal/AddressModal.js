@@ -21,14 +21,14 @@ class AddressModal extends Component {
             modalVisible: false,
             house: "",
             address_note: "",
-            region:null
+            region: null
 
         }
     }
     componentDidMount() {
         const { addressComponents, modalVisible, region } = this.props
         if (addressComponents) {
-            console.log("ADDRESS COMPONENTS", addressComponents, "Region",region)
+            console.log("ADDRESS COMPONENTS", addressComponents, "Region", region)
             this.setState({
                 building: addressComponents[0].long_name,
                 street: addressComponents[1].long_name,
@@ -63,12 +63,12 @@ class AddressModal extends Component {
         }
     }
     confirm = () => {
-        const { user, building, street, area, city, house, address_note , region} = this.state
+        const { user, building, street, area, city, house, address_note, region } = this.state
         console.log("UPDATED PROFILE", user, building, street, area, city)
         if (this.props.from === "checkout") {
             console.log("FROOOOOOOM", this.props.from)
             this.props.navigation.navigate('Checkout', {
-                address: { building, street, area, city, house, address_note , region}
+                address: { building, street, area, city, house, address_note, region }
             })
         }
         // else {
@@ -108,29 +108,32 @@ class AddressModal extends Component {
                         <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={{ alignSelf: "flex-end", alignItems: "center", justifyContent: "center", width: "10%" }}>
                             <Icon name="close" />
                         </TouchableOpacity>
-                        <View style={styles.input}>
-                            <Label style={styles.label}>Plot / Building</Label>
-                            <TextInput placeholder="building / Plot" style={styles.inputField} value={building} onChangeText={(text) => this.setState({ building: text })} />
-                        </View>
-                        <View style={styles.input}>
-                            <Label style={styles.label}>Street / block</Label>
-                            <TextInput placeholder="street / block" style={styles.inputField} value={street} onChangeText={(text) => this.setState({ street: text })} />
-                        </View>
-                        <View style={styles.input}>
-                            <Label style={styles.label}>Area</Label>
-                            <TextInput placeholder="area" style={styles.inputField} value={area} onChangeText={(text) => this.setState({ area: text })} />
-                        </View>
-                        <View style={styles.input}>
-                            <Label style={styles.label}>City</Label>
-                            <TextInput placeholder="city" style={styles.inputField} value={city} onChangeText={(text) => this.setState({ city: text })} />
-                        </View>
-                        <View style={styles.input}>
-                            <Label style={styles.label}>flat/Unit/house number (optional)</Label>
-                            <TextInput placeholder="" style={styles.inputField} value={house} onChangeText={(text) => this.setState({ house: text })} />
-                        </View>
-                        <View style={styles.input}>
-                            <Label style={styles.label}>additional note for freelancer (optional)</Label>
-                            <TextInput placeholder="" style={styles.inputField} value={address_note} onChangeText={(text) => this.setState({ address_note: text })} />
+                        <View style={{width:"90%", justifyContent:"space-between", flex:1}}>
+                            <Text style={{fontSize:20 , textAlign:"center"}}>Confirm your booking Address</Text>
+                            <View style={styles.input}>
+                                <Label style={styles.label}>Plot / Building</Label>
+                                <TextInput placeholder="building / Plot" style={styles.inputField} value={building} onChangeText={(text) => this.setState({ building: text })} />
+                            </View>
+                            <View style={styles.input}>
+                                <Label style={styles.label}>Street / block</Label>
+                                <TextInput placeholder="street / block" style={styles.inputField} value={street} onChangeText={(text) => this.setState({ street: text })} />
+                            </View>
+                            <View style={styles.input}>
+                                <Label style={styles.label}>Area</Label>
+                                <TextInput placeholder="area" style={styles.inputField} value={area} onChangeText={(text) => this.setState({ area: text })} />
+                            </View>
+                            <View style={styles.input}>
+                                <Label style={styles.label}>City</Label>
+                                <TextInput placeholder="city" style={styles.inputField} value={city} onChangeText={(text) => this.setState({ city: text })} />
+                            </View>
+                            <View style={styles.input}>
+                                <Label style={styles.label}>flat/Unit/house number (optional)</Label>
+                                <TextInput placeholder="" style={styles.inputField} value={house} onChangeText={(text) => this.setState({ house: text })} />
+                            </View>
+                            <View style={styles.input}>
+                                <Label style={styles.label}>additional note for freelancer (optional)</Label>
+                                <TextInput placeholder="" style={styles.inputField} value={address_note} onChangeText={(text) => this.setState({ address_note: text })} />
+                            </View>
                         </View>
                         <View style={{ width: "80%", marginTop: "10%", }}><CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Confirm" onPress={this.confirm} /></View>
                     </View>}
@@ -148,8 +151,8 @@ class AddressModal extends Component {
 const styles = StyleSheet.create({
     label: {
         fontSize: 14,
-        marginTop:50,
-        marginBottom:0,
+        // marginTop: 50,
+        marginBottom: 0,
         // backgroundColor:"blue",        
         color: "grey"
     },
@@ -162,42 +165,44 @@ const styles = StyleSheet.create({
     },
     modalView: {
         // paddingTop:"10%",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "center",
         width: width * 0.95,
         height: height * 0.9,
         backgroundColor: "white",
-        borderRadius: 15
+        borderRadius: 15,
+        paddingBottom: 15
     },
     img: {
         width: 60,
         height: 60
     },
     text: {
+        // backgroundColor:"green",
         marginTop: "8%",
         fontSize: 16,
         textAlign: "center",
         width: "80%"
     },
     input: {
-        width: "90%",
+        // width: "90%",
 
         // justifyContent: "center",
         // marginBottom: "2%",
-        height: "12%",
+        height: "10%",
         // backgroundColor:"green"
 
 
     },
     inputField: {
-        paddingTop:0,
-        paddingBottom:0,
-        marginBottom:0,
-        marginTop:0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        marginBottom: 0,
+        marginTop: 0,
         fontSize: 16,
         borderBottomWidth: 1,
         borderBottomColor: 'grey',
-        // backgroundColor:"red"
+        // backgroundColor: "red"
     }
 })
 const mapStateToProps = ({ user }) => ({ user: user })

@@ -62,3 +62,35 @@ export const getJobDetailFail = payload => ({
     payload
     
 })
+
+export const jobCancel = payload => ({
+    type: jobsActionTypes.JOB_CANCEL,
+    payload
+    
+})
+export const jobCancelSuccess = payload => ({
+    type: jobsActionTypes.JOB_CANCEL_SUCCESS,
+    payload
+    
+})
+export const jobCancelFail = payload => ({
+    type: jobsActionTypes.JOB_CANCEL_FAIL,
+    payload
+    
+})
+
+export const jobRating = payload => ({
+    type: jobsActionTypes.JOB_RATING,
+    payload
+    
+})
+export const jobRatingSuccess = payload => ({
+    type: jobsActionTypes.JOB_RATING_SUCCESS,
+    payload
+    
+})
+export const jobRatingFail = payload => ({
+    type: jobsActionTypes.JOB_RATING_FAIL,
+    payload
+    
+})

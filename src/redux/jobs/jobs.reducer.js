@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     error: false,
     message: "",
     loading: false,
-    details:null
+    details: null
 }
 
 const jobsReducer = (state = INITIAL_STATE, action) => {
@@ -33,6 +33,7 @@ const jobsReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: false,
                 error: true,
+                jobs:null,
                 message: "error in getting jobs",
                 loading: false
             }
@@ -73,7 +74,7 @@ const jobsReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: true,
                 error: false,
-                details:action.payload,
+                details: action.payload,
                 message: "job details found successfully",
                 loading: false
             }
@@ -82,7 +83,56 @@ const jobsReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: false,
                 error: true,
+                detail:null,
                 message: "error in getting job detail",
+                loading: false
+            }
+        case jobsActionTypes.JOB_CANCEL:
+            return {
+                ...state,
+                success: false,
+                error: false,
+                message: "job cancel request",
+                loading: true
+            }
+        case jobsActionTypes.JOB_CANCEL_SUCCESS:
+            return {
+                ...state,
+                success: true,
+                error: false,
+                message: "job cancel success",
+                loading: false
+            }
+        case jobsActionTypes.JOB_CANCEL_FAIL:
+            return {
+                ...state,
+                success: false,
+                error: true,
+                message: "job cancel fail",
+                loading: false
+            }
+        case jobsActionTypes.JOB_RATING:
+            return {
+                ...state,
+                success: false,
+                error: false,
+                message: "job rating request",
+                loading: true
+            }
+        case jobsActionTypes.JOB_RATING_SUCCESS:
+            return {
+                ...state,
+                success: true,
+                error: false,
+                message: "job rating success",
+                loading: false
+            }
+        case jobsActionTypes.JOB_RATING_FAIL:
+            return {
+                ...state,
+                success: false,
+                error: true,
+                message: "job rating fail",
                 loading: false
             }
         default:

@@ -14,6 +14,7 @@ import { colors } from '../../../configs/colors';
 import { setActive } from '../../../redux/user/user.actions';
 import FreelancerFooter from '../../../components/footer/freelancerFooter';
 import Loader from '../../../components/loader/Loader';
+import NotFound from '../../../components/not found/NotFound';
 class Notification extends Component {
     constructor(props) {
         super(props);
@@ -84,6 +85,18 @@ class Notification extends Component {
                 })
 
             }
+            if (jobs.message === "job rating success") {
+                this.getPosition()
+                console.log("SUERRRRRRRRRRRRRRRr", user)
+                const { region } = this.state
+                this.props.getJobs({
+                    appuid: user.appuid,
+                    token: user.token,
+                    latitute: region.latitude,
+                    longitude: region.longitude
+                })
+
+            }
         }
 
     }
@@ -102,7 +115,7 @@ class Notification extends Component {
     }
     setFreelancerStatus = (value) => {
         const { user } = this.props
-        this.props.setFreelancerStatus({appuid: user.appuid, token:user.token, is_active:value})
+        this.props.setFreelancerStatus({ appuid: user.appuid, token: user.token, is_active: value })
     }
     render() {
         const { region, active } = this.state
@@ -119,7 +132,7 @@ class Notification extends Component {
                     <Body style={{ flex: 2 }}>
                         <Title style={{ color: "black", fontWeight: "normal" }} >Jobs Feed</Title>
                     </Body>
-                    <Right style={{ flex: 2, alignItems: "center", justifyContent:"flex-end" }}>
+                    <Right style={{ flex: 2, alignItems: "center", justifyContent: "flex-end" }}>
                         <Button transparent style={{
                             alignItems: "center",
                             justifyContent: "space-between",
@@ -128,7 +141,7 @@ class Notification extends Component {
                         }}>
                             <Switch value={user.isActive}
                                 // iosBarStyle={{backgroundColor:"blue",}}
-                                style={{ transform:Platform.OS === "android" ? [{ scaleX: 1 }, { scaleY: 1 }] : [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
+                                style={{ transform: Platform.OS === "android" ? [{ scaleX: 1 }, { scaleY: 1 }] : [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
                                 ios_backgroundColor="white"
                                 thumbColor={colors.freelancerButton}
                                 trackColor={{ false: "lightgrey", true: "lightgrey" }}
@@ -136,7 +149,7 @@ class Notification extends Component {
                             <Text style={{ fontSize: 12, textAlign: "center" }}>Active</Text>
                         </Button>
                         {user.isActive && user && user.is_approved === "1" && <Button transparent >
-                            <Image source={bell} style={{ width: 20, height: 25 }} />
+                            {/* <Image source={bell} style={{ width: 20, height: 25 }} /> */}
                         </Button>}
                     </Right>
                 </Header>
@@ -148,6 +161,8 @@ class Notification extends Component {
                     jobs={this.props.jobs && this.props.jobs.jobs}
                     navigation={this.props.navigation}
                 />}
+                {this.props.jobs && !this.props.jobs.jobs && user.isActive && user && user.is_approved === "1" && <View style={{height:"60%",}}>
+                    <NotFound from={"notifications"} /></View>}
                 {!user.isActive && <InActive />}
                 {user.isActive && user && user.is_approved === "1" && <FreelancerFooter
                     navigation={this.props.navigation}

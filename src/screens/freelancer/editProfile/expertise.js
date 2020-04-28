@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
     skillsView: {
         // marginBottom: "5%",
         // height: "35%",
-        flex: 2
+        flex: 1
         // backgroundColor: "blue"
     },
     toolsView: {
         marginTop: 5,
-        flex: 2
+        flex: 1
         // height: "35%",
         // backgroundColor: "blue"
     },

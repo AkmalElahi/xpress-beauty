@@ -25,11 +25,25 @@ class Bookings extends Component {
         console.log("PROPS IN BOOKINGS", this.props.bookings)
         this.props.getBookings({ appuid: user.appuid, token: user.token })
     }
+    componentDidUpdate(prevProps) {
+        const { jobs, user } = this.props
+        if (jobs !== prevProps.jobs) {
+            if (jobs.message === "job cancel success") {
+                // alert("FIND JOBS")
+                this.props.getBookings({ appuid: user.appuid, token: user.token })
+            }
+        }
+    }
     openDrawer = () => {
         this.drawer._root.open()
     };
     closeDrawer = () => {
         this.drawer._root.close()
+    }
+    handleRefresh = () => {
+        const { user } = this.props
+        console.log("PROPS IN BOOKINGS", this.props.bookings)
+        this.props.getBookings({ appuid: user.appuid, token: user.token })
     }
     render() {
         return (
@@ -44,10 +58,10 @@ class Bookings extends Component {
                         rightButton={() => this.props.navigation.navigate('Notification')} />
                     <Tabs tabBarUnderlineStyle={{ backgroundColor: colors.bg2 }}>
                         <Tab heading="Scheduled" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                            {this.props.isloading ? <Loader /> : <Sheduled navigation={this.props.navigation} bookings={this.props.bookings.filter(booking => booking.job_status === "101" || booking.job_status === "301" || booking.job_status === "401")} />}
+                            {this.props.isloading ? <Loader /> : <Sheduled refreshing={this.props.isloading} handleRefresh={this.handleRefresh} navigation={this.props.navigation} bookings={this.props.bookings.filter(booking => booking.job_status === "101" || booking.job_status === "301" || booking.job_status === "401")} />}
                         </Tab>
                         <Tab heading="History" tabStyle={styles.tabs} textStyle={{ color: 'grey', fontSize: 12 }} activeTabStyle={{ backgroundColor: 'white' }} activeTextStyle={{ color: '#000', fontWeight: 'bold' }}>
-                            {this.props.isloading ? <Loader /> : <History  navigation={this.props.navigation} bookings={this.props.bookings.filter(booking => booking.job_status === "201" || booking.job_status === "500")} />}
+                            {this.props.isloading ? <Loader /> : <History  refreshing={this.props.isloading} handleRefresh={this.handleRefresh} navigation={this.props.navigation} bookings={this.props.bookings.filter(booking => booking.job_status === "201" || booking.job_status === "500")} />}
                         </Tab>
                     </Tabs>
                     <CustomFooter navigation={this.props.navigation} isActive='bookings' />
@@ -68,7 +82,7 @@ const styles = StyleSheet.create({
         elevation: 0,
     }
 })
-const mapStateToProps = ({ user, bookings: { bookings, isloading } }) => ({ user, bookings, isloading })
+const mapStateToProps = ({ user, jobs, bookings: { bookings, isloading } }) => ({ user, jobs, bookings, isloading })
 const mapDispatchToProps = dispatch => ({
     getBookings: data => dispatch(bookingsMiddleware(data))
 })

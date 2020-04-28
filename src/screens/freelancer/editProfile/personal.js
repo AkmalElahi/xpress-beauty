@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Item, Input, Label, DatePicker, Toast } from 'native-base';
-import { TextInput, Dimensions, StyleSheet, View } from 'react-native';
+import { TextInput, Dimensions, StyleSheet, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { CustomButton } from '../../../components/buttons/Buttons';
 import { colors } from '../../../configs/colors';
@@ -80,7 +80,7 @@ class Personal extends Component {
     render() {
         const { username, email, cnic, dob, house, building, street, city, area, phone } = this.state
         return (
-            <Content contentContainerStyle={{ width: "85%", alignSelf: "center" }}>
+            <Content contentContainerStyle={{ width:Platform.OS === "android" ? "85%" :"100%", alignSelf: "center" }}>
                 <Form style={{ marginBottom: 15 }}>
                     <Item fixedLabel style={styles.input}> 
                         <Label>Username</Label>

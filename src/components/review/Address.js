@@ -52,6 +52,7 @@ const Address = ({ navigation, address, beautician , enableSelect, isSelect}) =>
                 <View style={{ width: "45%" }}>
                     <CustomButton value="Select" backgroundColor={colors.primaryBtn} height={35} color="white" fontSize={25} />
                 </View>
+                <Text>Cash On Services</Text>
             </View>
         </Content>
     )

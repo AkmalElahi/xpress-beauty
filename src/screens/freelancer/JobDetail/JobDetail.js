@@ -38,7 +38,7 @@ class JobDetail extends Component {
         if (!rejectReason || !comments || !job) {
             this.setState({
                 error: true,
-                type:"Rejected"
+                type: "Rejected"
             })
             return
         }
@@ -56,7 +56,7 @@ class JobDetail extends Component {
     accept = () => {
         const { job, user } = this.state
         if (job && user) {
-            this.setState({type:"Accepted"})
+            this.setState({ type: "Accepted" })
             this.props.updateJob({
                 booking_id: job.services && job.services[0].job_id,
                 token: user.token,
@@ -78,16 +78,16 @@ class JobDetail extends Component {
                     user: {}
                 })
                 Toast.show({
-                    text:`Job Updated successfully`,
+                    text: `Job Updated successfully`,
                     textStyle: { textAlign: "center" },
                     style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
                     duration: 3000
                 })
-                this.props.navigation.navigate("FreelancerNotification")
+                this.props.navigation.navigate("FreelancerBookings")
             }
-            if(jobs.message === "update job fail"){
+            if (jobs.message === "update job fail") {
                 Toast.show({
                     text: "Error in updating job please try again",
                     textStyle: { textAlign: "center" },
@@ -104,6 +104,7 @@ class JobDetail extends Component {
         const { job, rejectReason, comments, modalVisible, user } = this.state
         // console.log(job.services && job.services[0].job_id)
         // console.log("user", user)
+        console.log("JOB IN DETAIL", job)
         return (
             <Container >
                 {/* {this.props.jobs.loading && <Loader />} */}
@@ -118,14 +119,14 @@ class JobDetail extends Component {
                     </Body>
                     <Right style={{ flex: 1 }}>
                         <Button transparent >
-                            <Image source={bell} style={{ width: 20, height: 25 }} />
+                            {/* <Image source={bell} style={{ width: 20, height: 25 }} /> */}
                         </Button>
                     </Right>
                 </Header>
                 <Content
                     nestedScrollEnabled={true}
                     contentContainerStyle={{ width: "80%", alignSelf: "center", }}>
-                    <View style={{ flexDirection: "row", padding: 5,paddingLeft:0, alignItems: "center" }}>
+                    <View style={{ flexDirection: "row", padding: 5, paddingLeft: 0, alignItems: "center" }}>
                         <Image source={profile} style={{ width: 30, height: 30 }} />
                         <Text style={{ paddingLeft: 10, textAlign: "center", fontSize: 20, fontWeight: "bold" }}>{job.customer_name}</Text>
                     </View>
@@ -160,7 +161,7 @@ class JobDetail extends Component {
                             <Image source={distance} style={{ width: 18, height: 25 }} />
                             <Text style={{ ...styles.headingText, paddingLeft: 18 }}>Address</Text>
                         </View>
-                        <Text style={styles.padder}>{job.address}</Text>
+                        <Text style={styles.padder}>{job && `${job.house ? job.house : ""} ${job.building}, ${job.street} ${job.area}, ${job.city}`}</Text>
                     </View>
                     <View style={styles.container}>
                         <View style={styles.heading}>
@@ -207,7 +208,7 @@ class JobDetail extends Component {
                     rejectReason={rejectReason}
                     comments={comments}
                     modalVisible={modalVisible} />
-                <FreelancerFooter navigation={this.props.navigation}/>
+                <FreelancerFooter navigation={this.props.navigation} />
             </Container>
         )
     }

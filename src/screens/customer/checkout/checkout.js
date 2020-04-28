@@ -21,8 +21,9 @@ class Checkout extends Component {
         super(props);
         this.state = {
             count: 1,
-            date: null,
-            time: null,
+            date: moment(new Date()).format('llll'),
+            time: moment(new Date()).format('LT'),
+            appointmentDate : moment(new Date()).format("YYYY-MM-DD HH.mm"),
             header: "Services",
             payment_method: "COS",
             beautician_id: 0,

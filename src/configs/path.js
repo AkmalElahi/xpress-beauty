@@ -47,4 +47,9 @@ export default class Path {
     static SET_FREELANCER_STATUS = `${this.BASE_URL}/set_freelancer_status`
 
     static GET_JOBS_DETAILS = `${this.BASE_URL}/get_jobs_details`
+
+    static UPDATE_JOBS = `${this.BASE_URL}/update_jobs`
+
+    static SET_RATING = `${this.BASE_URL}/set_rating`
+    
 }

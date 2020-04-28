@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Content, View, Text, Card, CardItem } from 'native-base';
-import { Image, StyleSheet, FlatList } from 'react-native';
+import { Image, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import moment from 'moment'
 import { colors } from '../../configs/colors';
 import NotFound from '../not found/NotFound';
@@ -20,13 +20,17 @@ const redirectTo = (item) => {
     // alert(item.job_status)
 
 }
-const Sheduled = ({ bookings, navigation }) => {
+const Sheduled = ({ bookings, navigation, refreshing, handleRefresh }) => {
     console.log("BOOKINGS IN SCHEDULE", bookings.length)
     return (
         <Container >
-            <Content scrollEnabled={true} showsVerticalScrollIndicator={false}>
+            {/* <Content scrollEnabled={true} showsVerticalScrollIndicator={false}>
+            </Content> */}
                 {bookings.length ? <FlatList
                     data={bookings}
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                    // refreshControl={<RefreshControl/>}
                     renderItem={({ item }) => (
                         <Card style={{ width: "100%", padding: 2 }} >
                             <CardItem
@@ -118,7 +122,6 @@ const Sheduled = ({ bookings, navigation }) => {
                     : <NotFound from="schedule" />
 
                 }
-            </Content>
         </Container>
     )
 }

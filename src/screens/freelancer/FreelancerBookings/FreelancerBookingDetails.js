@@ -1,28 +1,37 @@
 import React, { Component } from 'react';
-import { Content, ListItem, Text, View, Icon, Container, Header, Left, Right, Body, Button, Title } from 'native-base';
+import { Content, ListItem, Text, View, Icon, Container, Header, Left, Right, Body, Button, Title, Toast } from 'native-base';
 import { StyleSheet, Image, } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 import Details from '../../bookingDetails/bookingDetail';
 import Customfooter from '../../../components/footer/customfooter';
 // import { CustomButton } from '../buttons/Buttons'
 import bell from '../../../assets/bell.png'
 import FreelancerFooter from '../../../components/footer/freelancerFooter';
 import { connect } from 'react-redux';
-import { jobsDetailsMiddleware } from '../../../redux/jobs/jobs.middleware';
+import { jobsDetailsMiddleware, updatejobMiddleWare, rateJobMiddleware } from '../../../redux/jobs/jobs.middleware';
 import { CustomButton } from '../../../components/buttons/Buttons';
 import { colors } from '../../../configs/colors';
+import Loader from '../../../components/loader/Loader';
+import RatingModal from '../../../components/Modal/RatingModal';
 // import { colors } from '../../configs/colors'
 // import { connect } from 'react-redux';
 // import { removeServiceFromCart } from '../../redux/cart/cart.actions';
 
 class FreelancerBookingDetails extends Component {
     state = {
-        details: null
+        details: null,
+        region: null,
+        type: "",
+        rating: 0,
+        comments: "",
+        modalVisible: false
     }
     componentDidMount() {
         const { user } = this.props
         const job = this.props.navigation.getParam("job")
+        console.log("USER AND JOB", user, job)
         if (user && job) {
-            this.props.getJobDetail({ appuid: user.appuid, token: user.token, booking_id: job.services[0].job_id, })
+            this.props.getJobDetail({ appuid: user.appuid, token: user.token, booking_id: job.services[0].job_id, user_type:user.user_type })
         }
     }
     componentDidUpdate(prevProps) {
@@ -33,15 +42,116 @@ class FreelancerBookingDetails extends Component {
                     details: jobs.details
                 })
             }
+            const { type } = this.state
+            if (jobs.message === "update job success") {
+                Toast.show({
+                    text: type === "checkin" ? "Job successfully checkedIn" : "You have completed job successfully",
+                    textStyle: { textAlign: "center" },
+                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    position: "bottom",
+                    type: 'success',
+                    duration: 2000
+                })
+                if (type === "complete") {
+                    this.setState({ modalVisible: true })
+                }
+                else {
+                    this.props.navigation.navigate("FreelancerBookings")
+
+                }
+            }
+            if (jobs.message === "job rating success") {
+                this.setState({modalVisible:false, comments:"", rating:0})
+                Toast.show({
+                    text: "Thank you for your feedback",
+                    textStyle: { textAlign: "center" },
+                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    position: "bottom",
+                    type: 'success',
+                    duration: 2000
+                })
+                this.props.navigation.navigate("FreelancerBookings")
+
+            }
+            if (jobs.message === "update job fail") {
+                Toast.show({
+                    text: type === "checkin" ? "error in checking In" : "error in completing this job!",
+                    textStyle: { textAlign: "center" },
+                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    position: "bottom",
+                    type: 'warning',
+                    duration: 2000
+                })
+            }
+        }
+    }
+
+    handleCheckIn = async () => {
+        const job = this.props.navigation.getParam("job")
+        Geolocation.getCurrentPosition(
+            (position) => {
+                const region = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                };
+                // console.log("REGION", position)
+                this.setState({ region, type: "checkin" }, () => {
+                    this.props.updateJob({
+                        latitude: region.latitude,
+                        longitude: region.longitude,
+                        appuid: this.props.user.appuid,
+                        token: this.props.user.token,
+                        type: "checkin",
+                        status: "401",
+                        booking_id: job.services[0].job_id,
+                    })
+                });
+            },
+            (error) => {
+                // alert(error);
+                this.setState({
+                    error: error.message,
+                    loading: false,
+
+                })
+            },
+            { enableHighAccuracy: false, timeout: 200000, maximumAge: 5000 },
+        );
+    }
+    handleCompleteJob = () => {
+        const job = this.props.navigation.getParam("job")
+        this.setState({ type: "complete" })
+        this.props.updateJob({
+            appuid: this.props.user.appuid,
+            token: this.props.user.token,
+            type: "complete",
+            status: "500",
+            booking_id: job.services[0].job_id,
+        })
+    }
+    rateCustomer = () => {
+        const { user } = this.props
+        const { comments, rating } = this.state
+        const job = this.props.navigation.getParam("job")
+        if (user && job) {
+            this.props.rateCustomer({
+                user_type: user.user_type,
+                token: user.token,
+                appuid: user.appuid,
+                booking_id: job.services[0].job_id,
+                rating,
+                comments,
+            })
         }
     }
     render() {
         // console.log("SUMMARY", total, totalDuration, cart)
-        const { details } = this.state
-        console.log("DETAILS IN DETAILS ", details)
+        const { details, modalVisible, rating, comments } = this.state
+        console.log("DETAILS IN DETAILS ", details && details.freelancer[0].rating_pending)
         return (
             <Container>
                 <Header style={styles.header} androidStatusBarColor={"white"} iosBarStyle="dark-content">
+
                     <Left style={{ flex: 1 }}>
                         <Button transparent onPress={() => this.props.navigation.goBack()}>
                             <Icon name='arrow-back' style={{ color: "black" }} />
@@ -52,31 +162,54 @@ class FreelancerBookingDetails extends Component {
                     </Body>
                     <Right style={{ flex: 1 }}>
                         <Button transparent >
-                            <Image source={bell} style={{ width: 20, height: 25 }} />
+                            {/* <Image source={bell} style={{ width: 20, height: 25 }} /> */}
                         </Button>
                     </Right>
                 </Header>
-                <Details details={details} />
-                {
-                    details && details.job_status === "301" && <View>
-                        <CustomButton backgroundColor={colors.freelancerButton}
-                            width="100%"
-                            height={50}
-                            value="Check In"
-                            color="white"
-                        />
-                    </View>
-                }
-                {
-                    details && details.job_status === "401" && <View>
-                        <CustomButton backgroundColor={colors.freelancerButton}
-                            width="100%"
-                            height={50}
-                            value="End Job"
-                            color="white"
-                        />
-                    </View>
-                }
+                {this.props.jobs.loading ? <Loader /> :
+                    <>
+                        <Details details={details} type="customer" />
+                        {
+                            details && details.job_status === "301" && <View>
+                                <CustomButton backgroundColor={colors.freelancerButton}
+                                    onPress={this.handleCheckIn}
+                                    width="100%"
+                                    height={50}
+                                    value="Check In"
+                                    color="white"
+                                />
+                            </View>
+                        }
+                        {
+                            details && details.job_status === "500" && details.freelancer[0].rating_pending === 0 && <View>
+                                <CustomButton backgroundColor={colors.freelancerButton}
+                                    onPress={() => this.setState({ modalVisible: true })}
+                                    width="100%"
+                                    height={50}
+                                    value="Rate your Customer"
+                                    color="white"
+                                />
+                            </View>
+                        }
+                        {
+                            details && details.job_status === "401" && <View>
+                                <CustomButton backgroundColor={colors.freelancerButton}
+                                    onPress={this.handleCompleteJob}
+                                    width="100%"
+                                    height={50}
+                                    value="End Job"
+                                    color="white"
+                                />
+                            </View>
+                        }
+                        <RatingModal submit={this.rateCustomer}
+                            onclose={() => this.setState({ modalVisible: false, comments: "", rating: 0 })}
+                            rating={rating}
+                            comments={comments}
+                            onChangeComment={(text) => this.setState({ comments: text })}
+                            onChangeRating={(value) => this.setState({ rating: value })}
+                            modalVisible={modalVisible} />
+                    </>}
                 <FreelancerFooter navigation={this.props.navigation} isActive="bookings" />
             </Container>
         )
@@ -100,6 +233,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ user, jobs }) => ({ user, jobs })
 
 const mapDispatchToProps = dispatch => ({
-    getJobDetail: data => dispatch(jobsDetailsMiddleware(data))
+    getJobDetail: data => dispatch(jobsDetailsMiddleware(data)),
+    updateJob: data => dispatch(updatejobMiddleWare(data)),
+    rateCustomer: data => dispatch(rateJobMiddleware(data))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FreelancerBookingDetails)
