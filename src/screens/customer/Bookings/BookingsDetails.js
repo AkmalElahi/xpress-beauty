@@ -67,8 +67,9 @@ class BookingDetails extends Component {
         }
         if (jobs.message === "job cancel fail") {
             this.setState({modalVisible:false})
+            console.log("ERROR MESSAGE IN CANCEL", jobs.errorMessage)
             Toast.show({
-                text: "error in camcel this job try again!",
+                text: jobs.errorMessage,
                 textStyle: { textAlign: "center" },
                 style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                 position: "bottom",
@@ -77,7 +78,7 @@ class BookingDetails extends Component {
             })
         }if (jobs.message === "job rating fail") {
             Toast.show({
-                text: "error in camcel this job try again!",
+                text: "error in rating this job try again!",
                 textStyle: { textAlign: "center" },
                 style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                 position: "bottom",
@@ -160,6 +161,7 @@ class BookingDetails extends Component {
                             cancelReason={cancelReason}
                             comments={comments} />
                         <RatingModal
+                            text={"Rate the quality of work of your Xpert"}
                             submit={this.rateFreelancer}
                             onclose={() => this.setState({ rateModalVisible: false, ratingComments: "", rating: 0 })}
                             rating={rating}

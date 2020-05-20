@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Image, Text, ShadowPropTypesIOS } from 'react-native'
-import { Container, Card, Left, Body, CardItem, H1, H3 } from 'native-base'
+import { Container, Card, Left, Body, CardItem, H1, H3, Content } from 'native-base'
 import promotion1 from '../../assets/promotion1.png'
 import CustomHeader from '../../components/header/customHeader';
 import Customfooter from '../../components/footer/customfooter';
@@ -30,8 +30,8 @@ const Notification = ({ navigation, notifications }) => {
     return (
         <Container style={{ marginTop: "3%" }}>
             <CustomHeader header="Notifications" leftButton={() => navigation.goBack()} icon="arrow-back" />
-            {notifications.length && <FlatList
-                data={notifications}
+            {!!notifications.notifications?.length ? <FlatList
+                data={notifications.notifications}
                 renderItem={({ item }) => (
                     <Card>
                         <CardItem cardBody>
@@ -57,10 +57,10 @@ const Notification = ({ navigation, notifications }) => {
                 )
                 }
                 keyExtractor={item => item.id}
-            />}
+            /> :<Content/>}
             <Customfooter navigation={navigation} />
         </Container>
     )
 }
-const mapStateToProps = ({ notifications: { notifications } }) => (notifications)
+const mapStateToProps = ({ notifications:{notifications} }) => ({notifications})
 export default connect(mapStateToProps)(Notification)

@@ -51,5 +51,8 @@ export default class Path {
     static UPDATE_JOBS = `${this.BASE_URL}/update_jobs`
 
     static SET_RATING = `${this.BASE_URL}/set_rating`
+
+    static UPLOAD_PROFILE_IMAGE = `${this.BASE_URL}/upload_profile_image`
+
     
 }

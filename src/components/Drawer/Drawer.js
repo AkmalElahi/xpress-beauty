@@ -4,10 +4,14 @@ import { StyleSheet, Image, Text, Dimensions, TouchableOpacity, Platform } from 
 import ImagePicker from 'react-native-image-picker'
 import { colors } from '../../configs/colors';
 import profile from '../../assets/promotion1.png'
-import avatar from '../../assets/avatar.png'
+import avatar from '../../assets/user.png'
 import notification from '../../assets/notification.png'
-import bookings from '../../assets/bookings.png'
+import loader from '../../assets/loader.gif'
 import { connect } from 'react-redux';
+import { logout } from '../../redux/user/user.actions';
+import { uploadProfileImageMiddleWare } from '../../redux/user/user.middlewares';
+import LogoutModal from '../Modal/LogoutModal';
+import { version } from '../../configs/appversion';
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 const radius = width * 0.5
@@ -21,46 +25,54 @@ class DrawerContent extends Component {
   // openDrawer = () => {
   //   this.drawer._root.open()
   // };
+  logout = () => {
+    this.props.logout()
+    this.props.navigation.navigate("UserLoading")
+  }
   state = {
-    photo:null
+    photo: null,
+    modalVisible: false
   }
   handleChoosePhoto = () => {
+    const { user } = this.props
     const options = {
       noData: true,
     };
     ImagePicker.launchImageLibrary(options, response => {
       if (response.uri) {
         console.log("IMAGE", response)
-        this.setState({ photo: response });
+        this.setState({ photo: response }, () => {
+          this.props.uploadProfileImage({ appuid: user.appuid, token: user.token, image: this.state.photo })
+        });
       }
     });
   };
   render() {
-    const { username } = this.props
-    const { photo } = this.state
+    const { user } = this.props
+    const { photo, modalVisible } = this.state
     return (
       <Content style={styles.content}>
-        <TouchableOpacity style={styles.imageViewer} 
-        // onPress={this.handleChoosePhoto}
+        <TouchableOpacity style={styles.imageViewer}
+          onPress={this.handleChoosePhoto}
         >
-          {/* <Thumbnail source={photo ? photo : avatar} style={styles.image} />
-           */}
-          <Thumbnail source={profile} style={styles.image} />
+          {!user.isloading && <Thumbnail source={user.profile_image ? { uri: user.profile_image } : avatar} style={styles.image} />}
 
-          <Text style={styles.username}>{username}</Text>
+          {user.isloading && <Thumbnail source={loader} style={{ ...styles.image, backgroundColor: "white" }} />}
+
+          <Text style={styles.username}>{user?.username}</Text>
         </TouchableOpacity>
         <View style={styles.mainContent}>
-          <TouchableOpacity style={styles.option} onPress={()=> {
+          <TouchableOpacity style={styles.option} onPress={() => {
             this.props.navigation.navigate("Bookings")
-            this.props.close
-        }} >
+            this.props.close()
+          }} >
             <Icon name="calendar" style={styles.optionImage} />
             <Text style={styles.optionText}>Bookings</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.option} onPress={()=> 
-            {this.props.navigation.navigate("Notification")
+          <TouchableOpacity style={styles.option} onPress={() => {
+            this.props.navigation.navigate("Notification")
             this.props.close()
-            }}>
+          }}>
             <Icon name="ios-chatboxes" style={styles.optionImage} />
             <Text style={styles.optionText}>Notifications</Text>
           </TouchableOpacity>
@@ -68,17 +80,35 @@ class DrawerContent extends Component {
             <Icon name="ios-chatboxes" style={styles.optionImage} />
             <Text style={styles.optionText}>Chats</Text>
           </TouchableOpacity> */}
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity style={styles.option} onPress={() => {
+            this.props.navigation.navigate("ChangeNumber")
+            this.props.close()
+          }}>
             <Icon name='md-settings' style={styles.optionImage} />
-            <Text style={styles.optionText}>Settings</Text>
+            <Text style={styles.optionText}>Change number</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option} onPress={() => {
+            this.props.navigation.navigate("AboutUs")
+            this.props.close()
+          }}>
+            <Icon name='md-information-circle' style={styles.optionImage} />
+            <Text style={styles.optionText}>About Us</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
-            <Icon name="md-help" style={styles.optionImage} />
+            <Icon name="md-help-circle-outline" style={styles.optionImage} />
             <Text style={styles.optionText}>Help</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.option} onPress={() => this.setState({ modalVisible: true })}>
+            <Icon name="log-out" style={styles.optionImage} />
+            <Text style={styles.optionText}>Logout</Text>
+          </TouchableOpacity>
         </View>
+        <LogoutModal
+          logout={this.logout}
+          onclose={() => this.setState({ modalVisible: false })}
+          modalVisible={modalVisible} />
         <View style={styles.version}>
-          <Text style={{textAlign:"center", fontSize:16, color:"white"}}>1.0.0.0</Text>
+          <Text style={{ textAlign: "center", fontSize: 16, color: "white" }}>{version.latest}</Text>
         </View>
       </Content>
     );
@@ -89,7 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.clr1,
     // marginTop:"5%",
     marginBottom: 0,
-    flexDirection:"column",
+    flexDirection: "column",
     paddingBottom: 0
   },
   imageViewer: {
@@ -108,13 +138,13 @@ const styles = StyleSheet.create({
   },
   username: {
     // paddingLeft: "10%",
-    marginTop:"5%",
+    marginTop: "5%",
     fontSize: 20,
     color: "white",
-    textAlign:"center"
+    textAlign: "center"
   },
   mainContent: {
-    marginTop:"10%",
+    marginTop: "10%",
     justifyContent: "space-between",
     width: "90%",
     alignSelf: "center",
@@ -124,7 +154,7 @@ const styles = StyleSheet.create({
   option: {
     flexDirection: "row",
     width: "100%",
-    paddingVertical:Platform.OS === 'android' ? "5%" : '2%',
+    paddingVertical: Platform.OS === 'android' ? "5%" : '2%',
     // marginVertical:"5%",
     // backgroundColor:"green",
     alignItems: "center",
@@ -132,24 +162,28 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 18,
-    fontWeight:"bold",
+    fontWeight: "bold",
     color: "white",
     paddingLeft: "5%"
   },
   optionImage: {
-    textAlign:"center",
+    textAlign: "center",
     width: 40,
     // height: 20,
     // backgroundColor:'blue',
-    color:"white"
+    color: "white"
   },
-  version:{
+  version: {
     // backgroundColor:"blue",
-    marginTop:200,
-    justifyContent:"center",
-    height:40,
-    alignItems:"center"
+    marginTop: 200,
+    justifyContent: "center",
+    height: 40,
+    alignItems: "center"
   }
 })
-const mapStateToProps = ({ user }) => (user)
-export default connect(mapStateToProps)(DrawerContent)
+const mapStateToProps = ({ user }) => ({ user })
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout()),
+  uploadProfileImage: (data) => dispatch(uploadProfileImageMiddleWare(data))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent)

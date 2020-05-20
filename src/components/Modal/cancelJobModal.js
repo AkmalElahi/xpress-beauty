@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Text, View, Alert, StyleSheet, Dimensions, Image } from 'react-native';
-import { CheckBox, Label, Icon } from 'native-base';
+import { CheckBox, Label, Icon, Content } from 'native-base';
 import { colors } from '../../configs/colors';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { CustomButton } from '../buttons/Buttons';
@@ -21,15 +21,15 @@ const JobCancelModal = ({ modalVisible, submit, comments, cancelReason, onChange
         visible={modalVisible}
     // onRequestClose={this.closeModal}
     >
-        <View style={styles.modal}>
+        <Content contentContainerStyle={styles.modal}>
             <View style={styles.modalView}>
-                <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "5%" }}>
-                    <Icon name="close" onPress={onclose}/>
+                <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "2%", marginTop: 2 }}>
+                    <Icon name="close" onPress={onclose} />
                 </TouchableOpacity>
-                <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}> What is the cancel reason?</Text>
+                <Text style={{ margin: 12, fontWeight: "bold", fontSize: 18 }}> What is the cancel reason?</Text>
                 {
                     reasons.map((reason) => (<View style={styles.row}>
-                        <CheckBox color={colors.freelancerButton}
+                        <CheckBox color={colors.primaryBtn}
                             onPress={() => onChangeReason(reason)}
                             checked={cancelReason === reason ? true : false} />
                         <Text style={{ textAlign: "left", width: "85%", }}>{reason}</Text>
@@ -43,8 +43,8 @@ const JobCancelModal = ({ modalVisible, submit, comments, cancelReason, onChange
                         borderWidth: 1,
                         margin: 5,
                         marginTop: 0,
-                        width:width * 0.75,
-                        alignSelf:"center",
+                        width: width * 0.75,
+                        alignSelf: "center",
                         // backgroundColor: "blue",
                         height: 60
                     }} />
@@ -54,12 +54,12 @@ const JobCancelModal = ({ modalVisible, submit, comments, cancelReason, onChange
                         onPress={submit}
                         height={40}
                         color="white"
-                        value="Cancel"
+                        value="Cancel Job"
                         backgroundColor={colors.primaryBtn}
                     />
                 </View>
             </View>
-        </View>
+        </Content>
     </Modal>
 );
 
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         // paddingTop:"10%",
-        justifyContent: "center",
+        // justifyContent: "center",
         // alignItems: "center",
 
         // flex:1,

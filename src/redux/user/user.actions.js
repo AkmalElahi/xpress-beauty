@@ -82,3 +82,22 @@ export const updateFreelancerProfileFail = payload => ({
     type: userActionTypes.UPDATE_FREELANCER_PROFILE_FAIL,
     payload
 })
+
+export const uploadProfileImage = payload => ({
+    type: userActionTypes.UPLOAD_PROFILE_IMAGE,
+    payload
+})
+
+export const uploadProfileImageSuccess = payload => ({
+    type: userActionTypes.UPLOAD_PROFILE_IMAGE_SUCCESS,
+    payload
+})
+
+export const uploadProfileImageFail = payload => ({
+    type: userActionTypes.UPLOAD_PROFILE_IMAGE_FAIL,
+    payload
+})
+
+export const logout = () => ({
+    type: userActionTypes.LOGOUT
+})

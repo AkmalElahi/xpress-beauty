@@ -5,6 +5,7 @@ import moment from 'moment';
 // import { CustomButton } from '../buttons/Buttons'
 import user from '../../assets/user.png'
 import { AirbnbRating, Rating } from 'react-native-ratings';
+import { colors } from '../../configs/colors';
 // import { colors } from '../../configs/colors'
 // import { connect } from 'react-redux';
 // import { removeServiceFromCart } from '../../redux/cart/cart.actions';
@@ -45,7 +46,7 @@ const Details = ({ details, type }) => {
             </View>
             <View style={styles.divider}>
                 <Text style={styles.heading}>Address</Text>
-                <Text>{details && `${details.house ? details.house : ""} ${details.building}, ${details.street} ${details.area}, ${details.city}`}</Text>
+                <Text >{details && `${details.house ? details.house+", " : ""}${details.building}, ${details.street} ${details.area}, ${details.city}`}</Text>
 
             </View>
             {/* <View style={styles.divider}>
@@ -87,7 +88,7 @@ const Details = ({ details, type }) => {
                     <Text >{moment(details.appointment_datetime).format('hh:mm a')}</Text>
                 </View>
             </View>}
-            {type === "freelancer" && details && details.job_status === "500" && <View style={styles.divider}>
+            {type === "freelancer" && details && (details.job_status === "500" || details.job_status === "401" ) && <View style={styles.divider}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                     <Text style={{ fontSize: 20, fontWeight: "bold" }}>Beautician</Text>
                     <Image source={user} style={{ width: 40, height: 40 }} />
@@ -120,7 +121,7 @@ const Details = ({ details, type }) => {
                         showRating={false}
                         isDisabled={true}
                         defaultRating={details.customer[0].rating}
-                        starStyle={{ width: 18, height: 18 }}
+                        starStyle={{ width: 18, height: 18, color:colors.primaryBtn }}
                     // starContainerStyle={{width: "70%" }}
                     />
                 </View>
@@ -137,7 +138,7 @@ const Details = ({ details, type }) => {
                     <Text >{moment(details.appointment_datetime).format('hh:mm a')}</Text>
                 </View>
             </View>}
-            {type === "customer" && details && details.job_status === "500" && <View style={styles.divider}>
+            {type === "customer" && details && (details.job_status === "500" || details.job_status === "401" ) && <View style={styles.divider}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                     <Text style={{ fontSize: 20, fontWeight: "bold" }}>Customer</Text>
                     <Image source={user} style={{ width: 40, height: 40 }} />

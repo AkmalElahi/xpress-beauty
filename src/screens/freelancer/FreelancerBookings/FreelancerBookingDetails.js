@@ -24,14 +24,16 @@ class FreelancerBookingDetails extends Component {
         type: "",
         rating: 0,
         comments: "",
-        modalVisible: false
+        modalVisible: false,
+        disabble: false,
+        loading:false
     }
     componentDidMount() {
         const { user } = this.props
         const job = this.props.navigation.getParam("job")
         console.log("USER AND JOB", user, job)
         if (user && job) {
-            this.props.getJobDetail({ appuid: user.appuid, token: user.token, booking_id: job.services[0].job_id, user_type:user.user_type })
+            this.props.getJobDetail({ appuid: user.appuid, token: user.token, booking_id: job.services[0].job_id, user_type: user.user_type })
         }
     }
     componentDidUpdate(prevProps) {
@@ -53,7 +55,7 @@ class FreelancerBookingDetails extends Component {
                     duration: 2000
                 })
                 if (type === "complete") {
-                    this.setState({ modalVisible: true })
+                    this.setState({ modalVisible: true, disabble: false, })
                 }
                 else {
                     this.props.navigation.navigate("FreelancerBookings")
@@ -61,7 +63,7 @@ class FreelancerBookingDetails extends Component {
                 }
             }
             if (jobs.message === "job rating success") {
-                this.setState({modalVisible:false, comments:"", rating:0})
+                this.setState({ modalVisible: false, comments: "", rating: 0 })
                 Toast.show({
                     text: "Thank you for your feedback",
                     textStyle: { textAlign: "center" },
@@ -74,19 +76,22 @@ class FreelancerBookingDetails extends Component {
 
             }
             if (jobs.message === "update job fail") {
+                this.setState({ disabble: false })
                 Toast.show({
-                    text: type === "checkin" ? "error in checking In" : "error in completing this job!",
+                    // text: type === "checkin" ? "You need to be present at above address to start this job!" : "Take your proper time its too early to complete the job!",
+                    text: jobs.errorMessage,
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    style: { width: "100%" },
                     position: "bottom",
                     type: 'warning',
-                    duration: 2000
+                    duration: 3000
                 })
             }
         }
     }
 
     handleCheckIn = async () => {
+        this.setState({ disabble: true, loading:true })
         const job = this.props.navigation.getParam("job")
         Geolocation.getCurrentPosition(
             (position) => {
@@ -95,7 +100,7 @@ class FreelancerBookingDetails extends Component {
                     longitude: position.coords.longitude,
                 };
                 // console.log("REGION", position)
-                this.setState({ region, type: "checkin" }, () => {
+                this.setState({ region, type: "checkin", loading:false }, () => {
                     this.props.updateJob({
                         latitude: region.latitude,
                         longitude: region.longitude,
@@ -108,10 +113,11 @@ class FreelancerBookingDetails extends Component {
                 });
             },
             (error) => {
-                // alert(error);
+                alert("Please On your device location in order to proceed further!");
                 this.setState({
                     error: error.message,
                     loading: false,
+                    disabble: false
 
                 })
             },
@@ -146,7 +152,7 @@ class FreelancerBookingDetails extends Component {
     }
     render() {
         // console.log("SUMMARY", total, totalDuration, cart)
-        const { details, modalVisible, rating, comments } = this.state
+        const { details, modalVisible, rating, comments, disabble, loading } = this.state
         console.log("DETAILS IN DETAILS ", details && details.freelancer[0].rating_pending)
         return (
             <Container>
@@ -166,17 +172,18 @@ class FreelancerBookingDetails extends Component {
                         </Button>
                     </Right>
                 </Header>
-                {this.props.jobs.loading ? <Loader /> :
+                {(this.props.jobs.loading || loading) ? <Loader /> :
                     <>
                         <Details details={details} type="customer" />
                         {
                             details && details.job_status === "301" && <View>
-                                <CustomButton backgroundColor={colors.freelancerButton}
+                                <CustomButton backgroundColor={!disabble ? colors.freelancerButton : "lightgrey"}
                                     onPress={this.handleCheckIn}
                                     width="100%"
                                     height={50}
                                     value="Check In"
                                     color="white"
+                                    disabled={disabble}
                                 />
                             </View>
                         }
@@ -203,6 +210,7 @@ class FreelancerBookingDetails extends Component {
                             </View>
                         }
                         <RatingModal submit={this.rateCustomer}
+                            text={"Rate Your Customer"}
                             onclose={() => this.setState({ modalVisible: false, comments: "", rating: 0 })}
                             rating={rating}
                             comments={comments}
@@ -228,7 +236,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         paddingBottom: 10
-    }
+    },
+    header: {
+        backgroundColor: "transparent",
+        elevation: 0
+    },
 })
 const mapStateToProps = ({ user, jobs }) => ({ user, jobs })
 

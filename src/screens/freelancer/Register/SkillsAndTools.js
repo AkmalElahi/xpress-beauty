@@ -5,13 +5,13 @@ import DocumentPicker from 'react-native-document-picker';
 import { getUniqueId, getModel, getDeviceId } from 'react-native-device-info'
 import bg from '../../../assets/registerbg.png';
 import profile from '../../../assets/profile.png';
-import checked from '../../../assets/checked.png'
+import checked from '../../../assets/checked1.png'
 import unchecked from '../../../assets/unchecked.png'
 import { colors } from '../../../configs/colors';
 import { connect } from 'react-redux';
 import { skillsMiddleware } from '../../../redux/skills/skills.middleware';
 import { toolsMiddleware } from '../../../redux/tools/tools.middleware';
-import { RoundButton } from '../../../components/buttons/Buttons';
+import { RoundButton, CustomButton } from '../../../components/buttons/Buttons';
 import { userMiddleWare } from '../../../redux/user/user.middlewares';
 import Loader from '../../../components/loader/Loader';
 import { setFreelancerProfile } from '../../../redux/user/user.actions';
@@ -245,7 +245,7 @@ class SkillsAndTools extends Component {
                         </View>
                         <View style={{ marginTop: "5%" }}>
                             {this.props.user.isloading ? <Loader />
-                                : <RoundButton height={50} backgroundColor={colors.primaryBtn}
+                                : <CustomButton height={50} backgroundColor={colors.primaryBtn}
                                     value="Submit" color="white" onPress={this.submit} />}
                         </View>
                     </Content>

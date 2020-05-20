@@ -72,7 +72,9 @@ class Services extends Component {
 
         return (
             <Drawer
-                
+                panOpenMask={.25}
+                side="left"
+                acceptPan={false}
                 tapToClose={true}
                 ref={(ref) => { this.drawer = ref; }}
                 content={<DrawerContent navigation={this.props.navigation} close={this.closeDrawer} />}
@@ -80,7 +82,7 @@ class Services extends Component {
                 <Container style={styles.container} >
                     <CustomHeader icon={"menu"} leftButton={() => this.openDrawer()} header="Services" rightButton={() => this.props.navigation.navigate("Notification")} />
                     <Content height="80%">
-                        {this.props.categories.message ===  "categories found" &&
+                        {this.props.categories.message === "categories found" &&
                             <FlatList
                                 contentContainerStyle={{
                                     flexDirection: 'row',
@@ -117,7 +119,7 @@ class Services extends Component {
                             />}
                         {this.props.categories.message === "get categories request" && <Loader />}
                     </Content>
-                    <CustomFooter navigation={this.props.navigation} isActive='treatment'/>
+                    <CustomFooter navigation={this.props.navigation} isActive='treatment' />
                 </Container>
             </Drawer>
         )

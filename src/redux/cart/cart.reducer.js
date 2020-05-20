@@ -16,6 +16,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success:false,
                 error:false,
+                message:"service added to cart",
                 services: addService(state.services, action.payload)
             }
         case cartActionTypes.REMOVE_SERVICE_CART:

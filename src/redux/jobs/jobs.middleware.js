@@ -4,6 +4,7 @@ const formData = new FormData()
 
 export const jobssMiddleware = (data) => {
     return async dispatch => {
+        console.log("DATA IN GET JOBS FREELANCER ======>" ,data)
         dispatch(getJobs())
         try {
             formData.append("appuid", data.appuid)
@@ -59,10 +60,10 @@ export const updatejobMiddleWare = (data) => {
                 formData.append("token", data.token)
                 formData.append("booking_id", data.booking_id)
                 formData.append("status", data.status)
-                // formData.append("latitude", data.latitude)
-                // formData.append("longitude", data.longitude)
-                formData.append("latitude", "37.422558752425985")
-                formData.append("longitude", "-122.08395777270196")
+                formData.append("latitude", data.latitude)
+                formData.append("longitude", data.longitude)
+                // formData.append("latitude", "37.422558752425985")
+                // formData.append("longitude", "-122.08395777270196")
             }
 
             let res = await fetch(Path.UPDATE_JOBS_FREELANCER, {
@@ -77,7 +78,7 @@ export const updatejobMiddleWare = (data) => {
                 dispatch(updateJobSuccess(res.data))
             }
             else {
-                dispatch(updateJobFail("error in updating jobs"))
+                dispatch(updateJobFail({errorMessage:res.message}))
             }
         } catch (error) {
             console.log(" JOBS ERROR", error)
@@ -139,7 +140,7 @@ export const cancelJobMiddleware = (data) => {
                 dispatch(jobCancelSuccess(res.data))
             }
             else {
-                dispatch(jobCancelFail("error in cancel job "))
+                dispatch(jobCancelFail({errorMessage:res.message}))
             }
 
         } catch (error) {

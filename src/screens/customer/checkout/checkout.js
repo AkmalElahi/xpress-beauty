@@ -23,18 +23,18 @@ class Checkout extends Component {
             count: 1,
             date: moment(new Date()).format('llll'),
             time: moment(new Date()).format('LT'),
-            appointmentDate : moment(new Date()).format("YYYY-MM-DD HH.mm"),
+            appointmentDate: moment(new Date()).format("YYYY-MM-DD HH.mm"),
             header: "Services",
             payment_method: "COS",
             beautician_id: 0,
             job_status: 101,
-            isSelect:false
+            isSelect: false
         }
     }
     goBack = () => {
         const { count } = this.state
         console.log("GO BACK", count)
-        if(count === 1) {
+        if (count === 1) {
             this.props.navigation.goBack()
         }
         if (count > 1) {
@@ -86,7 +86,7 @@ class Checkout extends Component {
                 appointment_datetime: appointmentDate,
                 alt_appointment_datetime: appointmentDate,
                 payment_method,
-                beautician_id:navigation.getParam("beautician")? navigation.getParam("beautician").appuid :0,
+                beautician_id: navigation.getParam("beautician") ? navigation.getParam("beautician").appuid : 0,
                 user
             }
             console.log("ORDER", order)
@@ -142,20 +142,21 @@ class Checkout extends Component {
     }
     componentDidUpdate(prevProps) {
         if (this.props.cart !== prevProps.cart) {
-            if(this.props.cart.message === "checkout done successfully")
-            this.props.navigation.navigate("Services")
-            Toast.show({
-                text: "Booking has done successfully",
-                textStyle: { textAlign: "center" },
-                style: { width: "90%", alignSelf: "center", borderRadius: 10 },
-                position: "bottom",
-                type: 'success',
-                duration: 3000
-            })  
+            if (this.props.cart.message === "checkout done successfully") {
+                this.props.navigation.navigate("Services")
+                Toast.show({
+                    text: "Booking has done successfully",
+                    textStyle: { textAlign: "center" },
+                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    position: "bottom",
+                    type: 'success',
+                    duration: 3000
+                })
+            }
         }
     }
     render() {
-        const { count, date, show, selectedDate, mode, isSelect } = this.state
+        const { count, date, show, selectedDate, mode, isSelect, appointmentDate } = this.state
         console.log("ADDRESS IN CHECKOUT", this.props.navigation.getParam("address"))
         return (
             <Container style={styles.container}>
@@ -192,7 +193,7 @@ class Checkout extends Component {
                     setMode={() => this.setState({ mode: "time" })}
                     onChange={this.onDateTimeChange} />}
                 {count === 3 && <Address navigation={this.props.navigation}
-                    enableSelect={(value) =>this.setState({isSelect:value})}
+                    enableSelect={(value) => this.setState({ isSelect: value })}
                     isSelect={isSelect}
                     address={this.props.navigation.getParam("address")}
                     beautician={this.props.navigation.getParam("beautician")} />}
@@ -208,8 +209,8 @@ class Checkout extends Component {
 
 
                 <CustomButton
-                    value="Continue" backgroundColor={colors.primaryBtn} height={60} color="white" fontSize={25} onPress={this.continue} />
-                <CustomFooter navigation={this.props.navigation} isActive = 'checkout'/>
+                    value={count === 4 ? "Checkout" : "Continue"} backgroundColor={colors.primaryBtn} height={60} color="white" fontSize={25} onPress={this.continue} />
+                <CustomFooter navigation={this.props.navigation} isActive='checkout' />
             </Container>
         );
     }

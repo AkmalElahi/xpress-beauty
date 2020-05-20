@@ -20,11 +20,12 @@ const INITIAL_STATE = {
     success: false,
     error: false,
     status: "",
-    is_approved: "",
+    is_approved: "0",
     isActive: true,
     freelancerSkills: {},
     freelancerTools: {},
-    freelancerTraining: ""
+    freelancerTraining: "",
+    profile_image:null
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -52,6 +53,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 dob: action.payload.dob,
                 email: action.payload.email,
                 isloading: false,
+                profile_image:action.payload.image ? action.payload.image : state.profile_image,
                 message: ""
             }
         case userActionTypes.SET_FREELANCER_PROFILE:
@@ -71,6 +73,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 freelancerTools: action.payload.tools,
                 freelancerTraining: action.payload.training,
                 isloading: false,
+                profile_image:action.payload.image ? action.payload.image : state.profile_image,
                 message: "set freelancer profile"
             }
         case userActionTypes.CREATE_USER_PROFILE:
@@ -124,7 +127,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 message: "check freelancer status false",
                 isloading: false,
                 status: null,
-                is_approved:"0"
+                is_approved: "0"
             }
         case userActionTypes.SET_FRELLANCER_STATUS:
             return {
@@ -167,6 +170,29 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 message: "update freelancer profile false",
                 isloading: false
+            }
+        case userActionTypes.UPLOAD_PROFILE_IMAGE:
+            return {
+                ...state,
+                message: "upload profile image request",
+                isloading: true
+            }
+        case userActionTypes.UPLOAD_PROFILE_IMAGE_SUCCESS:
+            return {
+                ...state,
+                profile_image:action.payload,
+                message: "upload profile image success",
+                isloading: false,
+            }
+        case userActionTypes.UPLOAD_PROFILE_IMAGE_FAIL:
+            return {
+                ...state,
+                message: "upload profile image false",
+                isloading: false
+            }
+        case userActionTypes.LOGOUT:
+            return {
+                ...INITIAL_STATE
             }
         default:
             return state

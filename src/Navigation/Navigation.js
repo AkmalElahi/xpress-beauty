@@ -26,6 +26,8 @@ import FreelancerEditProfile from '../screens/freelancer/editProfile/editProfile
 import Gallery from '../screens/freelancer/gallery/gallery';
 import BookingDetails from '../screens/customer/Bookings/BookingsDetails';
 import FreelancerBookingDetails from '../screens/freelancer/FreelancerBookings/FreelancerBookingDetails';
+import AboutUs from '../screens/about-us/AboutUs';
+import ChangeNumber from '../screens/changeNumber/ChangeNumber';
 const registerCustomer = createStackNavigator({
     Swiper: {
         screen: CustomSwiper,
@@ -114,6 +116,18 @@ const customerApp = createStackNavigator({
     },
     BookingsDetails: {
         screen: BookingDetails,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    AboutUs: {
+        screen: AboutUs,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    ChangeNumber: {
+        screen: ChangeNumber,
         navigationOptions: {
             headerShown: false,
         }

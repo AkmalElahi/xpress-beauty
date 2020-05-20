@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { StatusBar, TextInput } from 'react-native';
+import { StatusBar, TextInput, Alert } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 
 import img from './src/assets/promotion1.png'
@@ -28,14 +28,21 @@ import firebase from 'react-native-firebase'
 import AsyncStorage from '@react-native-community/async-storage';
 import { Root } from "native-base";
 class App extends Component {
+  notificationListener = null
+  notificationOpenedListener = null
+  async componentDidMount() {
+    this.checkPermission();
+    this.createNotificationListeners();
 
-  // async componentDidMount() {
-  //   this.checkPermission();
-  // }
-  // componentWillUnmount() {
-  //   this.notificationListener();
-  //   this.notificationOpenedListener();
-  // }
+
+  }
+  componentWillUnmount() {
+    // alert("`UNMOUNtinG")
+    this.notificationListener();
+    // console.log(this.notificationListener)
+    this.notificationOpenedListener()
+    // console.log(this.notificationOpenedListener)
+  }
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
     console.log("ENABLED", enabled)
@@ -49,12 +56,17 @@ class App extends Component {
   //3
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
+    console.log("FCM TOKEN",fcmToken)
+    // alert(fcmToken)
+
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       console.log("FCM TOKEN",fcmToken)
       if (fcmToken) {
         // user has a device token
         console.log("FCM TOKEN",fcmToken)
+        // alert("FCM TOKEN",fcmToken)
+
         await AsyncStorage.setItem('fcmToken', fcmToken);
       }
     }
@@ -75,6 +87,7 @@ class App extends Component {
     /*
     * Triggered when a particular notification has been received in foreground
     * */
+  //  alert("`inside create NOTIFICATION")
     this.notificationListener = firebase.notifications().onNotification((notification) => {
         const { title, body } = notification;
         this.showAlert(title, body);
@@ -85,6 +98,8 @@ class App extends Component {
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
         const { title, body } = notificationOpen.notification;
+        console.log("bg======>",notificationOpen.notification)
+
         this.showAlert(title, body);
     });
   
@@ -94,6 +109,8 @@ class App extends Component {
     const notificationOpen = await firebase.notifications().getInitialNotification();
     if (notificationOpen) {
         const { title, body } = notificationOpen.notification;
+        console.log("closed======>",notificationOpen.notification)
+
         this.showAlert(title, body);
     }
     /*

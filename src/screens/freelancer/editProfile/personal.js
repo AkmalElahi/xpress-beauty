@@ -9,6 +9,7 @@ import { updateFreelancerProfileMiddleware } from '../../../redux/user/user.midd
 import CustomModal from '../../../components/Modal/Modal';
 import loader from '../../../assets/loader.gif'
 const width = Dimensions.get('window').width
+import moment from 'moment'
 
 class Personal extends Component {
     // console.log("PERSONAL", username, setChange)
@@ -133,7 +134,7 @@ class Personal extends Component {
                                 // showDatePicker={this.state.showHide}  {...this.props}
                                 defaultDate={new Date(2018, 4, 4)}
                                 minimumDate={new Date(1950, 1, 1)}
-                                // maximumDate={new Date(2018, 12, 31)}
+                                maximumDate={new Date(2002, 12, 31)}
                                 locale={"en"}
                                 timeZoneOffsetInMinutes={undefined}
                                 modalTransparent={false}

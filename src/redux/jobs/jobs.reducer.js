@@ -5,6 +5,7 @@ const INITIAL_STATE = {
     jobs: null,
     error: false,
     message: "",
+    errorMessage:"",
     loading: false,
     details: null
 }
@@ -54,12 +55,16 @@ const jobsReducer = (state = INITIAL_STATE, action) => {
                 loading: false
             }
         case jobsActionTypes.UPDATE_JOB_FAIL:
+            console.log("ACTION PAYLOAD IN CALCEL JOB", action.payload)
+
             return {
                 ...state,
                 success: false,
                 error: false,
                 message: "update job fail",
-                loading: false
+                loading: false,
+                errorMessage:action.payload.errorMessage,
+
             }
         case jobsActionTypes.GET_JOB_DETAIL:
             return {
@@ -104,11 +109,13 @@ const jobsReducer = (state = INITIAL_STATE, action) => {
                 loading: false
             }
         case jobsActionTypes.JOB_CANCEL_FAIL:
+            console.log("ACTION PAYLOAD IN CALCEL JOB", action.payload)
             return {
                 ...state,
                 success: false,
                 error: true,
                 message: "job cancel fail",
+                errorMessage:action.payload.errorMessage,
                 loading: false
             }
         case jobsActionTypes.JOB_RATING:

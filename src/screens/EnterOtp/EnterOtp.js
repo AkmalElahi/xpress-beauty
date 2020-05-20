@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Input, Header, Text } from 'native-base';
+import { View, Input, Header, Text, Content, Container } from 'native-base';
 import { ImageBackground, StyleSheet, TextInput, Platform, Keyboard } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { colors } from '../../configs/colors';
@@ -81,7 +81,7 @@ class EnterOtp extends Component {
     resendOtp = () => {
         const { enable, mobile } = this.state
         if (enable) {
-            alert("ENABLE")
+            // alert("ENABLE")
             this.props.resendOtp(mobile)
         }
         this.setState({ enable: false, time:0 })
@@ -144,7 +144,8 @@ class EnterOtp extends Component {
         const { modalVisible, focused, otp, modalText, error, enable, time } = this.state
         // console.log("OTP", otp)
         return (
-            <View style={styles.container}>
+            <Container style={{backgroundColor:colors.greybg}}>
+                <Content contentContainerStyle={styles.container}>
                 <Header transparent style={{ elevation: 0 }} androidStatusBarColor={colors.greybg} iosBarStyle="light-content" />
                 <View style={styles.top}>
                     <Text style={styles.heading}>
@@ -155,7 +156,7 @@ class EnterOtp extends Component {
                     </Text>
                 </View>
                 <View style={styles.otp}>
-                    <TextInput keyboardType="number-pad"
+                    <TextInput keyboardType="numeric"
                         onFocus={() => this.setState({ focused: true })}
                         ref="otp1"
                         maxLength={1}
@@ -212,7 +213,7 @@ class EnterOtp extends Component {
                         maxLength={1}
                         style={{ ...styles.input }}
                         ref="otp3"
-                        value={otp.slice(2, 3)}
+                        value={otp.slice(2,3)}
                         onChangeText={value => {
                             const num = value.replace(/[^0-9]/g, '')
                             if (num) {
@@ -224,9 +225,9 @@ class EnterOtp extends Component {
 
                         }}
                         onKeyPress={(ev) => {
-                            if (ev.nativeEvent.key === "BackSpace") {
+                            if (ev.nativeEvent.key === "Backspace") {
                                 let { otp } = this.state
-                                var toNull = otp.slice(2, 3)
+                                var toNull = otp.slice(2,3)
                                 otp = otp.replace(toNull, '')
                                 this.refs.otp2.focus();
                                 this.setState({ otp })
@@ -285,14 +286,14 @@ class EnterOtp extends Component {
                     height={60}
                     width={60}
                     text={modalText} />
-            </View>
+            </Content>
+            </Container>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.greybg,
         alignItems: "center"
     },
     top: {

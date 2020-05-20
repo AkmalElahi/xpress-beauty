@@ -28,10 +28,11 @@ export const VerifyOtpMiddleWare = ({ otp, mobile, user_type }) => {
                         dob: res.data.date_of_birth,
                         token: res.data.token,
                         appuid: res.data.appuid,
+                        image:res.data.image
                     }))
                 }
                 if (res.data.user_type === "freelancer") {
-                    console.log("USER IN OTP", res.data)
+                    console.log("USER IN OTP", res.data.image)
                     dispatch(setFreelancerProfile({
                         username: res.data.username,
                         email: res.data.email,
@@ -46,7 +47,8 @@ export const VerifyOtpMiddleWare = ({ otp, mobile, user_type }) => {
                         tools: res.data.tools,
                         skills: res.data.skills,
                         training: res.data.training,
-                        cnic:res.data.cnic
+                        cnic:res.data.cnic,
+                        image:res.data.image
                     }))
                 }
                 dispatch(verifyOtpSuccess({

@@ -111,7 +111,7 @@ const Sheduled = ({ bookings, navigation, refreshing, handleRefresh }) => {
                                         fontSize: 12,
                                         textAlign: "left",
                                         color: colors.greybg
-                                    }}>In Progrees</Text>}
+                                    }}>In Progress</Text>}
                                 </View>
                             </CardItem>
                         </Card>

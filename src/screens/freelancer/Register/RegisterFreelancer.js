@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Image, Dimensions } from 'react-native';
+import { ImageBackground, StyleSheet, Image, Dimensions, DatePickerIOS, TouchableOpacity, Modal, } from 'react-native';
 import { Header, Left, Button, Icon, Body, View, Container, Content, Text, Form, Item, Input, DatePicker, Label, CheckBox } from 'native-base'
 import { TextInputMask } from 'react-native-masked-text'
-const width = Dimensions.get('window').width;
 import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
 import profile from '../../../assets/profile.png';
-import { RoundButton } from '../../../components/buttons/Buttons';
+import { RoundButton, CustomButton } from '../../../components/buttons/Buttons';
 import Loader from '../../../components/loader/Loader';
 import { connect } from 'react-redux';
+import DateTimePicker from '@react-native-community/datetimepicker'
 const formData = new FormData()
 import moment from 'moment'
-
+const height = Dimensions.get('window').height
+const width = Dimensions.get('window').width
 
 class RegisterCustomer extends Component {
     constructor(props) {
@@ -76,8 +77,8 @@ class RegisterCustomer extends Component {
                         appuid: userFromRedux.appuid,
                         user_type: userFromRedux.user_type,
                         skills: userFromRedux.freelancerSkills,
-                        tools:userFromRedux.freelancerTools,
-                        training:userFromRedux.freelancerTraining
+                        tools: userFromRedux.freelancerTools,
+                        training: userFromRedux.freelancerTraining
                     }
                 })
             }
@@ -117,15 +118,15 @@ class RegisterCustomer extends Component {
         return (
             <Container >
                 <ImageBackground source={bg} style={styles.container}>
+                    <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content">
+                        {/* <Left >
+                            <Button transparent>
+                                <Icon name='arrow-back' style={{ color: "white" }} />
+                            </Button>
+                        </Left> */}
+                        <Body />
+                    </Header>
                     <Content style={styles.content}>
-                        <Header style={styles.header} androidStatusBarColor={colors.primaryBtn} iosBarStyle="dark-content">
-                            <Left >
-                                <Button transparent>
-                                    <Icon name='arrow-back' style={{ color: "white" }} />
-                                </Button>
-                            </Left>
-                            <Body />
-                        </Header>
                         <View style={styles.top}>
                             <Text style={styles.profileText}>Profile</Text>
                             <Image source={profile} style={styles.img} />
@@ -137,21 +138,23 @@ class RegisterCustomer extends Component {
                                     <Input value={username} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ username: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !username) && <Text style={styles.error}> username is required</Text>}
                             </Item>
+                            {!!(submitted && !username) && <Text style={styles.error}> username is required</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Email</Label>
                                 <View style={styles.inputView}>
                                     <Input value={email} keyboardType='email-address' style={styles.field} onChangeText={text => this.setState({ email: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !email && !emailError) && <Text style={styles.error}>valid email is required</Text>}
-                                {!!(submitted && !!emailError) && <Text style={styles.error}>email address is not valid</Text>}
                             </Item>
+                            {!!(submitted && !email && !emailError) && <Text style={styles.error}>email is required</Text>}
+                            {!!(submitted && !!emailError) && <Text style={styles.error}>email address is not valid</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>CNIC</Label>
                                 <View style={styles.inputView}>
                                     <TextInputMask
+                                        maxLength={15}
+                                        keyboardType="number-pad"
                                         type={'custom'}
                                         options={{
                                             mask: '99999-9999999-9'
@@ -167,8 +170,8 @@ class RegisterCustomer extends Component {
                                     />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !cnic) && <Text style={styles.error}> cnic is required</Text>}
                             </Item>
+                            {!!(submitted && !cnic) && <Text style={styles.error}> cnic is required</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Date of Birth</Label>
                                 <View style={styles.inputView}>
@@ -176,85 +179,120 @@ class RegisterCustomer extends Component {
                                         // showDatePicker={this.state.showHide}  {...this.props}
                                         defaultDate={new Date(2018, 4, 4)}
                                         minimumDate={new Date(1950, 1, 1)}
-                                        // maximumDate={new Date(2018, 12, 31)}
+                                        maximumDate={new Date(2002, 12, 31)}
                                         locale={"en"}
                                         timeZoneOffsetInMinutes={undefined}
                                         modalTransparent={false}
                                         animationType={"fade"}
                                         androidMode={"default"}
                                         placeHolderText={dob ? dob : "Tap here to select date"}
-                                        textStyle={{ width: width * 0.75, color: 'white' }}
-                                        placeHolderTextStyle={{ width: width * 0.75, color: "white" }}
+                                        textStyle={{ paddingLeft: 0, width: width * 0.75, color: 'white' }}
+                                        placeHolderTextStyle={{ paddingLeft: 0, width: width * 0.75, color: "white" }}
                                         onDateChange={this.setDate}
                                         disabled={false}
                                         icon={true}
                                     />
+                                    {/* <Text  >{dob ? `${dob}` : "Tap here to select Date of birth"}  </Text> */}
                                     {/* <Icon name='calendar' style={styles.calenderIcon} /> */}
 
                                 </View>
-                                {!!(submitted && !dob) && <Text style={styles.error}> date of birth is required</Text>}
                             </Item>
+                            {!!(submitted && !dob) && <Text style={styles.error}> date of birth is required</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Flat/Unit</Label>
                                 <View style={styles.inputView}>
                                     <Input value={house} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ house: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !house) && <Text style={styles.error}> flat / unit  is required</Text>}
                             </Item>
+                            {!!(submitted && !house) && <Text style={styles.error}> flat / unit  is required</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Building</Label>
                                 <View style={styles.inputView}>
                                     <Input value={building} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ building: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !building) && <Text style={styles.error}> building is required</Text>}
                             </Item>
+                            {!!(submitted && !building) && <Text style={styles.error}> building is required</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Street</Label>
                                 <View style={styles.inputView}>
                                     <Input value={street} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ street: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !street) && <Text style={styles.error}> street is required</Text>}
                             </Item>
+                            {!!(submitted && !street) && <Text style={styles.error}> street is required</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Area</Label>
                                 <View style={styles.inputView}>
                                     <Input value={area} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ area: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !area) && <Text style={styles.error}> area is required</Text>}
                             </Item>
+                            {!!(submitted && !area) && <Text style={styles.error}> area is required</Text>}
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>City</Label>
                                 <View style={styles.inputView}>
                                     <Input value={city} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ city: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
-                                {!!(submitted && !city) && <Text style={styles.error}> city is required</Text>}
                             </Item>
-                            <Item style={{ borderBottomWidth: 0 }}>
+                            {!!(submitted && !city) && <Text style={styles.error}> city is required</Text>}
+                            <Item style={{ borderBottomWidth: 0, width:"95%" }}>
                                 <View style={{
                                     marginTop: "10%",
-                                    width: "80%",
+                                    // width: "90%",
                                     display: 'flex',
                                     // height:100,
                                     flexDirection: "row",
                                     alignItems: "center",
-                                    justifyContent: 'center',
+                                    // backgroundColor:"green",
+                                    // justifyContent: "flex-start",
                                 }}>
+                                    <View style={{width:35, justifyContent:"center"}} >
                                     <CheckBox checked={checked}
                                         onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
                                         color={colors.primaryBtn} />
-                                    <Text style={{ color: 'white', paddingLeft:20 }}>I accept terms and Policy</Text>
+                                    </View>
+                                    <Text style={{ color: 'white', paddingLeft: 5 }}>I accept terms and Policy</Text>
                                 </View>
                             </Item>
                             <Item style={styles.continue} last>
                                 {this.props.user.isloading ? <Loader />
-                                    : <RoundButton height={50} backgroundColor={colors.primaryBtn}
+                                    : <CustomButton height={50} backgroundColor={colors.primaryBtn}
                                         value="Continue" color="white" onPress={this.continue} />}
                             </Item>
+                            {/* <Modal
+                                transparent={true}
+                                animationType={"fade"}
+                                visible={true}
+                            // onRequestClose={this.closeModal}
+                            >
+                                <View style={styles.modal}>
+                                    <View style={styles.modalView}>
+                                        <DateTimePicker
+                                            testID="dateTimePicker"
+                                            // timeZoneOffsetInMinutes={0}
+                                            minimumDate={new Date()}
+                                            value={dob ? dob : new Date()}
+                                            mode={"date"}
+                                            is24Hour={false}
+                                            display="default"
+                                            onChange={this.setDate}
+                                        />
+                                        <View style={{ width: width * 0.7, alignSelf: "center", }}>
+                                            <CustomButton
+                                                // disabled={!rating || !comments}
+                                                // onPress={submit}
+                                                height={40}
+                                                color="white"
+                                                value="Select"
+                                                backgroundColor={colors.primaryBtn}
+                                            />
+                                        </View>
+                                    </View>
+                                </View>
+                            </Modal> */}
                         </Form>
                     </Content>
                 </ImageBackground>
@@ -320,7 +358,7 @@ const styles = StyleSheet.create(
             alignItems: "flex-start",
             // borderRadius: 50,
             paddingTop: 0,
-            paddingLeft: 10,
+            // paddingLeft: 10,
             marginLeft: 0,
             marginRight: 0,
             marginBottom: "1%",
@@ -339,7 +377,6 @@ const styles = StyleSheet.create(
         label: {
             color: "white",
             fontWeight: 'bold',
-            // backgroundColor:"blue",
             marginTop: 5
         },
         picker: {
@@ -371,7 +408,6 @@ const styles = StyleSheet.create(
             borderBottomWidth: 0
         },
         field: {
-            // backgroundColor:"green",
             // paddingLeft: 25,
             // paddingRight: 25,
             // marginLeft: 10,
@@ -383,15 +419,32 @@ const styles = StyleSheet.create(
             width: "100%",
             paddingTop: 15,
             paddingBottom: 10,
-            paddingLeft:10
-            
+            // paddingLeft:10
+
 
 
         },
         error: {
-            color: "red",
-            fontSize: 12
-        }
+            color: "#ff1654",
+            alignSelf: "flex-start",
+            paddingLeft: "8%"
+        },
+        modal: {
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: "rgba(0, 0, 0, 0.7)"
+        },
+        modalView: {
+            // paddingTop:"10%",
+            // justifyContent:"center",
+            // alignItems:"center",
+            width: width * 0.8,
+            height: height * 0.4,
+            backgroundColor: "white",
+            borderRadius: 15
+        },
     }
 )
 const mapStateToProps = ({ user }) => ({

@@ -3,7 +3,7 @@ import { Content, ListItem, Text, View, Icon, Input } from 'native-base';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { StyleSheet, Image, } from 'react-native';
+import { StyleSheet, Image, Platform, } from 'react-native';
 import { CustomButton } from '../buttons/Buttons'
 import clock from '../../assets/clock.png'
 import { colors } from '../../configs/colors'
@@ -53,7 +53,8 @@ class Time extends Component {
                     </View> */}
                 </View>
             </View>
-            {show && <TouchableOpacity onPress={setMode} style={{ width:"80%", alignSelf:"center",}}>
+            {show && <View onPress={setMode} style={{ width:"80%", alignSelf:"center",}}>
+                {Platform.OS === 'ios' && <Text onPress={mode === 'date' ? setMode : setShow} style={{textAlign:"center", width:"100%"}}>Confirm {mode}</Text>}
                 <DateTimePicker
                     testID="dateTimePicker"
                     // timeZoneOffsetInMinutes={0}
@@ -64,7 +65,7 @@ class Time extends Component {
                     display="default"
                     onChange={this.props.onChange}
                 />
-            </TouchableOpacity>}
+            </View>}
         </Content>
     }
 }

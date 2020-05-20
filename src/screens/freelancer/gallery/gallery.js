@@ -112,10 +112,10 @@ class Gallery extends Component {
                             <Icon name='arrow-back' style={{ color: "black" }} onPress={() => this.props.navigation.goBack()} />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 2, alignItems:"center" }}>
-                        <Title style={{ color: "black", fontWeight: "normal" }} >Details</Title>
+                    <Body style={{ flex: 1, alignItems:"center" }}>
+                        <Title style={{ color: "black", fontWeight: "normal" }} >Gallery</Title>
                     </Body>
-                    <Right style={{flex:2,alignItems:"flex-end"}}>
+                    <Right style={{flex:1,alignItems:"flex-end"}}>
                         {focused && <View style={{flexDirection:"row", flex:1}}>
                             <Button transparent>
                                 <Icon name="share" style={{ color: "black" }} onPress={() => this.props.navigation.goBack()} />

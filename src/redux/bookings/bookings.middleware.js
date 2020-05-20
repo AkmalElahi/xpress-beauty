@@ -53,6 +53,9 @@ export const freelancerBookingsMiddleware =  (data) => {
                 console.log("BOOKINGS RESPONSE", res)
                 dispatch(getBookingsSuccess(res.data))
             }
+            else{
+               dispatch(getBookingsFail("error in getting bookings"))
+            }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))
            } catch (error) {

@@ -7,7 +7,7 @@ import { colors } from '../../../configs/colors'
 import bg from '../../../assets/registerbg.png';
 import location from '../../../assets/location.png';
 import profile from '../../../assets/profile.png';
-import { RoundButton } from '../../../components/buttons/Buttons';
+import { RoundButton, CustomButton } from '../../../components/buttons/Buttons';
 import { connect } from 'react-redux';
 import { setUserProfile, getCurrentUser } from '../../../redux/user/user.actions'
 import { userMiddleWare } from '../../../redux/user/user.middlewares'
@@ -94,8 +94,8 @@ class Register extends Component {
                         username,
                         email,
                         dob, appuid: this.props.user.appuid,
-                        token:this.props.user.token,
-                        user_type:this.props.user.user_type
+                        token: this.props.user.token,
+                        user_type: this.props.user.user_type
                     }
                 })
                 // this.props.navigation.navigate("MapView")
@@ -154,7 +154,7 @@ class Register extends Component {
                             <Item fixedLabel style={styles.input}>
                                 <Label style={styles.label}>Email</Label>
                                 <View style={styles.inputView}>
-                                    <Input value={email} keyboardType="default" style={styles.field} onChangeText={text => this.setState({ email: text })} />
+                                    <Input value={email} keyboardType='email-address' style={styles.field} onChangeText={text => this.setState({ email: text })} />
                                     {/* <Image source={location} style={styles.icon} /> */}
                                 </View>
                                 {!!(submitted && !email) && <Text style={styles.error}>valid email is required</Text>}
@@ -175,7 +175,7 @@ class Register extends Component {
                                     // showDatePicker={this.state.showHide}  {...this.props}
                                     defaultDate={new Date(1980, 1, 1)}
                                     minimumDate={new Date(1950, 1, 1)}
-                                    // maximumDate={new Date(2018, 12, 31)}
+                                    maximumDate={new Date(2002, 12, 31)}
                                     // formatChosenDate={format("YYYY do, MM")}
                                     // formatChosenDate={date => {return moment(date).format('YYYY-MM-DD');}}
                                     locale={"en"}
@@ -231,20 +231,22 @@ class Register extends Component {
                             <View style={{
                                 marginTop: "10%",
                                 // backgroundColor: "blue",
-                                width: "80%",
+                                width: "85%",
                                 flexDirection: "row",
                                 alignItems: "center",
-                                justifyContent: 'center',
+                                // justifyContent: 'center',
                                 height: 30
                             }}>
-                                <CheckBox checked={checked}
-                                    onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
-                                    color={colors.primaryBtn} />
-                                <Text style={{ color: 'white', paddingLeft: 20 }}>I accept terms and condition</Text>
+                                <View style={{ width: 35, justifyContent: "center" }} >
+                                    <CheckBox checked={checked}
+                                        onPress={() => this.setState((ps) => ({ checked: !ps.checked }))}
+                                        color={colors.primaryBtn} />
+                                </View>
+                                <Text style={{ color: 'white', paddingLeft: 5 }}>I accept terms and condition</Text>
                             </View>
                             <Item style={styles.continue} last>
                                 {this.props.user.isloading ? <Loader />
-                                    : <RoundButton height={50} backgroundColor={colors.primaryBtn}
+                                    : <CustomButton height={50} backgroundColor={colors.primaryBtn}
                                         value="Continue" color="white" onPress={this.continue} />}
                             </Item>
                         </Form>

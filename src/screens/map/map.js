@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, Button, PermissionsAndroid, Dimensions } from 'react-native';
+import { Text, View, ActivityIndicator, Button, PermissionsAndroid, Dimensions, TouchableOpacity } from 'react-native';
 import MapView from "react-native-maps";
 import styles from "./styles";
 import Geolocation from '@react-native-community/geolocation';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import AddressModal from '../../components/Modal/AddressModal'
 import { connect } from 'react-redux';
+import { colors } from '../../configs/colors';
 let { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0062998339347544174 //Very high zoom level
@@ -68,37 +69,37 @@ class Map extends Component {
         console.log("FROM IN MAP", this.props.navigation.getParam("from"))
         const from = this.props.navigation.getParam("from")
         this.getPosition()
-        if (from === "checkout") {
-            this.setState({
-                from,
-                userLocation:user.house ? user.house : user.building,
-                modalVisible: false,
-                initialRegion: {
-                    latitude: 24.926294,
-                    longitude: 67.022095,
-                    latitudeDelta: LATITUDE_DELTA,
-                    longitudeDelta: LONGITUDE_DELTA,
-                },
-                addressType: ["street_address"],
-                addressComponents: [
-                    {
-                        "long_name": user.building,
-                    },
-                    {
-                        "long_name": user.street,
-                    },
-                    {
-                        "long_name": user.street,
-                    },
-                    {
-                        "long_name": user.area,
-                    },
-                    {
-                        "long_name": user.city,
-                    }
-                ]
-            })
-        }
+        // if (from === "checkout") {
+        //     this.setState({
+        //         from,
+        //         userLocation: user.house ? user.house : user.building,
+        //         // modalVisible: false,
+        //         initialRegion: {
+        //             latitude: 24.926294,
+        //             longitude: 67.022095,
+        //             latitudeDelta: LATITUDE_DELTA,
+        //             longitudeDelta: LONGITUDE_DELTA,
+        //         },
+        //         addressType: ["street_address"],
+        //         addressComponents: [
+        //             {
+        //                 "long_name": user.building,
+        //             },
+        //             {
+        //                 "long_name": user.street,
+        //             },
+        //             {
+        //                 "long_name": user.street,
+        //             },
+        //             {
+        //                 "long_name": user.area,
+        //             },
+        //             {
+        //                 "long_name": user.city,
+        //             }
+        //         ]
+        //     })
+        // }
 
 
 
@@ -162,7 +163,7 @@ class Map extends Component {
                     regionChangeProgress: false,
                     addressComponents: responseJson.results[0].address_components,
                     addressType: responseJson.results[0].types,
-                    modalVisible: true
+                    // modalVisible: true
                 });
             });
     }
@@ -171,10 +172,12 @@ class Map extends Component {
     onRegionChange = region => {
         this.setState({
             region,
-            regionChangeProgress: true
-        }, 
-       () => {
-        !this.state.initialRegion && this.fetchAddress()}
+            regionChangeProgress: true,
+            modalVisible: false
+        },
+            () => {
+                !this.state.initialRegion && this.fetchAddress()
+            }
         );
         // this.setState({
         //     region
@@ -182,11 +185,14 @@ class Map extends Component {
     }
 
     // Action to be taken after select location button click
-    onLocationSelect = () => alert(this.state.userLocation);
-    createProfile = () => {
-        const { } = this.state
-    }
+    // onLocationSelect = () => alert(this.state.userLocation);
+    onLocationSelect = () => this.setState({ modalVisible: true })
+
+    // createProfile = () => {
+    //     const { } = this.state
+    // }
     render() {
+        const { modalVisible, regionChangeProgress } = this.state
         if (this.state.loading) {
             return (
                 <View style={styles.spinnerView}>
@@ -227,16 +233,20 @@ class Map extends Component {
                         <Text numberOfLines={2} style={{ fontSize: 14, paddingVertical: 10, borderBottomColor: "silver", borderBottomWidth: 0.5 }}>
                             {!this.state.regionChangeProgress ? this.state.userLocation : "Identifying Location..."}</Text>
                         <View style={styles.btnContainer}>
-                            <Button
-                                title="PICK THIS LOCATION"
-                                disabled={this.state.regionChangeProgress}
-                                onPress={this.onLocationSelect}
-                            >
-                            </Button>
                         </View>
                     </View> */}
                     </View>
-                    <View style={{ position: "absolute", top: 100, width: "90%", alignSelf: "center", backgroundColor: "white" }}>
+                    <View style={{
+                        position: "absolute",
+                        top: 100,
+                        width: "90%",
+                        alignSelf: "center",
+                        backgroundColor: "white",
+                        // flexDirection: "row",
+                        // justifyContent: "center",
+                        // alignItems: "center"
+                    }}>
+
                         <GooglePlacesAutocomplete
                             styles={{
                                 textInputContainer: {
@@ -295,8 +305,24 @@ class Map extends Component {
                             debounce={300}
                         // predefinedPlaces={[this.state.userLocation]}
                         />
+                        <TouchableOpacity
+                            style={{backgroundColor: regionChangeProgress ? 'lightgrey' :  colors.primaryBtn, alignItems:"center", height:30, justifyContent:"center"}}
+                            disabled={regionChangeProgress}
+                            onPress={this.onLocationSelect}
+                        >
+                            <Text style={{color:"white"}}>PICK THIS LOCATION</Text>
+                        </TouchableOpacity>
+                        {modalVisible &&
+                            <AddressModal
+                                onClose={() => this.setState({ modalVisible: false })}
+                                from={'checkout'}
+                                navigation={this.props.navigation}
+                                modalVisible={modalVisible}
+                                addressComponents={this.state.addressComponents}
+                                addressType={this.state.addressType}
+                                region={this.state.region} />
+                        }
                     </View>
-                    <AddressModal from={this.state.from} navigation={this.props.navigation} modalVisible={this.state.modalVisible} addressComponents={this.state.addressComponents} addressType={this.state.addressType} region={this.state.region}/>
                 </View>
             );
         }

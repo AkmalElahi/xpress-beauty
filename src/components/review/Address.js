@@ -26,13 +26,13 @@ const Address = ({ navigation, address, beautician , enableSelect, isSelect}) =>
             <View style={styles.divider}>
                 <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                     <Text>Select Beautician</Text>
-                    <Switch 
+                    {/* <Switch 
                     disabled={true}
                     onValueChange={(value)=>enableSelect(value)}
                     ios_backgroundColor="white" 
                     thumbTintColor={colors.freelancerButton}
                     trackColor={{ false: "lightgrey", true: colors.primaryBtn }} 
-                    value={isSelect} />
+                    value={isSelect} /> */}
                 </View>
                 <View style={{ width: "45%" }}>
                     <CustomButton 
@@ -41,18 +41,21 @@ const Address = ({ navigation, address, beautician , enableSelect, isSelect}) =>
                     }}
                     disabled={!isSelect} 
                     value="Select" 
-                    backgroundColor={colors.primaryBtn} 
+                    backgroundColor={"#d9d9d9"} 
                     height={35} color="white" 
                     fontSize={25}  />
-                <Text style={{fontSize:15}}>{beautician && `${beautician.username}`}</Text>
+                {/* <Text style={{fontSize:15}}>{beautician && `${beautician.username}`}</Text> */}
                 </View>
+                <Text style={{fontSize:13}}>This feature is not available now!</Text>
+                <Text style={{fontSize:13}}>Xpress beauty will assign beautician for this Job.</Text>
             </View>
             <View style={styles.divider}>
                 <Text>Select Payment Type</Text>
                 <View style={{ width: "45%" }}>
-                    <CustomButton value="Select" backgroundColor={colors.primaryBtn} height={35} color="white" fontSize={25} />
+                    <CustomButton value="Select" backgroundColor={"#d9d9d9"} height={35} color="white" fontSize={25} disabled />
                 </View>
-                <Text>Cash On Services</Text>
+                <Text style={{fontSize:13}}>This feature is not available now!</Text>
+                <Text>Payment Type: Cash On Services</Text>
             </View>
         </Content>
     )

@@ -1,15 +1,19 @@
 import {
     createUserProfile, createUserProfileSuccess, createUserProfileFail, checkStatus,
-    checkStatusSuccess, checkStatusFail, setFreelancerProfile, setUserProfile, updateFreelancerProfileSuccess, updateFreelancerProfile, setFreelancerStatusSuccess, setFreelancerStatusFail, setFreelancerStatus
+    checkStatusSuccess, checkStatusFail, setFreelancerProfile, setUserProfile, updateFreelancerProfileSuccess, updateFreelancerProfile, setFreelancerStatusSuccess, setFreelancerStatusFail, setFreelancerStatus, uploadProfileImageSuccess, uploadProfileImageFail, uploadProfileImage
 } from './user.actions'
 import Path from '../../configs/path'
 import { Platform } from 'react-native'
 import { getUniqueId, getModel, getDevice } from 'react-native-device-info'
+import AsyncStorage from '@react-native-community/async-storage';
+
 const formData = new FormData()
 
 export const userMiddleWare = (data) => {
     return async dispatch => {
         dispatch(createUserProfile(data))
+        let fcmToken = await AsyncStorage.getItem('fcmToken');
+        console.log("FOCM TOKEN IN USER REGISTER MIDDLE WARE", fcmToken)
         try {
             // const device_id = getUniqueId()
             // const model = getModel()
@@ -38,7 +42,7 @@ export const userMiddleWare = (data) => {
                 formData.append("cnic", data.user.cnic)
                 formData.append("country_id", 166)
                 formData.append("device", data.device)
-                formData.append("device_id", data.device_id)
+                formData.append("device_id", fcmToken)
                 formData.append("model", data.model)
                 formData.append("os", data.os)
                 formData.append("platform", data.platform)
@@ -53,7 +57,7 @@ export const userMiddleWare = (data) => {
                 formData.append("user_type", data.user.user_type)
                 formData.append("country_id", 166)
                 formData.append("device", data.device)
-                formData.append("device_id", data.device_id)
+                formData.append("device_id", fcmToken)
                 formData.append("model", data.model)
                 formData.append("os", data.os)
                 formData.append("platform", data.platform)
@@ -246,6 +250,44 @@ export const setFreelancerStatusMiddleware = (data) => {
         } catch (error) {
             console.log("ERROR", error)
             dispatch(setFreelancerStatusFail(error))
+        }
+    }
+}
+
+export const uploadProfileImageMiddleWare = (data) => {
+    return async dispatch => {
+        dispatch(uploadProfileImage())
+        try {
+            const formData = new FormData()
+            console.log("DATA IN UPLOAD IMAGE", data)
+            formData.append("appuid", data.appuid)
+            formData.append("language", "en")
+            formData.append("token", data.token)
+            formData.append("image", {
+                // name: Math.random() + data.appuid + data.image.t,
+                name:'profile_' + data.image.type,
+                type: data.image.type,
+                uri:
+                    Platform.OS === "android" ? data.image.uri : data.image.uri.replace("file://", "")
+            });
+            console.log("FORMDATA IN UPLOAD IMAGE", formData._parts)
+            let res = await fetch(Path.UPLOAD_PROFILE_IMAGE, {
+                method: 'post',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                body: formData
+            })
+            res = await res.json()
+            console.log("UPLOAD PROFILE IMAGE MIDDLEWARE", res)
+            if (res.message === "success") {
+                console.log("RESPONSE OF UPLOAD PROFILE IMAGE", res)
+                dispatch(uploadProfileImageSuccess(res.data.image))
+            }
+            else {
+                dispatch(uploadProfileImageFail("error in upploading profile image"))
+            }
+        } catch (error) {
+            console.log("ERROR", error)
+            dispatch(uploadProfileImageFail(error))
         }
     }
 }

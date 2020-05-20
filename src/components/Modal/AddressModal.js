@@ -43,24 +43,24 @@ class AddressModal extends Component {
     componentDidUpdate(prevProps) {
         const { user, addressComponents, modalVisible, from, region } = this.props
         console.log("USER IN ADDRESS MODAL", user)
-        if (addressComponents !== prevProps.addressComponents) {
-            // console.log("ADDRESS COMPONENTS", addressComponents[0].long_name)
+        if (modalVisible !== prevProps.modalVisible) {
+            console.log("MODAL VISIBLE", modalVisible)
             this.setState({
-                building: addressComponents[0].long_name,
-                street: addressComponents[2].long_name,
-                area: addressComponents[3].long_name,
-                city: addressComponents[4].long_name,
+                // building: addressComponents[0].long_name,
+                // street: addressComponents[2].long_name,
+                // area: addressComponents[3].long_name,
+                // city: addressComponents[4].long_name,
                 user: user,
                 modalVisible,
                 region
                 // :addressComponents[2].long_name,
             })
         }
-        if (this.props.user.success !== prevProps.user.success) {
-            console.log("USER CREATED")
-            this.props.navigation.navigate("Services")
+        // if (this.props.user.success !== prevProps.user.success) {
+        //     console.log("USER CREATED")
+        //     this.props.navigation.navigate("Services")
 
-        }
+        // }
     }
     confirm = () => {
         const { user, building, street, area, city, house, address_note, region } = this.state
@@ -94,7 +94,7 @@ class AddressModal extends Component {
         // this.props.navigation.navigate("Services")
     }
     render() {
-        const { addressComponents, addressType, } = this.props
+        const { addressComponents, addressType, onClose } = this.props
         const { building, street, area, city, modalVisible, house, address_note } = this.state
         return (
             <Modal transparent={true}
@@ -105,7 +105,7 @@ class AddressModal extends Component {
             >
                 <View style={styles.modal}>
                     {addressType && <View style={styles.modalView}>
-                        <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={{ alignSelf: "flex-end", alignItems: "center", justifyContent: "center", width: "10%" }}>
+                        <TouchableOpacity onPress={onClose} style={{ alignSelf: "flex-end", alignItems: "center", justifyContent: "center", width: "10%" }}>
                             <Icon name="close" />
                         </TouchableOpacity>
                         <View style={{width:"90%", justifyContent:"space-between", flex:1}}>

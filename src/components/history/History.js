@@ -88,7 +88,7 @@ const History = ({ bookings, navigation, refreshing, handleRefresh }) => {
                                             isDisabled={true}
                                             defaultRating={item.rating}
                                             showRating={false}
-                                            starStyle={{ width: 15, height: 15 }}
+                                            starStyle={{ width: 15, height: 15}}
 
                                         />
                                     </View>}

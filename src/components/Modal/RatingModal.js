@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Text, View, Alert, StyleSheet, Dimensions, Image } from 'react-native';
-import { CheckBox, Label, Icon } from 'native-base';
+import { CheckBox, Label, Icon, Content } from 'native-base';
 import { colors } from '../../configs/colors';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { AirbnbRating } from 'react-native-ratings';
@@ -8,7 +8,7 @@ import { CustomButton } from '../buttons/Buttons';
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
-const RatingModal = ({ modalVisible, submit, comments, onChangeComment, onChangeRating, onclose, rating }) => (
+const RatingModal = ({ modalVisible, submit, comments, onChangeComment, onChangeRating, onclose, rating, text }) => (
     // <View style={styles.modal}>
     // </View>
     <Modal transparent={true}
@@ -16,21 +16,21 @@ const RatingModal = ({ modalVisible, submit, comments, onChangeComment, onChange
         visible={modalVisible}
     // onRequestClose={this.closeModal}
     >
-        <View style={styles.modal}>
+        <Content contentContainerStyle={styles.modal}>
             <View style={styles.modalView}>
-                <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "3%"  }}>
-                    <Icon name="close" onPress={onclose}/>
+                <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "3%" }}>
+                    <Icon name="close" onPress={onclose} />
                 </TouchableOpacity>
-                <Text style={{ margin: 10, marginBottom:0, fontWeight: "bold", fontSize: 16 }}>Please rate the quality of your beautician work</Text>
+                <Text style={{ margin: 10, marginBottom: 0, fontWeight: "bold", fontSize: 16 }}>{text}</Text>
 
                 <AirbnbRating
-                starContainerStyle={{backgroundColor:"white", width:width*0.65, justifyContent:"space-between"}}
-                onFinishRating={(value)=>onChangeRating(value)}
-                count={5}
-                reviewSize={16}
-                reviews={["Terrible", "Bad",  "Average", "Good", "Excelent"]}
-                defaultRating={rating}
-                size={20}/>
+                    starContainerStyle={{ backgroundColor: "white", width: width * 0.65, justifyContent: "space-between" }}
+                    onFinishRating={(value) => onChangeRating(value)}
+                    count={5}
+                    reviewSize={16}
+                    reviews={["Terrible", "Bad", "Average", "Good", "Excelent"]}
+                    defaultRating={rating}
+                    size={20} />
                 <Text style={{ marginTop: 10, marginLeft: 20 }}>Comments (required)</Text>
                 <TextInput
                     onChangeText={(text) => onChangeComment(text)}
@@ -39,12 +39,12 @@ const RatingModal = ({ modalVisible, submit, comments, onChangeComment, onChange
                         borderWidth: 1,
                         margin: 5,
                         marginTop: 0,
-                        width:width * 0.7,
-                        alignSelf:"center",
+                        width: width * 0.7,
+                        alignSelf: "center",
                         // backgroundColor: "blue",
                         height: 60
                     }} />
-                <View style={{ width: width*0.7, alignSelf: "center",  }}>
+                <View style={{ width: width * 0.7, alignSelf: "center", }}>
                     <CustomButton
                         disabled={!rating || !comments}
                         onPress={submit}
@@ -55,7 +55,7 @@ const RatingModal = ({ modalVisible, submit, comments, onChangeComment, onChange
                     />
                 </View>
             </View>
-        </View>
+        </Content>
     </Modal>
 );
 
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         height: height * 0.55,
         backgroundColor: "white",
         borderRadius: 15,
-        paddingBottom:10
+        paddingBottom: 10
     },
     img: {
         width: 60,

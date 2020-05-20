@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Text, View, Alert, StyleSheet, Dimensions, Image } from 'react-native';
-import { CheckBox, Label, Icon } from 'native-base';
+import { CheckBox, Label, Icon, Content } from 'native-base';
 import { colors } from '../../configs/colors';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { CustomButton } from '../buttons/Buttons';
@@ -21,7 +21,7 @@ const ReejctReasons = ({ modalVisible, submit, comments, rejectReason, onChangeC
         visible={modalVisible}
     // onRequestClose={this.closeModal}
     >
-        <View style={styles.modal}>
+        <Content style={styles.modal}>
             <View style={styles.modalView}>
                 <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "5%" }}>
                     <Icon name="close" onPress={onclose}/>
@@ -58,7 +58,7 @@ const ReejctReasons = ({ modalVisible, submit, comments, rejectReason, onChangeC
                     />
                 </View>
             </View>
-        </View>
+        </Content>
     </Modal>
 );
 

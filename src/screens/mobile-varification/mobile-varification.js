@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Header, Left, Body, Button, Icon, Picker } from 'native-base';
-import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, Keyboard } from 'react-native';
+import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, Keyboard, Dimensions } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { TextInputMask } from 'react-native-masked-text'
 import { getUniqueId, getManufacturer, getModel, getProduct, getVersion, getDevice, getDeviceId } from 'react-native-device-info';
@@ -20,6 +20,7 @@ import Loader from '../../components/loader/Loader';
 //         mobile: text.replace(/[^0-9]/g, ''),
 //     });
 // }
+const width = Dimensions.get('window').width
 const codes = [
     "PK", "SA", "US"
 ]
@@ -63,7 +64,6 @@ class MobileVerify extends Component {
                     const endphone = country.dialCode + phone.replace(/[^0-9]/g, '')
                     console.log("END PHONE", endphone)
                     // alert("HIT OTP SERVICE")
-                    unsubscribe()
                     this.props.verifyMobile(endphone)
                     // console.log("VERIFICATION")
                     // this.props.navigation.navigate("MapView")
@@ -95,6 +95,9 @@ class MobileVerify extends Component {
     //         console.log("DERIVED STATE")
     //         return { countries: props.countries}
     //     }
+    // }
+    // componentWillUnmount(){
+    //     unsubscribe()
     // }
     componentDidUpdate(prevProps) {
         // console.log("NEXT PROPS", prevProps.countries)
@@ -128,7 +131,7 @@ class MobileVerify extends Component {
     }
     render() {
         const { modalVisible, phone, openPicker, flags } = this.state
-        // console.log("COUNTRIES", this.state.country)
+        console.log("PHONE", this.state.phone)
         const {isloading} = this.props.generateOtp
         return (
             <View style={styles.container}>
@@ -150,7 +153,7 @@ class MobileVerify extends Component {
                 </View>
                 <View style={styles.body}>
                     <View style={{
-                        width: "80%", borderBottomWidth: 1,
+                        width: "90%", borderBottomWidth: 1,
                         borderBottomColor: "grey"
                     }}>
                         {/* <TextInput
@@ -168,7 +171,7 @@ class MobileVerify extends Component {
                                 // withDDD: true,
                                 dddMask: '999 999 9999'
                             }}
-                            maxLength={13}
+                            maxLength={12}
                             value={phone}
                             onChangeText={text => {
                                 console.log("TEXT", text)
@@ -259,7 +262,7 @@ const styles = StyleSheet.create(
         input: {
             // width: "80%",
             paddingTop:Platform.OS === "android" ? 12 : 0,
-            paddingLeft: "25%",
+            paddingLeft: "31%",
             marginBottom: 2,
             fontSize: 18,
             fontWeight: "bold",
@@ -268,18 +271,18 @@ const styles = StyleSheet.create(
         flag: {
             // width: 90,
             // height: 50,
-            width: 115,
+            width: 110,
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            // justifyContent: "center",
+            // alignItems: "center",
             position: "absolute",
             top: Platform.OS === "android" ? "0.5%" : -35,
-            right: Platform.OS === "android" ? "60%" : "70%",
+            right: Platform.OS === "android" ? "70%" : "70%",
             backgroundColor: "transparent",
             // zIndex:-1,
             fontSize: 18,
             fontWeight: "bold",
-            // backgroundColor:"green"
+            // backgroundColor:"green",
         },
         send: {
             position: "absolute",
