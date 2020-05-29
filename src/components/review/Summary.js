@@ -41,7 +41,7 @@ const Summary = ({ total, totalDuration, cart, navigation, time, date, address }
             </View>
             <View style={styles.divider}>
                 <Text style={styles.heading}>Address</Text>
-                    <Text>{`${address.house} ${address.building}, ${address.street} ${address.area}, ${address.city}`}</Text>
+                    <Text>{`${address.house ? address.house+',' : ""}${address.building}, ${address.street} ${address.area}, ${address.city}`}</Text>
             </View>
             {/* <View style={styles.divider}>
                 <Text style={styles.heading}>Name</Text>

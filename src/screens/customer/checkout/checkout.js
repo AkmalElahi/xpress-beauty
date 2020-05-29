@@ -147,7 +147,7 @@ class Checkout extends Component {
                 Toast.show({
                     text: "Booking has done successfully",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
                     duration: 3000

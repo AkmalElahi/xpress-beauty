@@ -60,7 +60,7 @@ const Review = ({cart, total, totalDuration, deleteItemFromCart, navigation}) =>
                                     deleteItemFromCart(item)
                                     Toast.show({
                                         text: "Service Removed from Cart",
-                                        style:{width:"90%", alignSelf:"center", borderRadius:10,},
+                                        // style:{width:"90%", alignSelf:"center", borderRadius:10,},
                                         textStyle:{textAlign:"center"},
                                         position: "bottom",
                                         type:'warning',

@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     phone: null,
     error: false,
     message:"",
-    isloading:false
+    isloading:false,
+    errMessage:""
 }
 
 const generateOtpReducer = (state = INITIAL_STATE, action) => {
@@ -32,8 +33,8 @@ const generateOtpReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 success: false,
                 error: true,
-                payload,
                 message:"error in generating otp",
+                errMessage:action.payload.errMessage,
                 isloading:false
             }
         default:

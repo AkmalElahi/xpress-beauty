@@ -47,7 +47,7 @@ class BookingDetails extends Component {
             Toast.show({
                 text: "Job successfully cancelled",
                 textStyle: { textAlign: "center" },
-                style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                 position: "bottom",
                 type: 'success',
                 duration: 2000
@@ -58,7 +58,7 @@ class BookingDetails extends Component {
             Toast.show({
                 text: "Thank you for your feedback",
                 textStyle: { textAlign: "center" },
-                style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                 position: "bottom",
                 type: 'success',
                 duration: 2000
@@ -71,7 +71,7 @@ class BookingDetails extends Component {
             Toast.show({
                 text: jobs.errorMessage,
                 textStyle: { textAlign: "center" },
-                style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                 position: "bottom",
                 type: 'warning',
                 duration: 1800
@@ -80,7 +80,7 @@ class BookingDetails extends Component {
             Toast.show({
                 text: "error in rating this job try again!",
                 textStyle: { textAlign: "center" },
-                style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                 position: "bottom",
                 type: 'warning',
                 duration: 1800

@@ -84,7 +84,7 @@ class DrawerContent extends Component {
             this.props.navigation.navigate("ChangeNumber")
             this.props.close()
           }}>
-            <Icon name='md-settings' style={styles.optionImage} />
+            <Icon name='md-call' style={styles.optionImage} />
             <Text style={styles.optionText}>Change number</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={() => {
@@ -96,7 +96,10 @@ class DrawerContent extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <Icon name="md-help-circle-outline" style={styles.optionImage} />
-            <Text style={styles.optionText}>Help</Text>
+            <Text style={styles.optionText} onPress={() => {
+            this.props.navigation.navigate("Help")
+            this.props.close()
+          }}>Help</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={() => this.setState({ modalVisible: true })}>
             <Icon name="log-out" style={styles.optionImage} />

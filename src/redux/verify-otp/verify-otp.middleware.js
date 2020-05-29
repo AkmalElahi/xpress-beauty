@@ -1,10 +1,11 @@
-import { verifyOtp, verifyOtpSuccess, verifyOtpFail } from './verify-otp.actions'
+import { verifyOtp, verifyOtpSuccess, verifyOtpFail, verifyNewOtpSuccess } from './verify-otp.actions'
 import { setUserProfile, setFreelancerProfile } from '../user/user.actions'
 import Path from '../../configs/path'
 const formData = new FormData()
 
 export const VerifyOtpMiddleWare = ({ otp, mobile, user_type }) => {
     return async dispatch => {
+        const formData = new FormData()
         dispatch(verifyOtp(mobile))
         try {
             formData.append("mobile", mobile)
@@ -28,7 +29,7 @@ export const VerifyOtpMiddleWare = ({ otp, mobile, user_type }) => {
                         dob: res.data.date_of_birth,
                         token: res.data.token,
                         appuid: res.data.appuid,
-                        image:res.data.image
+                        image: res.data.image
                     }))
                 }
                 if (res.data.user_type === "freelancer") {
@@ -47,8 +48,8 @@ export const VerifyOtpMiddleWare = ({ otp, mobile, user_type }) => {
                         tools: res.data.tools,
                         skills: res.data.skills,
                         training: res.data.training,
-                        cnic:res.data.cnic,
-                        image:res.data.image
+                        cnic: res.data.cnic,
+                        image: res.data.image
                     }))
                 }
                 dispatch(verifyOtpSuccess({
@@ -72,6 +73,40 @@ export const VerifyOtpMiddleWare = ({ otp, mobile, user_type }) => {
             // .then(res => console.log("Responce", res))
         } catch (error) {
             console.log("ERROR", error)
+            dispatch(verifyOtpFail(error))
+        }
+    }
+}
+
+export const verifyOtpForNewMobileMiddleWare = (data) => {
+    return async dispatch => {
+        const formData = new FormData()
+        dispatch(verifyOtp(data.mobile))
+        try {
+            formData.append("mobile", data.mobile)
+            formData.append("language", "en")
+            formData.append("appuid", data.appuid)
+            formData.append("token", data.token)
+            formData.append("otp", data.otp)
+
+            let res = await fetch(Path.VERIFY_NEW_OTP, {
+                method: 'post',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                body: formData
+            })
+            res = await res.json()
+            console.log("VERIFY NEW RESPONSE", res)
+            if (res.message === "success") {
+                console.log("RESPONSE", res)
+                dispatch(verifyNewOtpSuccess(res.message))
+            }
+            else {
+                dispatch(verifyOtpFail({ errMessage: res.message }))
+            }
+            // .then(res => res.json())
+            // .then(res => console.log("Responce", res))
+        } catch (error) {
+            console.log("OTP ERROR", error)
             dispatch(verifyOtpFail(error))
         }
     }

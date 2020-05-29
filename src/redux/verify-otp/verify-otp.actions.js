@@ -15,3 +15,9 @@ export const verifyOtpFail = payload => ({
     payload
     
 })
+
+export const verifyNewOtpSuccess = payload => ({
+    type: verifyOtpActionType.VERIFY_OTP_FOR_NEW_NUMBER_SUCCESS,
+    payload
+    
+})

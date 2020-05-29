@@ -1,14 +1,16 @@
 import React from 'react';
-import { Modal, Text, View, Alert, StyleSheet, Dimensions, Image } from 'react-native';
+import { Modal, Text, View, Alert, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { CheckBox, Label, Icon, Content } from 'native-base';
 import { colors } from '../../configs/colors';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
 import { CustomButton } from '../buttons/Buttons';
+import checked from '../../assets/checked1.png'
+import unchecked from '../../assets/unchecked.png'
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 const reasons = [
     "Far Away",
-    "Trafic Issue",
+    "Traffic Issue",
     "Not Providing such services",
     "Occupied at given time",
     "Other"
@@ -21,19 +23,20 @@ const ReejctReasons = ({ modalVisible, submit, comments, rejectReason, onChangeC
         visible={modalVisible}
     // onRequestClose={this.closeModal}
     >
-        <Content style={styles.modal}>
+        <Content contentContainerStyle={styles.modal}>
             <View style={styles.modalView}>
-                <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "5%" }}>
-                    <Icon name="close" onPress={onclose}/>
+                <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "5%", marginTop: 2 }}>
+                    <Icon name="close" onPress={onclose} />
                 </TouchableOpacity>
-                <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}> What is the Rejection Reason?</Text>
+                <Text style={{ margin: 10, fontWeight: "bold", fontSize: 16 }}> What is the Rejection Reason?</Text>
                 {
-                    reasons.map((reason) => (<View style={styles.row}>
-                        <CheckBox color={colors.freelancerButton}
+                    reasons.map((reason) => (<TouchableOpacity style={styles.row} onPress={() => onChangeReject(reason)}>
+                        {/* <CheckBox color={colors.freelancerButton}
                             onPress={() => onChangeReject(reason)}
-                            checked={rejectReason === reason ? true : false} />
+                            checked={rejectReason === reason ? true : false} /> */}
+                        <Image source={rejectReason === reason ? checked : unchecked} style={{ width: 20, height: 20, marginLeft: 10 }} />
                         <Text style={{ textAlign: "left", width: "85%", }}>{reason}</Text>
-                    </View>))
+                    </TouchableOpacity>))
                 }
                 <Text style={{ marginTop: 10, marginLeft: 15 }}>Comments (required)</Text>
                 <TextInput
@@ -43,13 +46,14 @@ const ReejctReasons = ({ modalVisible, submit, comments, rejectReason, onChangeC
                         borderWidth: 1,
                         margin: 5,
                         marginTop: 0,
-                        width:width * 0.75,
-                        alignSelf:"center",
+                        width: width * 0.75,
+                        alignSelf: "center",
                         // backgroundColor: "blue",
                         height: 60
                     }} />
                 <View style={{ width: "40%", alignSelf: "flex-end", paddingRight: "5%" }}>
                     <CustomButton
+                        disabled={!rejectReason || !comments}
                         onPress={submit}
                         height={40}
                         color="white"
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         // paddingTop:"10%",
-        justifyContent: "center",
+        // justifyContent: "center",
         // alignItems: "center",
 
         // flex:1,

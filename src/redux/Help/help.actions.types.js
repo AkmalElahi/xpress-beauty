@@ -1,0 +1,7 @@
+export const helpActionTypes = {
+    GET_FAQS: "GET_FAQS",
+    GET_FAQS_SUCCESS: "GET_FAQS_SUCCESS",
+    GET_FAQS_FAIL: "GET_FAQS_FAIL",
+    GET_FAQ_DETAILS_SUCCESS: "GET_FAQ_DETAILS_SUCCESS",
+    
+}

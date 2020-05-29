@@ -24,8 +24,8 @@ const INITIAL_STATE = {
     isActive: true,
     freelancerSkills: {},
     freelancerTools: {},
-    freelancerTraining: "",
-    profile_image:null
+    freelancerTraining: "yes",
+    profile_image: null
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -41,9 +41,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case userActionTypes.SET_USER_MOBILE:
             return {
                 ...state,
-                mobile: action.payload.mobile,
-                appuid: action.payload.appuid,
-                token: action.payload.token,
+                mobile: action.payload.mobile ? action.payload.mobile : state.mobile,
+                appuid: action.payload.appuid ? action.payload.appuid : state.appuid,
+                token: action.payload.token ? action.payload.token : state.token,
                 isloading: false,
             }
         case userActionTypes.SET_USER_PROFILE:
@@ -53,7 +53,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 dob: action.payload.dob,
                 email: action.payload.email,
                 isloading: false,
-                profile_image:action.payload.image ? action.payload.image : state.profile_image,
+                profile_image: action.payload.image ? action.payload.image : state.profile_image,
                 message: ""
             }
         case userActionTypes.SET_FREELANCER_PROFILE:
@@ -73,7 +73,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 freelancerTools: action.payload.tools,
                 freelancerTraining: action.payload.training,
                 isloading: false,
-                profile_image:action.payload.image ? action.payload.image : state.profile_image,
+                profile_image: action.payload.image ? action.payload.image : state.profile_image,
                 message: "set freelancer profile"
             }
         case userActionTypes.CREATE_USER_PROFILE:
@@ -180,7 +180,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case userActionTypes.UPLOAD_PROFILE_IMAGE_SUCCESS:
             return {
                 ...state,
-                profile_image:action.payload,
+                profile_image: action.payload,
                 message: "upload profile image success",
                 isloading: false,
             }

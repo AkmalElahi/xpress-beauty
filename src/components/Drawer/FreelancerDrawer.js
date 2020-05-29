@@ -76,18 +76,24 @@ class FreelancerDrawer extends Component {
                         <Icon name="ios-image" style={styles.optionImage} />
                         <Text style={styles.optionText}>Gallery</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity style={styles.option}>
-            <Icon name="ios-chatboxes" style={styles.optionImage} />
-            <Text style={styles.optionText}>Chats</Text>
-          </TouchableOpacity> */}
                     <TouchableOpacity style={styles.option} onPress={() => {
-                        this.props.navigation.navigate("EditProfile")
+                        this.props.navigation.navigate("ChangeNumber")
+                        this.props.close()
+                    }}>
+                        <Icon name='md-call' style={styles.optionImage} />
+                        <Text style={styles.optionText}>Change Number</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.option} onPress={() => {
+                        this.props.navigation.navigate("AboutUs")
                         this.props.close()
                     }}>
                         <Icon name='md-settings' style={styles.optionImage} />
-                        <Text style={styles.optionText}>Settings</Text>
+                        <Text style={styles.optionText}>About Us</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.option}>
+                    <TouchableOpacity style={styles.option} onPress={() => {
+                        this.props.navigation.navigate("Help")
+                        this.props.close()
+                    }}>
                         <Icon name="md-help" style={styles.optionImage} />
                         <Text style={styles.optionText}>Help</Text>
                     </TouchableOpacity>

@@ -85,6 +85,7 @@ const Sheduled = ({ bookings, navigation, refreshing, handleRefresh }) => {
                                     <Text
                                         style={{
                                             // fontSize: 20,
+                                            paddingTop:5,
                                             color: colors.greybg
                                         }}>{item.services.reduce((duration, service) => (duration += parseInt(service.duration)), 0)} min</Text>
                                 </View>

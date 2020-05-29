@@ -54,5 +54,13 @@ export default class Path {
 
     static UPLOAD_PROFILE_IMAGE = `${this.BASE_URL}/upload_profile_image`
 
-    
+    static CHNAGE_NUMBER = `${this.BASE_URL}/changeNumber`
+
+    static VERIFY_NEW_OTP = `${this.BASE_URL}/VerifyNewOtp`
+
+    static GET_FAQS = `${this.BASE_URL}/get_faqs`
+
+    static GET_FAQS_DETAILS = `${this.BASE_URL}/get_faqs_details`
+
+
 }

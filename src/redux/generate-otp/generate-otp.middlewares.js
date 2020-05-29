@@ -20,7 +20,39 @@ export const generateOtpMiddleWare =  (phone) => {
                 dispatch(generateOtpSuccess(res.message))
             }
             else{
-               dispatch(generateOtpFail("error in generating otp"))
+               dispatch(generateOtpFail({errMessage:res.message}))
+            }
+            // .then(res => res.json())
+            // .then(res => console.log("Responce", res))
+           } catch (error) {
+               console.log("OTP ERROR", error)
+               dispatch(generateOtpFail(error))
+           }
+    }
+}
+
+export const changeUserMobileMiddleWare =  (data) => {
+    return  async dispatch=>{
+        dispatch(generateOtp(data.newMobile))
+           try {
+               formData.append("mobile", data.mobile)
+               formData.append("newmobile", data.newMobile)
+               formData.append("language", "en")
+               formData.append("appuid", data.appuid)
+               formData.append("token", data.token)
+             let res = await fetch(Path.CHNAGE_NUMBER, {
+                method: 'post',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                body: formData
+            })
+            res = await res.json()
+            console.log("CHANGE NUMBER RESPONSE", res)
+            if(res.message === "OTP Generated"){
+                console.log("RESPONSE", res)
+                dispatch(generateOtpSuccess(res.message))
+            }
+            else{
+               dispatch(generateOtpFail({errMessage:res.message}))
             }
             // .then(res => res.json())
             // .then(res => console.log("Responce", res))

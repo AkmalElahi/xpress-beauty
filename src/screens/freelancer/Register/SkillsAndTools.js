@@ -25,7 +25,7 @@ class SkillsAndTools extends Component {
             userProps: '',
             uploading: false,
             training: "yes",
-            error:false
+            error: false
         }
     }
     componentDidMount() {
@@ -57,14 +57,14 @@ class SkillsAndTools extends Component {
         const user = this.props.navigation.getParam("user")
         this.setState({
             user,
-            skills:user.skills.length > 0 ? user.skills.map(skill=> skill.id) : [],
-            tools:user.tools.length > 0 ?  user.tools.map(tool => tool.id) : [],
-            training:user.training
+            skills: user.skills.length > 0 ? user.skills.map(skill => skill.id) : [],
+            tools: user.tools.length > 0 ? user.tools.map(tool => tool.id) : [],
+            training: user.training
         })
     }
     addSkill = (id) => {
         const { skills } = this.state
-        const isExist =  skills.find(item => item === id)
+        const isExist = skills.find(item => item === id)
         if (!isExist) {
             const newSkills = [id, ...skills]
             this.setState({ skills: newSkills })
@@ -123,32 +123,32 @@ class SkillsAndTools extends Component {
     submit = () => {
         console.log("STATE IN SUBMIT", this.state)
         const { skills, tools, file, user, device_id, model, os, platform, training, } = this.state
-        if (skills.length && tools.length && file && user) {
+        if (skills.length && tools.length && file && user && (training === 'yes' || training === 'no')) {
             this.props.createProfile({ skills, tools, file, training, device_id, model, os, platform, user })
             return
         }
         let error = false
-        if(skills.length < 1){
-            error=true,
-            text = "select at least one skill"
+        if (skills.length < 1) {
+            error = true,
+                text = "select at least one skill"
         }
-        else if(tools.length < 1){
-            error=true,
-            text = "select at least one tool"
+        else if (tools.length < 1) {
+            error = true,
+                text = "select at least one tool"
         }
-        else if(!file){
-            error=true,
-            text = "file is required"
+        else if (!file) {
+            error = true,
+                text = "file is required"
         }
-        if(error){
+        if (error) {
             Toast.show({
                 text: text,
                 textStyle: { textAlign: "center" },
-                style: { width: "90%", alignSelf: "center", borderRadius: 10, backgroundColor:"red" },
-                position: "top",
+                style: { backgroundColor: "red" },
+                position: "bottom",
                 type: 'warining',
                 duration: 1500
-            })   
+            })
         }
 
     }
@@ -202,7 +202,7 @@ class SkillsAndTools extends Component {
                                 data={this.props.skills.skills}
                                 renderItem={({ item, index }) => (
                                     <TouchableOpacity style={styles.skills} onPress={() => this.addSkill(item.id)} >
-                                        <Image source={skills  && skills.includes(item.id) ? checked : unchecked} style={styles.radio} />
+                                        <Image source={skills && skills.includes(item.id) ? checked : unchecked} style={styles.radio} />
                                         <Text style={{ color: "white", paddingLeft: 10, fontSize: 16, fontWeight: "bold" }}>{item.skill}</Text>
                                     </TouchableOpacity>
                                 )
@@ -238,7 +238,7 @@ class SkillsAndTools extends Component {
                             </TouchableOpacity>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <TouchableOpacity style={styles.upload} onPress={this.uploadFile}>
-                                     <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>Upload a file</Text>
+                                    <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>Upload a file</Text>
                                 </TouchableOpacity>
                                 {file && <Text style={{ color: "white", textAlign: "center", padding: "5%", paddingTop: "10%" }}>{file.name}</Text>}
                             </View>

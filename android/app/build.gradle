@@ -191,6 +191,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
     implementation project(':react-native-document-picker')
     // Multidex
      implementation 'androidx.multidex:multidex:2.0.1'

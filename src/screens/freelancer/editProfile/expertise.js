@@ -48,7 +48,7 @@ class EditExpertise extends Component {
                 Toast.show({
                     text: "Profile Updated Successfully",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
                     duration: 1500
@@ -58,7 +58,7 @@ class EditExpertise extends Component {
                 Toast.show({
                     text: "Error in Updating profile",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'warning',
                     duration: 1500

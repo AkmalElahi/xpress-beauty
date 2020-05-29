@@ -173,7 +173,7 @@ class Register extends Component {
                                 <Label style={styles.label}>Date Of Birth</Label>
                                 <DatePicker
                                     // showDatePicker={this.state.showHide}  {...this.props}
-                                    defaultDate={new Date(1980, 1, 1)}
+                                    // defaultDate={new Date(1980, 1, 1)}
                                     minimumDate={new Date(1950, 1, 1)}
                                     maximumDate={new Date(2002, 12, 31)}
                                     // formatChosenDate={format("YYYY do, MM")}
@@ -183,9 +183,9 @@ class Register extends Component {
                                     modalTransparent={false}
                                     animationType={"fade"}
                                     androidMode={"default"}
-                                    // placeHolderText={dob ? dob : "Date of birth"}
-                                    textStyle={{ width: width * 0.75, color: "white" }}
-                                    // placeHolderTextStyle={{ width: width * 0.75, color: "black" }}
+                                    placeHolderText={dob ? dob : "Select Date of birth"}
+                                    textStyle={{paddingLeft:0,  width: width * 0.75, color: "white" }}
+                                    placeHolderTextStyle={{ paddingLeft:0, width: width * 0.75, color: "white" }}
                                     onDateChange={this.setDate}
                                     disabled={false}
                                     icon={true}
@@ -360,6 +360,7 @@ const styles = StyleSheet.create(
             // marginLeft: 10,
             // marginRight: 10,
             // marginTop: 0,
+            paddingLeft:0,
             color: "white",
             width: "100%",
             paddingTop: Platform.OS === "android" ? 15 : 0,

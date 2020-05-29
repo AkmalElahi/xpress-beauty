@@ -28,6 +28,8 @@ import BookingDetails from '../screens/customer/Bookings/BookingsDetails';
 import FreelancerBookingDetails from '../screens/freelancer/FreelancerBookings/FreelancerBookingDetails';
 import AboutUs from '../screens/about-us/AboutUs';
 import ChangeNumber from '../screens/changeNumber/ChangeNumber';
+import Help from '../screens/Help/Help';
+import HelpDetails from '../screens/Help/Help-details';
 const registerCustomer = createStackNavigator({
     Swiper: {
         screen: CustomSwiper,
@@ -131,6 +133,18 @@ const customerApp = createStackNavigator({
         navigationOptions: {
             headerShown: false,
         }
+    },
+    Help: {
+        screen: Help,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    HelpDetail: {
+        screen: HelpDetails,
+        navigationOptions: {
+            headerShown: false,
+        }
     }
 
 },
@@ -210,6 +224,30 @@ const FreelancerApp = createStackNavigator({
     },
     BookingsDetails: {
         screen: FreelancerBookingDetails,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    ChangeNumber: {
+        screen: ChangeNumber,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    AboutUs: {
+        screen: AboutUs,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Help: {
+        screen: Help,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    HelpDetail: {
+        screen: HelpDetails,
         navigationOptions: {
             headerShown: false,
         }

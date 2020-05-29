@@ -80,7 +80,7 @@ class JobDetail extends Component {
                 Toast.show({
                     text: `Job Updated successfully`,
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
                     duration: 3000
@@ -91,7 +91,7 @@ class JobDetail extends Component {
                 Toast.show({
                     text: "Error in updating job please try again",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'warning',
                     duration: 3000

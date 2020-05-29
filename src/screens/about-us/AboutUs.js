@@ -19,22 +19,22 @@ import { version } from '../../configs/appversion';
 // }
 const width = Dimensions.get('window').width
 
-const AboutUs = () => {
+const AboutUs = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Header style={styles.header} androidStatusBarColor={colors.clr3} iosBarStyle="dark-content" >
                 <Left >
-                    <Button transparent onPress={() => this.props.navigation.goBack()}>
+                    <Button transparent onPress={() => navigation.goBack()}>
                         <Icon name='arrow-back' style={{ color: "black" }} />
                     </Button>
                 </Left>
                 <Body />
             </Header>
             <View style={styles.body}>
-                <TouchableOpacity onPress={() => Linking.openURL('https://www.m3tech.com.pk/')} >
+                <TouchableOpacity onPress={() => Linking.openURL('http://beta.xpressbeauty.pk/')}  >
                     <Image source={icon} style={{ width: 80, height: 80 }} />
+                    <Text style={{ fontSize: 10, textAlign: "center", width: 80 }} >version: {version.latest}</Text>
                 </TouchableOpacity>
-                <Text style={{ fontSize: 11 }} >Version: {version.latest}</Text>
             </View>
             <View style={styles.footer}>
                 <TouchableOpacity style={{ borderColor: colors.primaryBtn, borderRadius: 5, borderWidth: 1, width: "80%", alignSelf: "center", padding: 3 }}>

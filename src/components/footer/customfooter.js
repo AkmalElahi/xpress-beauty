@@ -24,7 +24,7 @@ class CustomFooter extends Component {
                 Toast.show({
                     text: "Service Added to Cart",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
                     duration: 1500
@@ -34,7 +34,7 @@ class CustomFooter extends Component {
                 Toast.show({
                     text: "Service Already added",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'warning',
                     duration: 2000
@@ -60,7 +60,7 @@ class CustomFooter extends Component {
                         Toast.show({
                             text: "Select at least one treatment",
                             textStyle: { textAlign: "center" },
-                            style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                            // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                             position: "bottom",
                             type: 'warning',
                             duration: 2000

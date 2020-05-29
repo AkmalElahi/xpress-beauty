@@ -1,9 +1,11 @@
 import React from 'react';
-import { Modal, Text, View, Alert, StyleSheet, Dimensions, Image } from 'react-native';
+import { Modal, Text, View, Alert, StyleSheet, Dimensions, Image,TouchableOpacity } from 'react-native';
 import { CheckBox, Label, Icon, Content } from 'native-base';
 import { colors } from '../../configs/colors';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { TextInput,  } from 'react-native-gesture-handler';
 import { CustomButton } from '../buttons/Buttons';
+import checked from '../../assets/checked1.png'
+import unchecked from '../../assets/unchecked.png'
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 const reasons = [
@@ -23,17 +25,18 @@ const JobCancelModal = ({ modalVisible, submit, comments, cancelReason, onChange
     >
         <Content contentContainerStyle={styles.modal}>
             <View style={styles.modalView}>
-                <TouchableOpacity style={{ alignSelf: "flex-end", paddingRight: "2%", marginTop: 2 }}>
-                    <Icon name="close" onPress={onclose} />
+                <TouchableOpacity onPress={onclose} style={{ alignSelf: "flex-end", paddingRight: "2%", marginTop: 2 }}>
+                    <Icon name="close"  />
                 </TouchableOpacity>
                 <Text style={{ margin: 12, fontWeight: "bold", fontSize: 18 }}> What is the cancel reason?</Text>
                 {
-                    reasons.map((reason) => (<View style={styles.row}>
-                        <CheckBox color={colors.primaryBtn}
-                            onPress={() => onChangeReason(reason)}
-                            checked={cancelReason === reason ? true : false} />
+                    reasons.map((reason) => (<TouchableOpacity style={styles.row} onPress={() => onChangeReason(reason)}>
+                        {/* <CheckBox color={colors.primaryBtn}
+                            
+                            checked={cancelReason === reason ? true : false} /> */}
+                        <Image source={cancelReason === reason ? checked : unchecked} style={{ width: 20, height: 20, marginLeft: 10 }} />
                         <Text style={{ textAlign: "left", width: "85%", }}>{reason}</Text>
-                    </View>))
+                    </TouchableOpacity>))
                 }
                 <Text style={{ marginTop: 10, marginLeft: 15 }}>Comments (required)</Text>
                 <TextInput

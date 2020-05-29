@@ -7,7 +7,7 @@ import { RoundButton } from '../../components/buttons/Buttons'
 import CustomModal from '../../components/Modal/Modal';
 import success from '../../assets/success.png'
 import { connect } from 'react-redux';
-import { VerifyOtpMiddleWare } from '../../redux/verify-otp/verify-otp.middleware';
+import { VerifyOtpMiddleWare, verifyOtpForNewMobileMiddleWare } from '../../redux/verify-otp/verify-otp.middleware';
 import { setUserMobile } from '../../redux/user/user.actions'
 import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
 // onChanged (text) {
@@ -33,7 +33,8 @@ class EnterOtp extends Component {
     }
     unsubscribe = null
     componentDidMount() {
-        console.log("PROPS IN ENTER OTP", this.props.generateOtp, this.props.user.user_type)
+        const from = this.props.navigation.getParam("from")
+        console.log("PROPS IN ENTER OTP", this.props.generateOtp, this.props.user.user_type, from)
         const { phone } = this.props.generateOtp
         const { user_type } = this.props.user
         this.setState({
@@ -60,10 +61,13 @@ class EnterOtp extends Component {
 
             if (state.isConnected) {
                 const { otp, mobile, user_type } = this.state
+                const { user, verifyNumberOtp, verifyOtpForNewNumber } = this.props
+                const from = this.props.navigation.getParam("from")
                 if (otp.length && mobile) {
                     Keyboard.dismiss()
-                    console.log("VERIFY WORKS", otp, mobile)
-                    this.props.verifyNumberOtp({ otp, mobile, user_type })
+                    console.log("VERIFY WORKS", otp, mobile, from)
+                    from === "changeNumber" ? verifyOtpForNewNumber({ otp, mobile, appuid: user.appuid, token: user.token })
+                        : verifyNumberOtp({ otp, mobile, user_type })
                     unsubscribe()
                 }
             }
@@ -84,7 +88,7 @@ class EnterOtp extends Component {
             // alert("ENABLE")
             this.props.resendOtp(mobile)
         }
-        this.setState({ enable: false, time:0 })
+        this.setState({ enable: false, time: 0 })
         let time = 60
         const t = setInterval(() => {
             // let { time } = this.state
@@ -95,7 +99,7 @@ class EnterOtp extends Component {
         }, 1000)
         setTimeout(() => {
             clearInterval(t)
-            this.setState({ enable: true, time:60})
+            this.setState({ enable: true, time: 60 })
         }, 60000);
     }
     navigator = () => {
@@ -106,6 +110,20 @@ class EnterOtp extends Component {
                 return
             case "freelancer":
                 this.props.navigation.navigate("createFreelancerProfile")
+                return
+            default:
+                this.props.navigation.navigate("UserLoading")
+                return
+        }
+    }
+    navigatorForNumberChange = () => {
+        const { user } = this.props
+        switch (user.user_type) {
+            case "customer":
+                this.props.navigation.navigate("Services")
+                return
+            case "freelancer":
+                this.props.navigation.navigate("FreelancerNotification")
                 return
             default:
                 this.props.navigation.navigate("UserLoading")
@@ -135,6 +153,24 @@ class EnterOtp extends Component {
                 }, 3000)
 
             }
+            if (verifyOtp.message === "otp for new number verified successfully") {
+                console.log("ENTER OT NEXT PROPS", this.props.verifyOtp)
+                this.props.setUserMobile({
+                    mobile: this.props.verifyOtp.phone,
+                })
+                this.setState({
+                    modalVisible: true,
+                    modalText: "Your Phone number has changed!",
+                    error: false
+                })
+                setTimeout(() => {
+                    this.setState({
+                        modalVisible: false
+                    }),
+                        this.navigatorForNumberChange()
+                }, 3000)
+
+            }
             else if (verifyOtp.message === "error in otp verification") {
                 this.setState({ modalText: "Please Enter Valid OTP", error: true })
             }
@@ -144,149 +180,149 @@ class EnterOtp extends Component {
         const { modalVisible, focused, otp, modalText, error, enable, time } = this.state
         // console.log("OTP", otp)
         return (
-            <Container style={{backgroundColor:colors.greybg}}>
+            <Container style={{ backgroundColor: colors.greybg }}>
                 <Content contentContainerStyle={styles.container}>
-                <Header transparent style={{ elevation: 0 }} androidStatusBarColor={colors.greybg} iosBarStyle="light-content" />
-                <View style={styles.top}>
-                    <Text style={styles.heading}>
-                        Phone Verification
+                    <Header transparent style={{ elevation: 0 }} androidStatusBarColor={colors.greybg} iosBarStyle="light-content" />
+                    <View style={styles.top}>
+                        <Text style={styles.heading}>
+                            Phone Verification
                     </Text>
-                    <Text style={styles.shortText}>
-                        Enter Your 4 digit OTP code here
+                        <Text style={styles.shortText}>
+                            Enter Your 4 digit OTP code here
                     </Text>
-                </View>
-                <View style={styles.otp}>
-                    <TextInput keyboardType="numeric"
-                        onFocus={() => this.setState({ focused: true })}
-                        ref="otp1"
-                        maxLength={1}
-                        style={{ ...styles.input }}
-                        onChangeText={value => {
-                            const num = value.replace(/[^0-9]/g, '')
-                            if (num) {
-                                let otp = this.state.otp
-                                otp = otp + num
-                                this.refs.otp2.focus();
-                                this.setState({ otp })
-                            }
+                    </View>
+                    <View style={styles.otp}>
+                        <TextInput keyboardType="numeric"
+                            onFocus={() => this.setState({ focused: true })}
+                            ref="otp1"
+                            maxLength={1}
+                            style={{ ...styles.input }}
+                            onChangeText={value => {
+                                const num = value.replace(/[^0-9]/g, '')
+                                if (num) {
+                                    let otp = this.state.otp
+                                    otp = otp + num
+                                    this.refs.otp2.focus();
+                                    this.setState({ otp })
+                                }
 
-                        }}
-                        onKeyPress={(ev) => {
-                            console.log("EVENT", ev.nativeEvent.key)
-                            if (ev.nativeEvent.key === "Backspace") {
-                                let { otp } = this.state
-                                var toNull = otp.slice(0, 1)
-                                otp = otp.replace(toNull, '')
-                                this.setState({ otp })
-                            }
-                        }}
-                        value={otp.slice(0, 1)}
-                    />
-                    <TextInput keyboardType="numeric"
-                        onFocus={() => this.setState({ focused: true })}
-                        maxLength={1}
-                        style={{ ...styles.input }}
-                        ref="otp2"
-                        value={otp.slice(1, 2)}
-                        onChangeText={value => {
-                            const num = value.replace(/[^0-9]/g, '')
-                            if (num) {
-                                let otp = this.state.otp
-                                otp = otp + num
-                                this.refs.otp3.focus();
-                                this.setState({ otp })
-                            }
+                            }}
+                            onKeyPress={(ev) => {
+                                console.log("EVENT", ev.nativeEvent.key)
+                                if (ev.nativeEvent.key === "Backspace") {
+                                    let { otp } = this.state
+                                    var toNull = otp.slice(0, 1)
+                                    otp = otp.replace(toNull, '')
+                                    this.setState({ otp })
+                                }
+                            }}
+                            value={otp.slice(0, 1)}
+                        />
+                        <TextInput keyboardType="numeric"
+                            onFocus={() => this.setState({ focused: true })}
+                            maxLength={1}
+                            style={{ ...styles.input }}
+                            ref="otp2"
+                            value={otp.slice(1, 2)}
+                            onChangeText={value => {
+                                const num = value.replace(/[^0-9]/g, '')
+                                if (num) {
+                                    let otp = this.state.otp
+                                    otp = otp + num
+                                    this.refs.otp3.focus();
+                                    this.setState({ otp })
+                                }
 
-                        }}
-                        onKeyPress={(ev) => {
-                            if (ev.nativeEvent.key === "Backspace") {
-                                let { otp } = this.state
-                                var toNull = otp.slice(1, 2)
-                                otp = otp.replace(toNull, '')
-                                this.refs.otp1.focus();
-                                this.setState({ otp })
-                            }
-                        }}
-                    />
-                    <TextInput keyboardType="numeric"
-                        onFocus={() => this.setState({ focused: true })}
-                        maxLength={1}
-                        style={{ ...styles.input }}
-                        ref="otp3"
-                        value={otp.slice(2,3)}
-                        onChangeText={value => {
-                            const num = value.replace(/[^0-9]/g, '')
-                            if (num) {
-                                let otp = this.state.otp
-                                otp = otp + num
-                                this.refs.otp4.focus();
-                                this.setState({ otp })
-                            }
+                            }}
+                            onKeyPress={(ev) => {
+                                if (ev.nativeEvent.key === "Backspace") {
+                                    let { otp } = this.state
+                                    var toNull = otp.slice(1, 2)
+                                    otp = otp.replace(toNull, '')
+                                    this.refs.otp1.focus();
+                                    this.setState({ otp })
+                                }
+                            }}
+                        />
+                        <TextInput keyboardType="numeric"
+                            onFocus={() => this.setState({ focused: true })}
+                            maxLength={1}
+                            style={{ ...styles.input }}
+                            ref="otp3"
+                            value={otp.slice(2, 3)}
+                            onChangeText={value => {
+                                const num = value.replace(/[^0-9]/g, '')
+                                if (num) {
+                                    let otp = this.state.otp
+                                    otp = otp + num
+                                    this.refs.otp4.focus();
+                                    this.setState({ otp })
+                                }
 
-                        }}
-                        onKeyPress={(ev) => {
-                            if (ev.nativeEvent.key === "Backspace") {
-                                let { otp } = this.state
-                                var toNull = otp.slice(2,3)
-                                otp = otp.replace(toNull, '')
-                                this.refs.otp2.focus();
-                                this.setState({ otp })
-                            }
-                        }}
-                    />
-                    <TextInput keyboardType="numeric"
-                        onFocus={() => this.setState({ focused: true })}
-                        maxLength={1}
-                        style={{ ...styles.input }}
-                        ref="otp4"
-                        value={otp.slice(3, 4)}
-                        onChangeText={value => {
-                            const num = value.replace(/[^0-9]/g, '')
-                            if (num) {
-                                let otp = this.state.otp
-                                otp = otp + num
-                                this.setState({ otp })
-                            }
+                            }}
+                            onKeyPress={(ev) => {
+                                if (ev.nativeEvent.key === "Backspace") {
+                                    let { otp } = this.state
+                                    var toNull = otp.slice(2, 3)
+                                    otp = otp.replace(toNull, '')
+                                    this.refs.otp2.focus();
+                                    this.setState({ otp })
+                                }
+                            }}
+                        />
+                        <TextInput keyboardType="numeric"
+                            onFocus={() => this.setState({ focused: true })}
+                            maxLength={1}
+                            style={{ ...styles.input }}
+                            ref="otp4"
+                            value={otp.slice(3, 4)}
+                            onChangeText={value => {
+                                const num = value.replace(/[^0-9]/g, '')
+                                if (num) {
+                                    let otp = this.state.otp
+                                    otp = otp + num
+                                    this.setState({ otp })
+                                }
 
-                        }}
-                        onKeyPress={(ev) => {
-                            if (ev.nativeEvent.key === "Backspace") {
-                                let { otp } = this.state
-                                var toNull = otp.slice(3, 4)
-                                otp = otp.replace(toNull, '')
-                                this.refs.otp3.focus();
-                                this.setState({ otp })
-                            }
-                        }}
-                    />
-                </View>
-                {error && <Text style={{ marginTop: 5, color: "red" }}>{modalText}</Text>}
-                <View style={{ justifyContent: "space-between", width: "70%", height: 200, alignSelf: "center", marginTop: "8%" }}>
-                    {/* {!focused && <Text style={styles.shortText}>
+                            }}
+                            onKeyPress={(ev) => {
+                                if (ev.nativeEvent.key === "Backspace") {
+                                    let { otp } = this.state
+                                    var toNull = otp.slice(3, 4)
+                                    otp = otp.replace(toNull, '')
+                                    this.refs.otp3.focus();
+                                    this.setState({ otp })
+                                }
+                            }}
+                        />
+                    </View>
+                    {error && <Text style={{ marginTop: 5, color: "red" }}>{modalText}</Text>}
+                    <View style={{ justifyContent: "space-between", width: "70%", height: 200, alignSelf: "center", marginTop: "8%" }}>
+                        {/* {!focused && <Text style={styles.shortText}>
                         Didn't you recieve any code?
                     </Text>} */}
-                    {/* {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"
+                        {/* {!focused && <RoundButton color="black" backgroundColor="white" height={60} value="Resend a new code"
                     // onPress={() =>this.props.navigation.navigate("customerApp")}
                     />} */}
-                    <Text style={styles.shortText}>
-                        Didn't you recieve any code?
+                        <Text style={styles.shortText}>
+                            Didn't you recieve any code?
                     </Text>
-                    {!enable && <Text style={{fontSize:12, color:"white", textAlign:"center"}}>{time}</Text>}
-                    <RoundButton
-                        disabled={!enable}
-                        color="black" backgroundColor="white" height={60} value="Resend a new code"
-                        onPress={this.resendOtp} />
-                    <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
-                        // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
-                        onPress={this.verify}
-                    />
-                </View>
-                <CustomModal modalVisible={modalVisible}
-                    img={success}
-                    height={60}
-                    width={60}
-                    text={modalText} />
-            </Content>
+                        {!enable && <Text style={{ fontSize: 12, color: "white", textAlign: "center" }}>{time}</Text>}
+                        <RoundButton
+                            disabled={!enable}
+                            color="black" backgroundColor="white" height={60} value="Resend a new code"
+                            onPress={this.resendOtp} />
+                        <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
+                            // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
+                            onPress={this.verify}
+                        />
+                    </View>
+                    <CustomModal modalVisible={modalVisible}
+                        img={success}
+                        height={60}
+                        width={60}
+                        text={modalText} />
+                </Content>
             </Container>
         );
     }
@@ -340,7 +376,8 @@ const mapDispatchToProps = dispatch => (
     {
         resendOtp: phone => dispatch(generateOtpMiddleWare(phone)),
         verifyNumberOtp: data => dispatch(VerifyOtpMiddleWare(data)),
-        setUserMobile: data => dispatch(setUserMobile(data))
+        setUserMobile: data => dispatch(setUserMobile(data)),
+        verifyOtpForNewNumber: data => dispatch(verifyOtpForNewMobileMiddleWare(data))
     }
 )
 export default connect(mapStateToProps, mapDispatchToProps)(EnterOtp);

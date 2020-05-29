@@ -49,7 +49,7 @@ class FreelancerBookingDetails extends Component {
                 Toast.show({
                     text: type === "checkin" ? "Job successfully checkedIn" : "You have completed job successfully",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
                     duration: 2000
@@ -67,7 +67,7 @@ class FreelancerBookingDetails extends Component {
                 Toast.show({
                     text: "Thank you for your feedback",
                     textStyle: { textAlign: "center" },
-                    style: { width: "90%", alignSelf: "center", borderRadius: 10 },
+                    // style: { width: "90%", alignSelf: "center", borderRadius: 10 },
                     position: "bottom",
                     type: 'success',
                     duration: 2000
@@ -81,7 +81,7 @@ class FreelancerBookingDetails extends Component {
                     // text: type === "checkin" ? "You need to be present at above address to start this job!" : "Take your proper time its too early to complete the job!",
                     text: jobs.errorMessage,
                     textStyle: { textAlign: "center" },
-                    style: { width: "100%" },
+                    // style: { width: "100%" },
                     position: "bottom",
                     type: 'warning',
                     duration: 3000
