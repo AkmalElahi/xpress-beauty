@@ -100,7 +100,7 @@ class App extends Component {
         const { title, body } = notificationOpen.notification;
         console.log("bg======>",notificationOpen.notification)
 
-        this.showAlert(title, body);
+        // this.showAlert(title, body);
     });
   
     /*
@@ -111,7 +111,7 @@ class App extends Component {
         const { title, body } = notificationOpen.notification;
         console.log("closed======>",notificationOpen.notification)
 
-        this.showAlert(title, body);
+        // this.showAlert(title, body);
     }
     /*
     * Triggered for data only payload in foreground
