@@ -50,8 +50,8 @@ const Promotion = ({ img, heading, onPress, description }) => (
             width: "100%",
             height: 80,
         }}>
-            <Text onPress={onPress} style={{ color: colors.primaryBtn, alignSelf: "flex-end", marginBottom: "2%", marginRight: "2%" }}>SKIP</Text>
-            <CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Login" onPress={onPress} />
+            {/* <Text onPress={onPress} style={{ color: colors.primaryBtn, alignSelf: "flex-end", marginBottom: "2%", marginRight: "2%" }}>SKIP</Text> */}
+            {/* <CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Login" onPress={onPress} /> */}
         </View>
     </Container>
 );

@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { VerifyOtpMiddleWare, verifyOtpForNewMobileMiddleWare } from '../../redux/verify-otp/verify-otp.middleware';
 import { setUserMobile } from '../../redux/user/user.actions'
 import { generateOtpMiddleWare } from '../../redux/generate-otp/generate-otp.middlewares'
+import Loader from '../../components/loader/Loader';
 // onChanged (text) {
 //     this.setState({
 //         mobile: text.replace(/[^0-9]/g, ''),
@@ -57,6 +58,7 @@ class EnterOtp extends Component {
     verify = () => {
         unsubscribe = NetInfo.addEventListener(state => {
             console.log("Connection type", state.type);
+            this.setState({enable:false})
             // console.log("Is connected?", state.isConnected);
 
             if (state.isConnected) {
@@ -73,6 +75,7 @@ class EnterOtp extends Component {
             }
             else {
                 alert("Internet is not available")
+                this.setState({enable:true})
             }
         });
         // else{
@@ -172,13 +175,14 @@ class EnterOtp extends Component {
 
             }
             else if (verifyOtp.message === "error in otp verification") {
-                this.setState({ modalText: "Please Enter Valid OTP", error: true })
+                this.setState({ modalText: "Please Enter Valid OTP", error: true, enable:true })
             }
         }
     }
     render() {
         const { modalVisible, focused, otp, modalText, error, enable, time } = this.state
         // console.log("OTP", otp)
+        const { verifyOtp } = this.props
         return (
             <Container style={{ backgroundColor: colors.greybg }}>
                 <Content contentContainerStyle={styles.container}>
@@ -312,10 +316,10 @@ class EnterOtp extends Component {
                             disabled={!enable}
                             color="black" backgroundColor="white" height={60} value="Resend a new code"
                             onPress={this.resendOtp} />
-                        <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
+                        {!verifyOtp.isLoading ? <RoundButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Verify"
                             // onPress={()=>this.props.navigation.navigate("createCustomerProfile")}
                             onPress={this.verify}
-                        />
+                        /> : <Loader />}
                     </View>
                     <CustomModal modalVisible={modalVisible}
                         img={success}

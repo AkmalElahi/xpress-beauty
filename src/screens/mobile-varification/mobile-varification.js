@@ -15,6 +15,7 @@ import { CustomButton } from '../../components/buttons/Buttons';
 const countriesJson = require('../../configs/countries.json')
 import { colors } from '../../configs/colors'
 import Loader from '../../components/loader/Loader';
+import { logout } from '../../redux/user/user.actions';
 // onChanged (text) {
 //     this.setState({
 //         mobile: text.replace(/[^0-9]/g, ''),
@@ -36,12 +37,12 @@ class MobileVerify extends Component {
         // console.log("NAVIGATION", this.props.navigation)
 
         this.props.getCountries()
-    //    
-    //     console.log(Platform.Version)
-    //    console.log("Model", getModel())
-    //    console.log("DEVICE",getDeviceId())
-    //    getDeviceId().then(device => {
-    //   });
+        //    
+        //     console.log(Platform.Version)
+        //    console.log("Model", getModel())
+        //    console.log("DEVICE",getDeviceId())
+        //    getDeviceId().then(device => {
+        //   });
     }
     verifyNumber = () => {
         // text = text.replace(/[^0-9]/g, '')
@@ -52,12 +53,12 @@ class MobileVerify extends Component {
         //     // this.props.verifyMobile(phone)
         //     // console.log("VERIFICATION")
         //     // this.props.navigation.navigate("MapView")
-            
+
         // }
         unsubscribe = NetInfo.addEventListener(state => {
             console.log("Connection type", state.type);
             // console.log("Is connected?", state.isConnected);
-            
+
             if (state.isConnected) {
                 if (phone.length >= 12) {
                     Keyboard.dismiss()
@@ -103,15 +104,15 @@ class MobileVerify extends Component {
         // console.log("NEXT PROPS", prevProps.countries)
         if (this.props.generateOtp !== prevProps.generateOtp) {
             const { generateOtp } = this.props
-            if(generateOtp.message === "otp generated successfully"){
+            if (generateOtp.message === "otp generated successfully") {
                 this.setState({ modalVisible: true })
                 this.props.navigation.navigate("EnterOtp")
                 setTimeout(() => {
                     this.setState({ modalVisible: false })
                 }, 3000)
             }
-            else if (generateOtp.message === "error in generating otp"){
-                this.setState({modalVisible:false, error:generateOtp.message})
+            else if (generateOtp.message === "error in generating otp") {
+                this.setState({ modalVisible: false, error: generateOtp.message })
             }
         }
         if (this.props.countries !== prevProps.countries) {
@@ -132,12 +133,15 @@ class MobileVerify extends Component {
     render() {
         const { modalVisible, phone, openPicker, flags } = this.state
         console.log("PHONE", this.state.phone)
-        const {isloading} = this.props.generateOtp
+        const { isloading } = this.props.generateOtp
         return (
             <View style={styles.container}>
                 <Header style={styles.header} androidStatusBarColor="white" iosBarStyle="dark-content" >
                     <Left >
-                        <Button transparent onPress={()=> this.props.navigation.goBack()}>
+                        <Button transparent onPress={() => {
+                            this.props.logout()
+                            this.props.navigation.navigate('Home')
+                        }}>
                             <Icon name='arrow-back' style={{ color: "black" }} />
                         </Button>
                     </Left>
@@ -210,7 +214,7 @@ class MobileVerify extends Component {
                         {!isloading && <Icon name="send" style={styles.send} onPress={this.verifyNumber} />}
                     </View>
                     {/* <View style={{width:"70%"}}><CustomButton color="white" backgroundColor={colors.primaryBtn} height={60} value="Submit"  /></View> */}
-                {isloading && <Loader/>}
+                    {isloading && <Loader />}
                 </View>
                 <CustomModal modalVisible={modalVisible}
                     width={60}
@@ -261,7 +265,7 @@ const styles = StyleSheet.create(
         },
         input: {
             // width: "80%",
-            paddingTop:Platform.OS === "android" ? 12 : 0,
+            paddingTop: Platform.OS === "android" ? 12 : 0,
             paddingLeft: "31%",
             marginBottom: 2,
             fontSize: 18,
@@ -296,6 +300,7 @@ const mapStateToProps = ({ generateOtp, countries }) => {
     return { generateOtp, countries }
 }
 const mapDispatchToProps = (dispatch) => ({
+    logout: () => dispatch(logout()),
     verifyMobile: phone => dispatch(generateOtpMiddleWare(phone)),
     getCountries: () => dispatch(countriesMiddleware())
 })
