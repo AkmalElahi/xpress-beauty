@@ -123,7 +123,7 @@ class SkillsAndTools extends Component {
     submit = () => {
         console.log("STATE IN SUBMIT", this.state)
         const { skills, tools, file, user, device_id, model, os, platform, training, } = this.state
-        if (skills.length && tools.length && file && user && (training === 'yes' || training === 'no')) {
+        if (skills.length && tools.length && user && training === 'no') {
             this.props.createProfile({ skills, tools, file, training, device_id, model, os, platform, user })
             return
         }
@@ -136,7 +136,7 @@ class SkillsAndTools extends Component {
             error = true,
                 text = "select at least one tool"
         }
-        else if (!file) {
+        else if ( training ==='yes ' && !file) {
             error = true,
                 text = "file is required"
         }

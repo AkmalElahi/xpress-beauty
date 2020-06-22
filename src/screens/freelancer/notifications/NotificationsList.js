@@ -9,10 +9,11 @@ import distance from '../../../assets/distance.png'
 import Loader from '../../../components/loader/Loader';
 import ApprovalScreen from '../approvalScreen/approvalScreen';
 import CustomModal from '../../../components/Modal/Modal';
+import NotFound from '../../../components/not found/NotFound';
 const Refresher = () => {
     return (
-        <View style={{ width: "100%", height: "100%" }}>
-            <Text>No jobs found</Text>
+        <View style={{height:500, backgroundColor:'red'}}>
+            <NotFound from={"notifications"}/>
         </View>
     )
 }
@@ -29,7 +30,7 @@ const NotificationsList = ({ jobs, handleRefresh, refreshing, navigation }) => {
                 // scrollEnabled={true}
                 // onScrollBeginDrag={()=>alert("scroll")}
                 data={jobs}
-                // ListEmptyComponent={Refresher}
+                ListEmptyComponent={Refresher}
                 renderItem={({ item }) => (
                     <Card style={{ width: "95%", alignSelf: "center" }}>
                         {/* {refreshing && <CustomModal

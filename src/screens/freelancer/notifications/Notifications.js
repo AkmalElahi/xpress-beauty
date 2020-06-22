@@ -26,78 +26,89 @@ class Notification extends Component {
         }
     }
     getPosition = async () => {
-        // console.log("INSIDE GET POSTION")
+        console.log("INSIDE GET POSTION")
+        this.setState({ loading: true })
         Geolocation.getCurrentPosition(
             (position) => {
                 const region = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                 };
-                // console.log("REGION", position)
+                console.log("REGION IN GET POSITION =====>", position)
                 this.setState({
                     region: region,
                     loading: false,
-                });
+                }, this.getJobs(region));
             },
             (error) => {
-                // alert(error);
+                console.log("ERROR IN RGION ==>", error);
+                alert("Pleas turn your location on, to get job location address.")
                 this.setState({
                     error: error.message,
                     loading: false,
-
-                })
+                }, this.getJobs({latitude:'', longitude:''}))
             },
             { enableHighAccuracy: false, timeout: 200000, maximumAge: 5000 },
         );
     }
-    componentDidMount() {
+    async componentDidMount() {
         const { user } = this.props
         const { region } = this.state
         console.log("USER IN NOTIFFFF", user)
         this.props.checkStatus(user)
-        this.getPosition()
+        // await this.getPosition()
         // if (user.is_approved === "1" && user.status === "Approved") {
     }
-    componentDidUpdate(prevProps) {
+    getJobs = (region) => {
+        const { getJobs, user } = this.props
+        getJobs({
+            appuid: user.appuid,
+            token: user.token,
+            latitude: region.latitude,
+            longitude: region.longitude
+        })
+    }
+    async componentDidUpdate(prevProps) {
         const { user, jobs } = this.props
         if (prevProps.user !== user) {
             if (user.message === "check freelancer status success" && user.is_approved === "1" && user.status === "Approved") {
                 console.log("SUERRRRRRRRRRRRRRRr", user)
                 const { region } = this.state
                 console.log("REGIONNNN ============> ", region)
-                this.props.getJobs({
-                    appuid: user.appuid,
-                    token: user.token,
-                    latitute: region.latitude,
-                    longitude: region.longitude
-                })
+                this.getPosition()
+                // this.props.getJobs({
+                //     appuid: user.appuid,
+                //     token: user.token,
+                //     latitute: region.latitude,
+                //     longitude: region.longitude
+                // })
 
             }
         }
         if (prevProps.jobs !== jobs) {
             if (jobs.message === "update job success") {
-                this.getPosition()
                 console.log("SUERRRRRRRRRRRRRRRr", user)
                 const { region } = this.state
-                this.props.getJobs({
-                    appuid: user.appuid,
-                    token: user.token,
-                    latitute: region.latitude,
-                    longitude: region.longitude
-                })
+                this.getPosition()
+                // this.props.getJobs({
+                //     appuid: user.appuid,
+                //     token: user.token,
+                //     latitute: region.latitude,
+                //     longitude: region.longitude
+                // })
 
             }
             if (jobs.message === "job rating success") {
-                this.getPosition()
                 console.log("SUERRRRRRRRRRRRRRRr", user)
                 const { region } = this.state
                 console.log("REGIONNNN ============> ", region)
-                this.props.getJobs({
-                    appuid: user.appuid,
-                    token: user.token,
-                    latitute: region.latitude,
-                    longitude: region.longitude
-                })
+                this.getPosition()
+                // this.props.getJobs({
+                //     appuid: user.appuid,
+                //     token: user.token,
+                //     latitute: region.latitude,
+                //     longitude: region.longitude
+                // })
 
             }
         }
@@ -107,14 +118,17 @@ class Notification extends Component {
         // this.setState({
         //     refreshing:true
         // })
+        this.getPosition()
         const { user } = this.props
         const { region } = this.state
-        this.props.getJobs({
-            appuid: user.appuid,
-            token: user.token,
-            latitute: region.latitude,
-            longitude: region.longitude
-        })
+
+        console.log("REFION IN HANDLE REFRESH", region)
+        // this.props.getJobs({
+        //     appuid: user.appuid,
+        //     token: user.token,
+        //     latitute: region.latitude,
+        //     longitude: region.longitude
+        // })
     }
     setFreelancerStatus = (value) => {
         const { user } = this.props
@@ -127,7 +141,7 @@ class Notification extends Component {
         this.drawer._root.close()
     }
     render() {
-        const { region, active } = this.state
+        const { region, active, loading } = this.state
         const { user } = this.props
         return (
             <Drawer
@@ -139,7 +153,6 @@ class Notification extends Component {
                 content={<FreelancerDrawer navigation={this.props.navigation} close={this.closeDrawer} />}
                 onClose={() => this.closeDrawer()} >
                 <Container>
-                    {/* <Loader/> */}
                     <Header style={styles.header} androidStatusBarColor={"white"} iosBarStyle="dark-content">
                         <Left style={{ flex: 1 }}>
                             {user.isActive && user && user.is_approved === "1" && <Button
@@ -165,13 +178,14 @@ class Notification extends Component {
                                     thumbColor={colors.freelancerButton}
                                     trackColor={{ false: "lightgrey", true: "lightgrey" }}
                                     onValueChange={(value) => this.setFreelancerStatus(value)} />
-                                <Text style={{ fontSize: 12, textAlign: "center", width:"100%" }}>{user?.isActive ? "Active" : "In Active"}</Text>
+                                <Text style={{ fontSize: 12, textAlign: "center", width: "100%" }}>{user?.isActive ? "Active" : "In Active"}</Text>
                             </Button>}
                             {/* {user.isActive && user && user.is_approved === "1" && <Button transparent >
                                 <Image source={bell} style={{ width: 20, height: 25 }} />
                             </Button>} */}
                         </Right>
                     </Header>
+                    {loading && <View style={{ height: '100%' }}><Loader /></View>}
                     {user.isActive && user && user.is_approved === "0" && <ApprovalScreen />}
                     {user.isActive && user && user.is_approved === "1" && <NotificationsList
                         refreshing={this.props.jobs.loading}
@@ -180,8 +194,8 @@ class Notification extends Component {
                         jobs={this.props.jobs && this.props.jobs.jobs}
                         navigation={this.props.navigation}
                     />}
-                    {this.props.jobs && !this.props.jobs.jobs && user.isActive && user && user.is_approved === "1" && <View style={{ height: "60%", }}>
-                        <NotFound from={"notifications"} /></View>}
+                    {/* {this.props.jobs && !this.props.jobs.jobs && user.isActive && user && user.is_approved === "1" && <View style={{ height: "60%", }}>
+                        <NotFound from={"notifications"} /></View>} */}
                     {!user.isActive && <InActive />}
                     {user.isActive && user && user.is_approved === "1" && <FreelancerFooter
                         navigation={this.props.navigation}

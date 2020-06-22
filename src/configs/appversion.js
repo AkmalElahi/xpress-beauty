@@ -1,3 +1,3 @@
 export const version = {
-    latest:'1.0.0.6'
+    latest:'1.0.0.8'
  }
