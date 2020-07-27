@@ -1,10 +1,10 @@
-import React from 'react';
-import { ImageBackground, Text, StyleSheet, Image, TouchableOpacity, View,j, StatusBar } from 'react-native';
+import React, { useEffect } from 'react';
+import { ImageBackground, Text, StyleSheet, Image, TouchableOpacity, View } from 'react-native';
 import { Container, Button, Header } from 'native-base';
 
 import { connect } from 'react-redux';
 import { setUserType } from '../../redux/user/user.actions'
-
+import crashlytics from '@react-native-firebase/crashlytics';
 import homebg from '../../assets/home.png';
 import {RoundButton} from '../../components/buttons/Buttons';
 import { colors } from '../../configs/colors'
@@ -15,6 +15,9 @@ const setUser = (navigation, setType, userType) =>{
     navigation.navigate('UserLoading')
 }
 const Home = ({navigation, setType}) => {
+    useEffect(() => {
+        crashlytics().recordError(()=>crashlytics().log('App mounted.'));
+      }, []);
     return(
         <ImageBackground source={homebg} style={styles.imageContainer}>
             <Header androidStatusBarColor="#7f7d7b" iosBarStyle="light-content" style={{display:"none"}}/>

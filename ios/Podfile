@@ -4,11 +4,11 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 target 'xpressbeauty' do
   # Pods for xpressbeauty
   # Required by RNFirebase
-  pod 'Firebase/Core', '~> 6.3.0'
-  pod 'Firebase/Messaging', '~> 6.3.0'
-  pod 'Firebase/Performance', '~> 6.3.0'
-  pod 'Firebase/DynamicLinks', '~> 6.3.0'
-  pod 'Firebase/RemoteConfig', '~> 6.3.0'
+  pod 'Firebase/CoreOnly', '~> 6.25.0'
+  pod 'Firebase/Messaging', '~> 6.25.0'
+  pod 'Firebase/Performance', '~> 6.25.0'
+  pod 'Firebase/DynamicLinks', '~> 6.25.0'
+  pod 'Firebase/RemoteConfig', '~> 6.25.0'
   pod 'Firebase/Analytics'
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
